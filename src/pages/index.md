@@ -2,8 +2,8 @@
 templateKey: index-page
 title: Vincability
 image: /img/home-jumbotron.jpg
-heading: Great coffee with a conscience
-subheading: Support sustainable farming while enjoying a cup
+heading: Making IT enjoyable
+subheading: Enjoyable IT while enjoying a cup
 mainpitch:
   title: Why Kaldi
   description: >
