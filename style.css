@@ -1011,3 +1011,171 @@ ul {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--v-text-muted);
 }
+
+/* ============================================================
+   ACCESSIBILITY — FOCUS VISIBLE
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--v-green-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   ACCESSIBILITY — REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .circuit-divider { transform: scaleX(1); }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET  (max-width: 1024px)
+   ============================================================ */
+@media (max-width: 1024px) {
+
+  /* Nav */
+  .nav__inner {
+    padding: 0 32px;
+  }
+
+  /* Hero */
+  .hero__content {
+    padding: 80px 32px 60px;
+  }
+
+  .hero__headline {
+    font-size: 44px;
+  }
+
+  /* Sections — inner containers */
+  .services__inner,
+  .approach__inner,
+  .expertise__inner,
+  .experience__inner {
+    padding: 80px 32px;
+  }
+
+  .cta-section__content {
+    padding: 0 32px;
+  }
+
+  .footer__inner {
+    padding: 48px 32px 32px;
+  }
+
+  /* Section titles */
+  .section-header__title {
+    font-size: 32px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE  (max-width: 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* ── Nav: hide links, keep logo + CTA ─────────────────── */
+  .nav__links {
+    display: none;
+  }
+
+  /* ── Hero ──────────────────────────────────────────────── */
+  .hero__headline {
+    font-size: 32px;
+    max-width: 100%;
+  }
+
+  .hero__subtitle {
+    font-size: 16px;
+    max-width: 100%;
+  }
+
+  /* ── Services cards — stack vertically ────────────────── */
+  .services__cards {
+    flex-direction: column;
+  }
+
+  /* ── Approach steps — stack vertically ────────────────── */
+  .approach__steps {
+    flex-direction: column;
+  }
+
+  /* ── Role cards — stack vertically ────────────────────── */
+  .role-cards {
+    flex-direction: column;
+  }
+
+  /* ── Bento grid — stack vertically ────────────────────── */
+  .bento-grid {
+    flex-direction: column;
+  }
+
+  /* ── Stats row — 2x2 grid ─────────────────────────────── */
+  .stats-row {
+    flex-wrap: wrap;
+  }
+
+  .stat-cell {
+    width: 50%;
+    flex: none;
+  }
+
+  /* Remove right border from all four cells, re-add only
+     the divider between the two columns */
+  .stat-cell--bordered {
+    border-right: none;
+  }
+
+  /* Left cells in each row get right border */
+  .stat-cell:nth-child(odd) {
+    border-right: 1px solid var(--v-border);
+  }
+
+  /* Top two cells get bottom border */
+  .stat-cell:nth-child(1),
+  .stat-cell:nth-child(2) {
+    border-bottom: 1px solid var(--v-border);
+  }
+
+  /* ── CTA section ────────────────────────────────────────── */
+  .cta-section {
+    height: auto;
+    padding: 60px 0;
+  }
+
+  /* CTA form row — stack vertically */
+  .contact-form__row {
+    flex-direction: column;
+  }
+
+  /* CTA buttons — stack vertically, center */
+  .contact-form__actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contact-form__actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* ── Footer main — stack vertically ────────────────────── */
+  .footer__main {
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  /* ── Expertise header — stack vertically, align start ─── */
+  .expertise__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .expertise__header-right {
+    align-items: flex-start;
+  }
+}

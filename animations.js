@@ -484,3 +484,23 @@ gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
   });
 
 }); // end matchMedia — (prefers-reduced-motion: no-preference)
+
+/* ============================================================
+   MOBILE ANIMATION SIMPLIFICATION
+   On screens <=768px replace the scrubbed bento assembly
+   (which requires horizontal overflow room to work well) with
+   a simple scroll-triggered fade-in so the section still
+   feels animated without layout side-effects.
+   ============================================================ */
+
+gsap.matchMedia().add('(max-width: 768px)', () => {
+  // On mobile, replace scrubbed bento assembly with simple fade-in
+  gsap.from('[data-animate="bento-card"]', {
+    y: 30,
+    opacity: 0,
+    duration: 0.6,
+    stagger: 0.1,
+    ease: 'power3.out',
+    scrollTrigger: { trigger: '[data-animate="bento-assembly"]', start: 'top 85%', once: true },
+  });
+});
