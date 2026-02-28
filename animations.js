@@ -269,33 +269,35 @@ gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
      cinematic "assembling into place" effect.
      ---------------------------------------------------------- */
 
-  const leftColCards = gsap.utils.toArray('.bento-col:first-child .bento-card');
-  const rightColCards = gsap.utils.toArray('.bento-col:last-child .bento-card');
+  if (window.matchMedia('(min-width: 769px)').matches) {
+    const leftColCards = gsap.utils.toArray('.bento-col:first-child .bento-card');
+    const rightColCards = gsap.utils.toArray('.bento-col:last-child .bento-card');
 
-  const bentoTl = gsap.timeline({
-    scrollTrigger: {
-      trigger: '[data-animate="bento-assembly"]',
-      start: 'top 85%',
-      end: 'top 20%',
-      scrub: 1,
-    },
-  });
+    const bentoTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '[data-animate="bento-assembly"]',
+        start: 'top 85%',
+        end: 'top 20%',
+        scrub: 1,
+      },
+    });
 
-  bentoTl
-    .from(leftColCards, {
-      x: -100,
-      opacity: 0.3,
-      scale: 0.9,
-      stagger: 0.1,
-      ease: 'power2.inOut',
-    }, 0)
-    .from(rightColCards, {
-      x: 100,
-      opacity: 0.3,
-      scale: 0.9,
-      stagger: 0.1,
-      ease: 'power2.inOut',
-    }, 0);
+    bentoTl
+      .from(leftColCards, {
+        x: -100,
+        opacity: 0.3,
+        scale: 0.9,
+        stagger: 0.1,
+        ease: 'power2.inOut',
+      }, 0)
+      .from(rightColCards, {
+        x: 100,
+        opacity: 0.3,
+        scale: 0.9,
+        stagger: 0.1,
+        ease: 'power2.inOut',
+      }, 0);
+  }
 
   /* ----------------------------------------------------------
      13. EXPERIENCE — SECTION HEADER FADE-UP
@@ -491,10 +493,10 @@ gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
    (which requires horizontal overflow room to work well) with
    a simple scroll-triggered fade-in so the section still
    feels animated without layout side-effects.
+   Wrapped in reduced-motion check so it respects user prefs.
    ============================================================ */
 
-gsap.matchMedia().add('(max-width: 768px)', () => {
-  // On mobile, replace scrubbed bento assembly with simple fade-in
+gsap.matchMedia().add('(max-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
   gsap.from('[data-animate="bento-card"]', {
     y: 30,
     opacity: 0,
