@@ -185,6 +185,12 @@ ul {
   color: var(--v-text-primary);
 }
 
+.nav--scrolled {
+  background-color: rgba(8, 11, 10, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
 /* ============================================================
    HERO SECTION
    ============================================================ */
