@@ -263,21 +263,39 @@ gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
   });
 
   /* ----------------------------------------------------------
-     12. EXPERTISE — BENTO CARDS STAGGER
+     12. EXPERTISE — BENTO GRID ASSEMBLY (scroll-scrubbed)
+     Left column cards slide in from x:-100, right column
+     from x:+100. Scrubbed to scroll position for a
+     cinematic "assembling into place" effect.
      ---------------------------------------------------------- */
 
-  gsap.from('[data-animate="bento-card"]', {
-    y: 50,
-    opacity: 0,
-    stagger: 0.12,
-    duration: 0.8,
-    ease: 'power3.out',
+  const leftColCards = gsap.utils.toArray('.bento-col:first-child .bento-card');
+  const rightColCards = gsap.utils.toArray('.bento-col:last-child .bento-card');
+
+  const bentoTl = gsap.timeline({
     scrollTrigger: {
       trigger: '[data-animate="bento-assembly"]',
-      start: 'top 80%',
-      once: true,
+      start: 'top 85%',
+      end: 'top 20%',
+      scrub: 1,
     },
   });
+
+  bentoTl
+    .from(leftColCards, {
+      x: -100,
+      opacity: 0.3,
+      scale: 0.9,
+      stagger: 0.1,
+      ease: 'power2.inOut',
+    }, 0)
+    .from(rightColCards, {
+      x: 100,
+      opacity: 0.3,
+      scale: 0.9,
+      stagger: 0.1,
+      ease: 'power2.inOut',
+    }, 0);
 
   /* ----------------------------------------------------------
      13. EXPERIENCE — SECTION HEADER FADE-UP
@@ -326,10 +344,13 @@ gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
 
     gsap.to(obj, {
       value: target,
-      duration: 1.6,
+      duration: 2,
       ease: 'power2.out',
       onUpdate() {
         el.textContent = Math.round(obj.value) + suffix;
+      },
+      onComplete() {
+        gsap.fromTo(el, { scale: 1 }, { scale: 1.05, duration: 0.2, yoyo: true, repeat: 1 });
       },
       scrollTrigger: {
         trigger: el,
@@ -368,19 +389,32 @@ gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
   });
 
   /* ----------------------------------------------------------
-     17. EXPERIENCE — ROLE CARDS STAGGER
+     17. EXPERIENCE — ROLE CARDS SLIDE-IN + SCAN LINE
+     Cards slide from left with stagger. After entrance,
+     a scan line sweeps across each card.
      ---------------------------------------------------------- */
 
   gsap.from('.role-card', {
-    y: 50,
+    x: -80,
     opacity: 0,
-    stagger: 0.15,
+    stagger: 0.2,
     duration: 0.8,
     ease: 'power3.out',
     scrollTrigger: {
       trigger: '.role-cards',
       start: 'top 80%',
       once: true,
+    },
+  });
+
+  ScrollTrigger.create({
+    trigger: '.role-cards',
+    start: 'top 70%',
+    once: true,
+    onEnter: () => {
+      document.querySelectorAll('.role-card').forEach((card, i) => {
+        setTimeout(() => card.classList.add('role-card--scanned'), 800 + i * 200);
+      });
     },
   });
 
@@ -413,6 +447,25 @@ gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
       trigger: '[data-animate="cta-content"]',
       start: 'top 80%',
       once: true,
+    },
+  });
+
+  /* ----------------------------------------------------------
+     19b. CTA — PRIMARY BUTTON GLOW PULSE
+     ---------------------------------------------------------- */
+
+  ScrollTrigger.create({
+    trigger: '.cta-section',
+    start: 'top 50%',
+    once: true,
+    onEnter: () => {
+      gsap.to('.cta-section .btn--primary', {
+        boxShadow: '0 0 40px rgba(0, 230, 118, 0.4)',
+        duration: 0.8,
+        yoyo: true,
+        repeat: 2,
+        ease: 'sine.inOut',
+      });
     },
   });
 
