@@ -263,41 +263,29 @@ gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
   });
 
   /* ----------------------------------------------------------
-     12. EXPERTISE — BENTO GRID ASSEMBLY (scroll-scrubbed)
-     Left column cards slide in from x:-100, right column
-     from x:+100. Scrubbed to scroll position for a
-     cinematic "assembling into place" effect.
+     12. EXPERTISE — PER-CARD ENTRANCE + SCAN LINE
+     Each bento card slides in from its column side when it
+     scrolls into view, then gets a scan line sweep.
      ---------------------------------------------------------- */
 
-  if (window.matchMedia('(min-width: 769px)').matches) {
-    const leftColCards = gsap.utils.toArray('.bento-col:first-child .bento-card');
-    const rightColCards = gsap.utils.toArray('.bento-col:last-child .bento-card');
+  document.querySelectorAll('.bento-card').forEach((card) => {
+    const isLeft = card.closest('.bento-col:first-child') !== null;
 
-    const bentoTl = gsap.timeline({
+    gsap.from(card, {
+      x: isLeft ? -60 : 60,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power3.out',
       scrollTrigger: {
-        trigger: '[data-animate="bento-assembly"]',
+        trigger: card,
         start: 'top 85%',
-        end: 'top 20%',
-        scrub: 1,
+        once: true,
+      },
+      onComplete: () => {
+        setTimeout(() => card.classList.add('bento-card--scanned'), 200);
       },
     });
-
-    bentoTl
-      .from(leftColCards, {
-        x: -100,
-        opacity: 0.3,
-        scale: 0.9,
-        stagger: 0.1,
-        ease: 'power2.inOut',
-      }, 0)
-      .from(rightColCards, {
-        x: 100,
-        opacity: 0.3,
-        scale: 0.9,
-        stagger: 0.1,
-        ease: 'power2.inOut',
-      }, 0);
-  }
+  });
 
   /* ----------------------------------------------------------
      13. EXPERIENCE — SECTION HEADER FADE-UP
@@ -488,21 +476,43 @@ gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
 }); // end matchMedia — (prefers-reduced-motion: no-preference)
 
 /* ============================================================
-   MOBILE ANIMATION SIMPLIFICATION
-   On screens <=768px replace the scrubbed bento assembly
-   (which requires horizontal overflow room to work well) with
-   a simple scroll-triggered fade-in so the section still
-   feels animated without layout side-effects.
-   Wrapped in reduced-motion check so it respects user prefs.
+   HERO — MOUSE-FOLLOW GLOW
+   Tracks cursor over the hero. Glow color follows the nav
+   gradient: green (left) → orange (center) → purple (right).
+   Not gated by reduced-motion (it's interactive, not auto).
    ============================================================ */
 
-gsap.matchMedia().add('(max-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
-  gsap.from('[data-animate="bento-card"]', {
-    y: 30,
-    opacity: 0,
-    duration: 0.6,
-    stagger: 0.1,
-    ease: 'power3.out',
-    scrollTrigger: { trigger: '[data-animate="bento-assembly"]', start: 'top 85%', once: true },
+(() => {
+  const hero = document.querySelector('.hero');
+  const glow = document.querySelector('.hero__glow');
+  if (!hero || !glow) return;
+
+  // Matches the nav gradient: green 30% → orange 50% → purple 70%
+  function lerpColor(a, b, t) {
+    return a.map((v, i) => Math.round(v + (b[i] - v) * t));
+  }
+
+  const green  = [0, 230, 118];
+  const orange = [255, 145, 0];
+  const purple = [179, 136, 255];
+
+  function colorAtX(xPct) {
+    let rgb;
+    if (xPct < 50) {
+      rgb = lerpColor(green, orange, xPct / 50);
+    } else {
+      rgb = lerpColor(orange, purple, (xPct - 50) / 50);
+    }
+    return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.12)`;
+  }
+
+  hero.addEventListener('mousemove', (e) => {
+    const rect = hero.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    glow.style.setProperty('--glow-x', x + '%');
+    glow.style.setProperty('--glow-y', y + '%');
+    glow.style.setProperty('--glow-color', colorAtX(x));
   });
-});
+})();
+

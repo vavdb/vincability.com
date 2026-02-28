@@ -39,11 +39,65 @@ html {
 
 body {
   background-color: var(--v-bg-deep);
+  background-image:
+    linear-gradient(rgba(0, 230, 118, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 230, 118, 0.05) 1px, transparent 1px),
+    linear-gradient(rgba(0, 230, 118, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 230, 118, 0.025) 1px, transparent 1px);
+  background-size:
+    20px 20px,
+    20px 20px,
+    80px 80px,
+    80px 80px;
+  background-attachment: fixed;
   color: var(--v-text-primary);
   font-family: var(--font-secondary);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* CRT scanline overlay — subtle repeating horizontal lines */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+}
+
+/* CRT sweep — bright scanline that travels top to bottom */
+body::before {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 4px;
+  z-index: 9999;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0, 230, 118, 0.15) 50%,
+    transparent
+  );
+  box-shadow: 0 0 20px rgba(0, 230, 118, 0.1);
+  animation: crtSweep 3s linear infinite;
+}
+
+@keyframes crtSweep {
+  0%   { top: -4px;  opacity: 0; }
+  3%   { opacity: 1; }
+  97%  { opacity: 1; }
+  100% { top: 100vh; opacity: 0; }
 }
 
 img {
@@ -127,9 +181,26 @@ ul {
   z-index: 100;
   height: 80px;
   background-color: var(--v-bg-deep);
-  border-bottom: 1px solid var(--v-border);
+  border-bottom: none;
   display: flex;
   align-items: center;
+}
+
+.nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    #00E67600,
+    var(--v-green-primary) 30%,
+    var(--v-orange) 50%,
+    var(--v-purple) 70%,
+    #B388FF00
+  );
 }
 
 .nav__inner {
@@ -198,7 +269,6 @@ ul {
   height: 720px;
   position: relative;
   overflow: hidden;
-  background-color: var(--v-bg-deep);
 }
 
 .hero__bg {
@@ -206,8 +276,24 @@ ul {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
+}
+
+/* Mouse-follow glow — positioned via --glow-x / --glow-y from JS */
+.hero__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    600px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    var(--glow-color, rgba(0, 230, 118, 0.12)) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.hero:hover .hero__glow {
+  opacity: 1;
 }
 
 .hero__overlay {
@@ -309,7 +395,7 @@ ul {
    SERVICES SECTION
    ============================================================ */
 .services {
-  background-color: var(--v-bg-surface);
+  background-color: rgba(13, 18, 16, 0.85);
 }
 
 .services__inner {
@@ -424,7 +510,6 @@ ul {
    APPROACH SECTION
    ============================================================ */
 .approach {
-  background-color: var(--v-bg-deep);
 }
 
 .approach__inner {
@@ -492,17 +577,26 @@ ul {
   height: 2px;
   border-radius: 2px;
   width: 100%;
+  background-size: 200% 100%;
+  animation: lineShimmer 8s ease-in-out infinite;
 }
 
-.step-card__line--green  { background: linear-gradient(90deg, var(--v-green-primary), transparent); }
-.step-card__line--orange { background: linear-gradient(90deg, var(--v-orange), transparent); }
-.step-card__line--purple { background: linear-gradient(90deg, var(--v-purple), transparent); }
+.step-card__line--green  { background-image: linear-gradient(90deg, var(--v-green-primary), transparent 50%, var(--v-green-primary)); }
+.step-card__line--orange { background-image: linear-gradient(90deg, var(--v-orange), transparent 50%, var(--v-orange)); }
+.step-card__line--purple { background-image: linear-gradient(90deg, var(--v-purple), transparent 50%, var(--v-purple)); }
+
+@keyframes lineShimmer {
+  0%   { background-position: 0% center; }
+  50%  { background-position: 100% center; }
+  100% { background-position: 0% center; }
+}
 
 /* ============================================================
    EXPERTISE SECTION
    ============================================================ */
 .expertise {
-  background-color: var(--v-bg-surface);
+  background-color: rgba(13, 18, 16, 0.85);
+  overflow: hidden;
 }
 
 .expertise__inner {
@@ -556,6 +650,7 @@ ul {
 
 .bento-col {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -570,6 +665,31 @@ ul {
   flex-direction: column;
   gap: 16px;
   transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.bento-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.bento-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 230, 118, 0.05) 50%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.bento-card--scanned::after {
+  animation: scanLine 1.2s ease-in-out forwards;
 }
 
 .bento-card:hover {
@@ -613,13 +733,14 @@ ul {
   font-size: 14px;
   color: var(--v-text-secondary);
   line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* ============================================================
    EXPERIENCE SECTION
    ============================================================ */
 .experience {
-  background-color: var(--v-bg-deep);
 }
 
 .experience__inner {
@@ -787,8 +908,16 @@ ul {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
+  background:
+    linear-gradient(rgba(0, 230, 118, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 230, 118, 0.025) 1px, transparent 1px),
+    radial-gradient(ellipse 600px 400px at 50% 50%, rgba(0, 230, 118, 0.04) 0%, transparent 70%),
+    var(--v-bg-deep);
+  background-size:
+    20px 20px,
+    20px 20px,
+    100% 100%,
+    100% 100%;
 }
 
 .cta-section__overlay {
@@ -889,7 +1018,6 @@ ul {
    FOOTER
    ============================================================ */
 .footer {
-  background-color: var(--v-bg-deep);
   border-top: 1px solid var(--v-border);
 }
 
@@ -1114,9 +1242,19 @@ ul {
     flex-direction: column;
   }
 
+  /* ── Expertise — tighter padding on mobile ────────────── */
+  .expertise__inner {
+    padding: 60px 16px;
+    gap: 40px;
+  }
+
   /* ── Bento grid — stack vertically ────────────────────── */
   .bento-grid {
     flex-direction: column;
+  }
+
+  .bento-col {
+    width: 100%;
   }
 
   /* ── Stats row — 2x2 grid ─────────────────────────────── */
