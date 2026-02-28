@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Vincability — See what others miss. Ship what actually matters.</title>
+  <meta name="description" content="Technical consulting that cuts through noise. Codebase investigation, team alignment, and AI strategy.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Vincability — See what others miss. Ship what actually matters.">
+  <meta property="og:description" content="Technical consulting that cuts through noise. Codebase investigation, team alignment, and AI strategy.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts: Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- JetBrains Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Geist -->
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo" aria-label="Vincability home">
+        <span class="nav__logo-dot" aria-hidden="true"></span>
+        <span class="nav__logo-text">VINCABILITY</span>
+      </a>
+
+      <ul class="nav__links" role="list">
+        <li><a href="#services"   class="nav__link">Services</a></li>
+        <li><a href="#approach"   class="nav__link">Approach</a></li>
+        <li><a href="#experience" class="nav__link">Experience</a></li>
+        <li><a href="#contact"    class="nav__link">Contact</a></li>
+      </ul>
+
+      <a href="#contact" class="btn btn--primary">Let's Talk</a>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO SECTION
+       ============================================================ -->
+  <section class="hero" aria-label="Hero">
+    <img
+      src="images/generated-1772287412319.png"
+      alt=""
+      class="hero__bg"
+      aria-hidden="true"
+      data-animate="hero-bg"
+    >
+    <div class="hero__overlay" aria-hidden="true"></div>
+
+    <div class="hero__content">
+      <div class="hero__badge" data-animate="hero-badge">
+        <span class="hero__badge-dot" aria-hidden="true"></span>
+        Available for new engagements
+      </div>
+
+      <h1 class="hero__headline" data-animate="hero-headline">
+        See what others miss.<br>Ship what actually matters.
+      </h1>
+
+      <p class="hero__subtitle" data-animate="hero-sub">
+        I bring hyperfocus, pattern recognition, and big-picture thinking to untangle codebases, align teams, and accelerate delivery. Technical consulting that cuts through noise.
+      </p>
+
+      <div class="hero__ctas" data-animate="hero-ctas">
+        <a href="#contact" class="btn btn--primary">Start a Conversation</a>
+        <a href="#approach" class="btn btn--outline">See My Approach</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CIRCUIT DIVIDER
+       ============================================================ -->
+  <div class="circuit-divider" aria-hidden="true" data-animate="divider"></div>
+
+  <!-- ============================================================
+       SERVICES SECTION
+       ============================================================ -->
+  <section class="services" id="services" aria-label="Services">
+    <div class="services__inner">
+      <header class="section-header">
+        <span class="section-label" style="color: var(--v-green-primary);">// WHAT I DO</span>
+        <h2 class="section-header__title">
+          Precision consulting for teams<br>that build software
+        </h2>
+        <p class="section-header__desc">
+          I embed with your team to find the real blockers — in code, process, and communication. Then I fix them.
+        </p>
+      </header>
+
+      <div class="services__cards">
+        <!-- Card 1: Codebase Investigation -->
+        <article class="service-card service-card--green" data-animate="stagger-card">
+          <div class="service-card__icon service-card__icon--green" aria-hidden="true">
+            <i data-lucide="search"></i>
+          </div>
+          <h3 class="service-card__title">Codebase Investigation</h3>
+          <p class="service-card__desc">
+            I read code the way a detective reads a crime scene. I find the hidden dependencies, the silent failures, and the architectural decisions that are quietly killing your velocity.
+          </p>
+          <span class="service-card__tag service-card__tag--green">
+            Pattern Recognition · Architecture · Code Quality
+          </span>
+        </article>
+
+        <!-- Card 2: Team Setup & Alignment -->
+        <article class="service-card service-card--orange" data-animate="stagger-card">
+          <div class="service-card__icon service-card__icon--orange" aria-hidden="true">
+            <i data-lucide="users"></i>
+          </div>
+          <h3 class="service-card__title">Team Setup &amp; Alignment</h3>
+          <p class="service-card__desc">
+            Technical problems are almost always people problems in disguise. I diagnose team dynamics, design better rituals, and build the processes that let engineers do their best work.
+          </p>
+          <span class="service-card__tag service-card__tag--orange">
+            DevOps · Process Design · Team Dynamics
+          </span>
+        </article>
+
+        <!-- Card 3: AI Agent Strategy -->
+        <article class="service-card service-card--purple" data-animate="stagger-card">
+          <div class="service-card__icon service-card__icon--purple" aria-hidden="true">
+            <i data-lucide="zap"></i>
+          </div>
+          <h3 class="service-card__title">AI Agent Strategy</h3>
+          <p class="service-card__desc">
+            Beyond the hype. I design practical AI agent workflows that automate the right things — cutting review cycles, accelerating delivery, and keeping humans where they add the most value.
+          </p>
+          <span class="service-card__tag service-card__tag--purple">
+            AI Agents · Automation · Review Cycles
+          </span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       APPROACH SECTION
+       ============================================================ -->
+  <section class="approach" id="approach" aria-label="Approach">
+    <div class="approach__inner">
+      <header class="approach__header">
+        <span class="section-label" style="color: var(--v-orange);">// HOW I WORK</span>
+        <h2 class="section-header__title" style="text-align: center;">The Vincability Process</h2>
+        <p class="section-header__desc" style="text-align: center; max-width: 640px;">
+          A structured approach that turns chaos into clarity — fast.
+        </p>
+      </header>
+
+      <div class="approach__steps">
+        <!-- Step 1 -->
+        <div class="step-card">
+          <span class="step-card__number step-card__number--green" aria-hidden="true">01</span>
+          <h3 class="step-card__title">Deep Scan</h3>
+          <p class="step-card__desc">
+            I immerse in your codebase, CI/CD, team rituals, and architecture. I see the patterns — and the anti-patterns — that everyone else has gone blind to.
+          </p>
+          <div class="step-card__line step-card__line--green" aria-hidden="true"></div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+          <span class="step-card__number step-card__number--orange" aria-hidden="true">02</span>
+          <h3 class="step-card__title">Strategic Map</h3>
+          <p class="step-card__desc">
+            I synthesize findings into a clear, actionable roadmap. No 80-page reports — just priorities, trade-offs, and next steps your team can execute on Monday.
+          </p>
+          <div class="step-card__line step-card__line--orange" aria-hidden="true"></div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+          <span class="step-card__number step-card__number--purple" aria-hidden="true">03</span>
+          <h3 class="step-card__title">Accelerate</h3>
+          <p class="step-card__desc">
+            I can stay embedded to drive execution, coach your team leads, or hand off cleanly. The goal is always the same: your team ships better without me.
+          </p>
+          <div class="step-card__line step-card__line--purple" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EXPERTISE SECTION
+       ============================================================ -->
+  <section class="expertise" id="expertise" aria-label="Expertise">
+    <div class="expertise__inner">
+      <header class="expertise__header">
+        <div class="expertise__header-left">
+          <span class="section-label" style="color: var(--v-purple);">// EXPERTISE</span>
+          <h2 class="section-header__title">
+            Battle-tested across<br>the full stack
+          </h2>
+        </div>
+        <div class="expertise__header-right" aria-label="29 plus years in software">
+          <span class="expertise__stat-number">29+</span>
+          <span class="expertise__stat-label">years in software</span>
+        </div>
+      </header>
+
+      <div class="bento-grid" data-animate="bento-assembly">
+        <!-- Column 1 -->
+        <div class="bento-col">
+          <article class="bento-card bento-card--green" data-animate="bento-card">
+            <div class="bento-card__icon" aria-hidden="true">
+              <i data-lucide="cloud"></i>
+            </div>
+            <h3 class="bento-card__title">Cloud &amp; Azure</h3>
+            <p class="bento-card__desc">
+              Azure Integration Services, Functions, Service Bus, DevOps pipelines. Cloud-native architecture that scales.
+            </p>
+          </article>
+
+          <article class="bento-card bento-card--orange" data-animate="bento-card">
+            <div class="bento-card__icon" aria-hidden="true">
+              <i data-lucide="code"></i>
+            </div>
+            <h3 class="bento-card__title">.NET / C# / Blazor</h3>
+            <p class="bento-card__desc">
+              Two decades of .NET ecosystem depth. From legacy rescue to modern Blazor SaaS applications.
+            </p>
+          </article>
+
+          <article class="bento-card bento-card--purple" data-animate="bento-card">
+            <div class="bento-card__icon" aria-hidden="true">
+              <i data-lucide="git-branch"></i>
+            </div>
+            <h3 class="bento-card__title">DevOps &amp; CI/CD</h3>
+            <p class="bento-card__desc">
+              Pipeline design, deployment strategy, infrastructure as code. Making delivery boring and reliable.
+            </p>
+          </article>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="bento-col">
+          <article class="bento-card bento-card--green" data-animate="bento-card">
+            <div class="bento-card__icon" aria-hidden="true">
+              <i data-lucide="bot"></i>
+            </div>
+            <h3 class="bento-card__title">AI &amp; Agent Systems</h3>
+            <p class="bento-card__desc">
+              Building AI agent workflows, swarm architectures, and automated review cycles that deliver real value.
+            </p>
+          </article>
+
+          <article class="bento-card bento-card--orange" data-animate="bento-card">
+            <div class="bento-card__icon" aria-hidden="true">
+              <i data-lucide="layout-dashboard"></i>
+            </div>
+            <h3 class="bento-card__title">Solution Architecture</h3>
+            <p class="bento-card__desc">
+              System design that balances pragmatism with vision. SaaS platforms, integration layers, data pipelines.
+            </p>
+          </article>
+
+          <article class="bento-card bento-card--purple" data-animate="bento-card">
+            <div class="bento-card__icon" aria-hidden="true">
+              <i data-lucide="chart-line"></i>
+            </div>
+            <h3 class="bento-card__title">Data Science</h3>
+            <p class="bento-card__desc">
+              Turning messy data into actionable insights. Analytics, visualization, and ML pipelines that inform decisions.
+            </p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EXPERIENCE SECTION
+       ============================================================ -->
+  <section class="experience" id="experience" aria-label="Experience">
+    <div class="experience__inner">
+      <header class="experience__header">
+        <span class="section-label" style="color: var(--v-green-primary);">// TRACK RECORD</span>
+        <h2 class="section-header__title" style="text-align: center;">Trusted by teams that ship</h2>
+      </header>
+
+      <!-- Stats row -->
+      <div class="stats-row" role="list" aria-label="Statistics">
+        <div class="stat-cell stat-cell--bordered" role="listitem">
+          <span
+            class="stat-cell__number stat-cell__number--green"
+            data-counter="29"
+            data-suffix="+"
+            aria-label="29 plus"
+          >29+</span>
+          <span class="stat-cell__label">Years in Software</span>
+        </div>
+
+        <div class="stat-cell stat-cell--bordered" role="listitem">
+          <span
+            class="stat-cell__number stat-cell__number--orange"
+            data-counter="12"
+            data-suffix="+"
+            aria-label="12 plus"
+          >12+</span>
+          <span class="stat-cell__label">Companies Served</span>
+        </div>
+
+        <div class="stat-cell stat-cell--bordered" role="listitem">
+          <span
+            class="stat-cell__number stat-cell__number--purple"
+            data-typewriter="Gov + Enterprise"
+          >Gov + Enterprise</span>
+          <span class="stat-cell__label">Dutch Tax Authority, Rabobank</span>
+        </div>
+
+        <div class="stat-cell" role="listitem">
+          <span class="stat-cell__number stat-cell__number--primary">Full Stack</span>
+          <span class="stat-cell__label">Cloud to Code to Team</span>
+        </div>
+      </div>
+
+      <!-- Role cards -->
+      <div class="role-cards">
+        <!-- Role 1 -->
+        <article class="role-card role-card--green">
+          <span class="role-card__badge role-card__badge--green">Technical Lead</span>
+          <h3 class="role-card__company">SkinConsult / Healthcare SaaS</h3>
+          <p class="role-card__desc">
+            Modernizing legacy software into cloud-based SaaS while managing the development team. Customer-facing solutions and internal process optimization.
+          </p>
+        </article>
+
+        <!-- Role 2 -->
+        <article class="role-card role-card--orange">
+          <span class="role-card__badge role-card__badge--orange">Technical Team Lead</span>
+          <h3 class="role-card__company">Dutch Tax Authority</h3>
+          <p class="role-card__desc">
+            Leading technical teams in one of the Netherlands' largest government organizations. Enterprise-scale systems and cross-team coordination.
+          </p>
+        </article>
+
+        <!-- Role 3 -->
+        <article class="role-card role-card--purple">
+          <span class="role-card__badge role-card__badge--purple">Cloud Consultant</span>
+          <h3 class="role-card__company">Azure Integration Services</h3>
+          <p class="role-card__desc">
+            Integrating in-house and external systems through Azure Functions, Service Bus, and DevOps. Connecting the dots across complex enterprise landscapes.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA / CONTACT SECTION
+       ============================================================ -->
+  <section class="cta-section" id="contact" aria-label="Contact">
+    <img
+      src="images/generated-1772287600639.png"
+      alt=""
+      class="cta-section__bg"
+      aria-hidden="true"
+      data-animate="cta-bg"
+    >
+    <div class="cta-section__overlay" aria-hidden="true"></div>
+
+    <div class="cta-section__content" data-animate="cta-content">
+      <h2 class="cta-section__headline">
+        Ready to see what's<br>really going on?
+      </h2>
+      <p class="cta-section__subtitle">
+        Let's have an honest conversation about your codebase, your team, or your next move.
+      </p>
+
+      <!-- Netlify Contact Form -->
+      <form
+        class="contact-form"
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        aria-label="Contact form"
+      >
+        <!-- Honeypot -->
+        <p class="hidden">
+          <label>Do not fill this out if you are human: <input name="bot-field"></label>
+        </p>
+        <input type="hidden" name="form-name" value="contact">
+
+        <div class="contact-form__row">
+          <input
+            class="form-input"
+            type="text"
+            name="name"
+            placeholder="Your name"
+            autocomplete="name"
+            required
+            aria-label="Your name"
+          >
+          <input
+            class="form-input"
+            type="email"
+            name="email"
+            placeholder="your@email.com"
+            autocomplete="email"
+            required
+            aria-label="Your email address"
+          >
+        </div>
+
+        <textarea
+          class="form-textarea"
+          name="message"
+          rows="3"
+          placeholder="What's on your mind?"
+          required
+          aria-label="Your message"
+        ></textarea>
+
+        <div class="contact-form__actions">
+          <button type="submit" class="btn btn--primary">
+            <i data-lucide="message-circle" aria-hidden="true"></i>
+            Start a Conversation
+          </button>
+          <a
+            href="https://linkedin.com/in/yourprofile"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn--outline"
+            aria-label="Connect on LinkedIn (opens in new tab)"
+          >
+            <i data-lucide="linkedin" aria-hidden="true"></i>
+            Connect on LinkedIn
+          </a>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="footer__inner">
+      <div class="footer__main">
+        <!-- Left: logo + tagline -->
+        <div class="footer__logo-wrap">
+          <a href="#" class="footer__logo" aria-label="Vincability home">
+            <span class="footer__logo-dot" aria-hidden="true"></span>
+            <span class="footer__logo-text">VINCABILITY</span>
+          </a>
+          <p class="footer__tagline">
+            Vincent + Ability.<br>See what others miss. Ship what matters.
+          </p>
+        </div>
+
+        <!-- Right: nav columns -->
+        <nav class="footer__nav" aria-label="Footer navigation">
+          <div class="footer__nav-col">
+            <span class="footer__nav-heading">Services</span>
+            <a href="#services" class="footer__nav-link">Codebase Investigation</a>
+            <a href="#services" class="footer__nav-link">Team Alignment</a>
+            <a href="#services" class="footer__nav-link">AI Strategy</a>
+          </div>
+
+          <div class="footer__nav-col">
+            <span class="footer__nav-heading">Connect</span>
+            <a
+              href="https://linkedin.com/in/yourprofile"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer__nav-link"
+            >LinkedIn</a>
+            <a href="mailto:hello@vincability.com" class="footer__nav-link">Email</a>
+            <a
+              href="https://github.com/vincability"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer__nav-link"
+            >GitHub</a>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="footer__bottom">
+        <span class="footer__bottom-text">© 2026 Vincability. All rights reserved.</span>
+        <span class="footer__bottom-text">Netherlands</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+  <script>lucide.createIcons();</script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script src="animations.js"></script>
+
+</body>
+</html>
