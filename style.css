@@ -278,22 +278,28 @@ ul {
   height: 100%;
 }
 
-/* Mouse-follow glow — positioned via --glow-x / --glow-y from JS */
-.hero__glow {
-  position: absolute;
+/* Mouse-follow glow — fixed overlay, positioned via JS custom props */
+.cursor-glow {
+  --glow-rgb: 0, 230, 118;
+  position: fixed;
   inset: 0;
+  z-index: 9998;
   pointer-events: none;
-  background: radial-gradient(
+  background-image:
+    linear-gradient(rgba(var(--glow-rgb), 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--glow-rgb), 0.35) 1px, transparent 1px),
+    linear-gradient(rgba(var(--glow-rgb), 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--glow-rgb), 0.18) 1px, transparent 1px);
+  background-size: 20px 20px, 20px 20px, 80px 80px, 80px 80px;
+  background-attachment: fixed;
+  -webkit-mask: radial-gradient(
     600px circle at var(--glow-x, 50%) var(--glow-y, 50%),
-    var(--glow-color, rgba(0, 230, 118, 0.12)) 0%,
-    transparent 70%
+    black 0%, transparent 70%
   );
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.hero:hover .hero__glow {
-  opacity: 1;
+  mask: radial-gradient(
+    600px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    black 0%, transparent 70%
+  );
 }
 
 .hero__overlay {

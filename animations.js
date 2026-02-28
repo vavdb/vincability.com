@@ -476,18 +476,15 @@ gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
 }); // end matchMedia — (prefers-reduced-motion: no-preference)
 
 /* ============================================================
-   HERO — MOUSE-FOLLOW GLOW
-   Tracks cursor over the hero. Glow color follows the nav
-   gradient: green (left) → orange (center) → purple (right).
-   Not gated by reduced-motion (it's interactive, not auto).
+   CURSOR GLOW — SITE-WIDE
+   Tracks cursor across the entire page. Glow color follows the
+   nav gradient: green (left) → orange (center) → purple (right).
    ============================================================ */
 
 (() => {
-  const hero = document.querySelector('.hero');
-  const glow = document.querySelector('.hero__glow');
-  if (!hero || !glow) return;
+  const glow = document.querySelector('.cursor-glow');
+  if (!glow) return;
 
-  // Matches the nav gradient: green 30% → orange 50% → purple 70%
   function lerpColor(a, b, t) {
     return a.map((v, i) => Math.round(v + (b[i] - v) * t));
   }
@@ -496,23 +493,20 @@ gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
   const orange = [255, 145, 0];
   const purple = [179, 136, 255];
 
-  function colorAtX(xPct) {
-    let rgb;
+  function rgbAtX(xPct) {
     if (xPct < 50) {
-      rgb = lerpColor(green, orange, xPct / 50);
-    } else {
-      rgb = lerpColor(orange, purple, (xPct - 50) / 50);
+      return lerpColor(green, orange, xPct / 50);
     }
-    return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.12)`;
+    return lerpColor(orange, purple, (xPct - 50) / 50);
   }
 
-  hero.addEventListener('mousemove', (e) => {
-    const rect = hero.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
+  document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth) * 100;
+    const y = (e.clientY / window.innerHeight) * 100;
+    const rgb = rgbAtX(x);
     glow.style.setProperty('--glow-x', x + '%');
     glow.style.setProperty('--glow-y', y + '%');
-    glow.style.setProperty('--glow-color', colorAtX(x));
+    glow.style.setProperty('--glow-rgb', `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`);
   });
 })();
 
