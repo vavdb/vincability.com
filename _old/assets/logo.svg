@@ -1,0 +1,44 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left Wing Top -->
+  <polygon points="75,50 40,120 75,150 110,90" fill="#7C3AED" stroke="#A566FF" stroke-width="2"/>
+  <polygon points="75,50 90,70 110,90 75,100" fill="#9F49D5" stroke="#A566FF" stroke-width="1.5"/>
+  
+  <!-- Left Wing Bottom -->
+  <polygon points="75,150 40,220 75,250 110,190" fill="#7C3AED" stroke="#A566FF" stroke-width="2"/>
+  <polygon points="75,150 90,170 110,190 75,200" fill="#9F49D5" stroke="#A566FF" stroke-width="1.5"/>
+
+  <!-- Right Wing Top -->
+  <polygon points="225,50 260,120 225,150 190,90" fill="#7C3AED" stroke="#A566FF" stroke-width="2"/>
+  <polygon points="225,50 210,70 190,90 225,100" fill="#9F49D5" stroke="#A566FF" stroke-width="1.5"/>
+
+  <!-- Right Wing Bottom -->
+  <polygon points="225,150 260,220 225,250 190,190" fill="#7C3AED" stroke="#A566FF" stroke-width="2"/>
+  <polygon points="225,150 210,170 190,190 225,200" fill="#9F49D5" stroke="#A566FF" stroke-width="1.5"/>
+
+  <!-- Body -->
+  <rect x="145" y="90" width="10" height="120" fill="#7C3AED" />
+
+  <!-- Inner Wing Details -->
+  <line x1="75" y1="75" x2="105" y2="120" stroke="#A566FF" stroke-width="1.2"/>
+  <line x1="225" y1="75" x2="195" y2="120" stroke="#A566FF" stroke-width="1.2"/>
+  <line x1="75" y1="175" x2="105" y2="220" stroke="#A566FF" stroke-width="1.2"/>
+  <line x1="225" y1="175" x2="195" y2="220" stroke="#A566FF" stroke-width="1.2"/>
+  
+  <!-- Antennae -->
+  <line x1="150" y1="90" x2="135" y2="60" stroke="#A566FF" stroke-width="2"/>
+  <line x1="150" y1="90" x2="165" y2="60" stroke="#A566FF" stroke-width="2"/>
+  
+  <!-- Decorative Circles for Electric Effect -->
+  <circle cx="60" cy="90" r="4" fill="#A566FF"/>
+  <circle cx="240" cy="90" r="4" fill="#A566FF"/>
+  <circle cx="55" cy="210" r="4" fill="#A566FF"/>
+  <circle cx="245" cy="210" r="4" fill="#A566FF"/>
+  <circle cx="100" cy="160" r="3" fill="#FFFFFF"/>
+  <circle cx="200" cy="160" r="3" fill="#FFFFFF"/>
+
+  <!-- Additional Electric Lines -->
+  <line x1="60" y1="90" x2="80" y2="110" stroke="#A566FF" stroke-width="1"/>
+  <line x1="240" y1="90" x2="220" y2="110" stroke="#A566FF" stroke-width="1"/>
+  <line x1="55" y1="210" x2="75" y2="190" stroke="#A566FF" stroke-width="1"/>
+  <line x1="245" y1="210" x2="225" y2="190" stroke="#A566FF" stroke-width="1"/>
+</svg>
