@@ -68,8 +68,8 @@ body::after {
     to bottom,
     transparent 0px,
     transparent 2px,
-    rgba(0, 0, 0, 0.06) 2px,
-    rgba(0, 0, 0, 0.06) 4px
+    rgba(0, 0, 0, 0.02) 2px,
+    rgba(0, 0, 0, 0.02) 4px
   );
 }
 
@@ -86,11 +86,11 @@ body::before {
   background: linear-gradient(
     to bottom,
     transparent,
-    rgba(0, 230, 118, 0.15) 50%,
+    rgba(0, 230, 118, 0.06) 50%,
     transparent
   );
-  box-shadow: 0 0 20px rgba(0, 230, 118, 0.1);
-  animation: crtSweep 3s linear infinite;
+  box-shadow: 0 0 12px rgba(0, 230, 118, 0.04);
+  animation: crtSweep 5s linear infinite;
 }
 
 @keyframes crtSweep {
@@ -286,18 +286,18 @@ ul {
   z-index: 9998;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(var(--glow-rgb), 0.35) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--glow-rgb), 0.35) 1px, transparent 1px),
-    linear-gradient(rgba(var(--glow-rgb), 0.18) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--glow-rgb), 0.18) 1px, transparent 1px);
+    linear-gradient(rgba(var(--glow-rgb), 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--glow-rgb), 0.15) 1px, transparent 1px),
+    linear-gradient(rgba(var(--glow-rgb), 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--glow-rgb), 0.08) 1px, transparent 1px);
   background-size: 20px 20px, 20px 20px, 80px 80px, 80px 80px;
   background-attachment: fixed;
   -webkit-mask: radial-gradient(
-    600px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    400px circle at var(--glow-x, 50%) var(--glow-y, 50%),
     black 0%, transparent 70%
   );
   mask: radial-gradient(
-    600px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    400px circle at var(--glow-x, 50%) var(--glow-y, 50%),
     black 0%, transparent 70%
   );
 }
@@ -398,10 +398,115 @@ ul {
 }
 
 /* ============================================================
+   OFFER SECTION
+   ============================================================ */
+.offer {
+  background-color: rgba(13, 18, 16, 0.82);
+}
+
+.offer__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 72px 120px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.offer__header .section-header__desc {
+  max-width: 760px;
+}
+
+.offer__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.offer-card {
+  background-color: var(--v-bg-elevated);
+  border: 1px solid var(--v-border);
+  border-radius: 12px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.offer-card:hover {
+  transform: translateY(-3px);
+}
+
+.offer-card--green:hover { border-color: var(--v-green-primary); }
+.offer-card--orange:hover { border-color: var(--v-orange); }
+.offer-card--purple:hover { border-color: var(--v-purple); }
+
+.offer-card__label {
+  font-family: var(--font-primary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.offer-card__label--green { color: var(--v-green-primary); }
+.offer-card__label--orange { color: var(--v-orange); }
+.offer-card__label--purple { color: var(--v-purple); }
+
+.offer-card__title {
+  font-family: var(--font-primary);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--v-text-primary);
+  line-height: 1.4;
+}
+
+.offer-card__desc {
+  font-family: var(--font-secondary);
+  font-size: 15px;
+  color: var(--v-text-secondary);
+  line-height: 1.7;
+}
+
+/* ============================================================
+   ABOUT SECTION
+   ============================================================ */
+.about {
+  background-color: rgba(13, 18, 16, 0.97);
+}
+
+.about__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 48px 120px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.about__panel {
+  background-color: var(--v-bg-elevated);
+  border: 1px solid var(--v-border);
+  border-radius: 12px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.about__text {
+  font-family: var(--font-secondary);
+  font-size: 16px;
+  color: var(--v-text-secondary);
+  line-height: 1.7;
+}
+
+/* ============================================================
    SERVICES SECTION
    ============================================================ */
 .services {
-  background-color: rgba(13, 18, 16, 0.85);
+  background-color: rgba(13, 18, 16, 0.97);
 }
 
 .services__inner {
@@ -513,6 +618,82 @@ ul {
 .service-card__tag--purple { color: var(--v-purple); }
 
 /* ============================================================
+   REPRESENTATIVE WORK SECTION
+   ============================================================ */
+.micro-cases {
+  background-color: var(--v-bg-deep);
+}
+
+.micro-cases__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 20px 120px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.micro-cases__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.micro-case {
+  background-color: var(--v-bg-surface);
+  border: 1px solid var(--v-border);
+  border-radius: 12px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.micro-case:hover {
+  transform: translateY(-3px);
+}
+
+.micro-case--green:hover { border-color: var(--v-green-primary); }
+.micro-case--orange:hover { border-color: var(--v-orange); }
+.micro-case--purple:hover { border-color: var(--v-purple); }
+
+.micro-case__eyebrow {
+  font-family: var(--font-primary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.micro-case__eyebrow--green { color: var(--v-green-primary); }
+.micro-case__eyebrow--orange { color: var(--v-orange); }
+.micro-case__eyebrow--purple { color: var(--v-purple); }
+
+.micro-case__title {
+  font-family: var(--font-primary);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--v-text-primary);
+  line-height: 1.4;
+}
+
+.micro-case__desc,
+.micro-case__meta {
+  font-family: var(--font-secondary);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.micro-case__desc {
+  color: var(--v-text-secondary);
+}
+
+.micro-case__meta {
+  color: var(--v-text-primary);
+}
+
+/* ============================================================
    APPROACH SECTION
    ============================================================ */
 .approach {
@@ -601,7 +782,7 @@ ul {
    EXPERTISE SECTION
    ============================================================ */
 .expertise {
-  background-color: rgba(13, 18, 16, 0.85);
+  background-color: rgba(13, 18, 16, 0.97);
   overflow: hidden;
 }
 
@@ -816,6 +997,35 @@ ul {
   letter-spacing: 0.5px;
 }
 
+.proof-points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.proof-point {
+  background-color: var(--v-bg-surface);
+  border: 1px solid var(--v-border);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.proof-point__title {
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--v-text-primary);
+  margin-bottom: 10px;
+}
+
+.proof-point__desc {
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  color: var(--v-text-secondary);
+  line-height: 1.6;
+}
+
 .role-cards {
   display: flex;
   gap: 24px;
@@ -974,6 +1184,14 @@ ul {
   gap: 12px;
 }
 
+.contact-form__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .contact-form__row {
   display: flex;
   gap: 12px;
@@ -1018,6 +1236,17 @@ ul {
   justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.contact-form__meta {
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  color: var(--v-text-secondary);
+  text-align: center;
+}
+
+.contact-form__meta a {
+  color: var(--v-green-primary);
 }
 
 /* ============================================================
@@ -1198,6 +1427,19 @@ ul {
     padding: 80px 32px;
   }
 
+  .offer__inner,
+  .about__inner,
+  .micro-cases__inner {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .offer__grid,
+  .micro-cases__grid,
+  .proof-points {
+    grid-template-columns: 1fr;
+  }
+
   .cta-section__content {
     padding: 0 32px;
   }
@@ -1238,6 +1480,18 @@ ul {
     flex-direction: column;
   }
 
+  .offer__inner {
+    padding: 60px 16px 24px;
+  }
+
+  .about__inner {
+    padding: 36px 16px 18px;
+  }
+
+  .micro-cases__inner {
+    padding: 24px 16px 60px;
+  }
+
   /* ── Approach steps — stack vertically ────────────────── */
   .approach__steps {
     flex-direction: column;
@@ -1271,6 +1525,10 @@ ul {
   .stat-cell {
     width: 50%;
     flex: none;
+  }
+
+  .proof-points {
+    grid-template-columns: 1fr;
   }
 
   /* Remove right border from all four cells, re-add only
