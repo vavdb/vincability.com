@@ -85,6 +85,81 @@
   <div class="circuit-divider" aria-hidden="true" data-animate="divider"></div>
 
   <!-- ============================================================
+       SERVICES SECTION — FOUR GATES
+       ============================================================ -->
+  <section class="services" id="services" aria-label="Services">
+    <div class="services__inner">
+      <header class="section-header">
+        <span class="section-label" style="color: var(--v-green-primary);">// FOUR REASONS TO CALL</span>
+        <h2 class="section-header__title">
+          Which one sounds like<br>your Monday morning?
+        </h2>
+        <p class="section-header__desc">
+          Four different situations, one common thread: you need an independent senior view of what is actually going on, and a way forward your own team can execute.
+        </p>
+      </header>
+
+      <div class="services__cards">
+        <!-- Gate 1: Acute crisis -->
+        <a href="#contact" class="service-card service-card--green" id="gate-crisis" data-animate="stagger-card">
+          <div class="service-card__icon service-card__icon--green" aria-hidden="true">
+            <i data-lucide="siren"></i>
+          </div>
+          <h3 class="service-card__title">"Something is broken and nobody can find it."</h3>
+          <p class="service-card__desc">
+            Release pressure, scaling pain, a production incident, or the one person who understood it all just left. I centralize the response, isolate the root cause within days, and hand your team a recovery plan it can execute immediately.
+          </p>
+          <span class="service-card__tag service-card__tag--green">
+            Triage &amp; Stabilization · Root Cause in 48–72h · Recovery Plan
+          </span>
+        </a>
+
+        <!-- Gate 2: Validation & audit -->
+        <a href="#contact" class="service-card service-card--orange" id="gate-audit" data-animate="stagger-card">
+          <div class="service-card__icon service-card__icon--orange" aria-hidden="true">
+            <i data-lucide="scan-search"></i>
+          </div>
+          <h3 class="service-card__title">"Is what was built here actually sound?"</h3>
+          <p class="service-card__desc">
+            A legacy handover, an acquisition under due diligence, a departed team, or AI-generated output you can't fully vouch for. You get a Deep Scan, a prioritized risk map, and a repair roadmap that separates critical from acceptable noise.
+          </p>
+          <span class="service-card__tag service-card__tag--orange">
+            Deep Scan · Risk Map · Technical Due Diligence
+          </span>
+        </a>
+
+        <!-- Gate 3: AI orchestration -->
+        <a href="#contact" class="service-card service-card--purple" id="gate-ai" data-animate="stagger-card">
+          <div class="service-card__icon service-card__icon--purple" aria-hidden="true">
+            <i data-lucide="zap"></i>
+          </div>
+          <h3 class="service-card__title">"AI made us faster — and messier."</h3>
+          <p class="service-card__desc">
+            AI is an integration problem, not magic. I set up agent workflows, review boundaries, and codebase conventions that keep output maintainable after the demo glow wears off.
+          </p>
+          <span class="service-card__tag service-card__tag--purple">
+            Agent Workflows · Review Boundaries · Maintainability
+          </span>
+        </a>
+
+        <!-- Gate 4: External team validation & steering -->
+        <a href="#contact" class="service-card service-card--blue" id="gate-external" data-animate="stagger-card">
+          <div class="service-card__icon service-card__icon--blue" aria-hidden="true">
+            <i data-lucide="compass"></i>
+          </div>
+          <h3 class="service-card__title">"Our external team delivers — but is it the right thing?"</h3>
+          <p class="service-card__desc">
+            An independent view of whether outsourced work matches your business intent, not just whether the code compiles. I help restore the translation between assignment and intention, so your external team succeeds at what the business actually needs.
+          </p>
+          <span class="service-card__tag service-card__tag--blue">
+            Independent Validation · Active Steering · Domain Ownership
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
        OFFER SECTION
        ============================================================ -->
   <section class="offer" aria-label="Who I help">
@@ -152,67 +227,6 @@
         <p class="about__text">
           The result is not "hero coding." It is durable delivery: clearer ownership, cleaner code, and better decisions about what to build next.
         </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SERVICES SECTION
-       ============================================================ -->
-  <section class="services" id="services" aria-label="Services">
-    <div class="services__inner">
-      <header class="section-header">
-        <span class="section-label" style="color: var(--v-green-primary);">// WHAT I DO</span>
-        <h2 class="section-header__title">
-          Precision consulting for teams<br>that build software
-        </h2>
-        <p class="section-header__desc">
-          I investigate the blockers holding delivery back, reduce noise between code, process, and ownership, and leave your team with clearer priorities than it had before I arrived.
-        </p>
-      </header>
-
-      <div class="services__cards">
-        <!-- Card 1: Codebase Investigation -->
-        <article class="service-card service-card--green" data-animate="stagger-card">
-          <div class="service-card__icon service-card__icon--green" aria-hidden="true">
-            <i data-lucide="search"></i>
-          </div>
-          <h3 class="service-card__title">Codebase Investigation</h3>
-          <p class="service-card__desc">
-            I trace the dependency chains, brittle seams, and architectural decisions that are quietly slowing releases. You get a clear view of what is risky, what is merely noisy, and what should happen first.
-          </p>
-          <span class="service-card__tag service-card__tag--green">
-            Technical Scan · Risk Map · Prioritized Fixes
-          </span>
-        </article>
-
-        <!-- Card 2: Team Setup & Alignment -->
-        <article class="service-card service-card--orange" data-animate="stagger-card">
-          <div class="service-card__icon service-card__icon--orange" aria-hidden="true">
-            <i data-lucide="users"></i>
-          </div>
-          <h3 class="service-card__title">Team Setup &amp; Alignment</h3>
-          <p class="service-card__desc">
-            When delivery issues are really ownership, handoff, or coordination issues, I make that visible fast. Then I tighten rituals, boundaries, and decision paths so engineers can move with less coordination tax.
-          </p>
-          <span class="service-card__tag service-card__tag--orange">
-            Ownership Clarity · Process Design · Delivery Flow
-          </span>
-        </article>
-
-        <!-- Card 3: AI Agent Strategy -->
-        <article class="service-card service-card--purple" data-animate="stagger-card">
-          <div class="service-card__icon service-card__icon--purple" aria-hidden="true">
-            <i data-lucide="zap"></i>
-          </div>
-          <h3 class="service-card__title">AI Agent Strategy</h3>
-          <p class="service-card__desc">
-            I help teams use AI as a quality multiplier instead of a debt multiplier. That means agent workflows, review boundaries, and codebase conventions that keep output maintainable after the demo glow wears off.
-          </p>
-          <span class="service-card__tag service-card__tag--purple">
-            Agent Workflows · Review Boundaries · Maintainability
-          </span>
-        </article>
       </div>
     </div>
   </section>

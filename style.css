@@ -17,6 +17,8 @@
   --v-orange-dim:    #FF6D00;
   --v-purple:        #B388FF;
   --v-purple-dim:    #7C4DFF;
+  --v-blue:          #40C4FF;
+  --v-blue-dim:      #0091EA;
   --v-text-primary:  #F0FFF4;
   --v-text-secondary:#A8B5AD;
   --v-text-muted:    #5A6B60;
@@ -541,8 +543,15 @@ ul {
 }
 
 .services__cards {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
+}
+
+a.service-card {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .service-card {
@@ -564,6 +573,7 @@ ul {
 .service-card--green:hover  { border-color: var(--v-green-primary); }
 .service-card--orange:hover { border-color: var(--v-orange); }
 .service-card--purple:hover { border-color: var(--v-purple); }
+.service-card--blue:hover   { border-color: var(--v-blue); }
 
 .service-card__icon {
   width: 48px;
@@ -578,6 +588,7 @@ ul {
 .service-card__icon--green  { background-color: #00E67633; }
 .service-card__icon--orange { background-color: #FF910020; }
 .service-card__icon--purple { background-color: #B388FF20; }
+.service-card__icon--blue   { background-color: #40C4FF20; }
 
 .service-card__icon i,
 .service-card__icon svg {
@@ -591,6 +602,8 @@ ul {
 .service-card__icon--orange svg { color: var(--v-orange); stroke: var(--v-orange); }
 .service-card__icon--purple i,
 .service-card__icon--purple svg { color: var(--v-purple); stroke: var(--v-purple); }
+.service-card__icon--blue   i,
+.service-card__icon--blue   svg { color: var(--v-blue); stroke: var(--v-blue); }
 
 .service-card__title {
   font-family: var(--font-primary);
@@ -616,6 +629,7 @@ ul {
 .service-card__tag--green  { color: var(--v-green-dim); }
 .service-card__tag--orange { color: var(--v-orange-dim); }
 .service-card__tag--purple { color: var(--v-purple); }
+.service-card__tag--blue   { color: var(--v-blue); }
 
 /* ============================================================
    REPRESENTATIVE WORK SECTION
@@ -1477,7 +1491,7 @@ ul {
 
   /* ── Services cards — stack vertically ────────────────── */
   .services__cards {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .offer__inner {
