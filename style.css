@@ -22,8 +22,63 @@
   --v-text-primary:  #F0FFF4;
   --v-text-secondary:#A8B5AD;
   --v-text-muted:    #5A6B60;
+  --v-icon-bg-green:  #00E67633;
+  --v-icon-bg-orange: #FF910020;
+  --v-icon-bg-purple: #B388FF20;
+  --v-icon-bg-blue:   #40C4FF20;
+  --v-grid-line-1:   rgba(0, 230, 118, 0.05);
+  --v-grid-line-2:   rgba(0, 230, 118, 0.025);
+  --v-sweep-line:    rgba(0, 230, 118, 0.06);
+  --v-sweep-glow:    rgba(0, 230, 118, 0.04);
+  --v-scan-tint:     rgba(0, 230, 118, 0.06);
+  --v-overlay-rgb:   8, 11, 10;
+  --v-tint-soft:     rgba(13, 18, 16, 0.82);
+  --v-tint-strong:   rgba(13, 18, 16, 0.97);
+  --v-cta-halo:      rgba(0, 230, 118, 0.04);
+  --v-glow-a1:       0.15;
+  --v-glow-a2:       0.08;
   --font-primary:    'JetBrains Mono', monospace;
   --font-secondary:  'Geist', sans-serif;
+  color-scheme: dark;
+}
+
+/* ── Light scheme — same site by daylight. Accent hues keep identity
+     but are darkened to pass WCAG AA on white. Layout, typography,
+     spacing, and // SECTION markers are identical in both schemes. ── */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --v-bg-deep:       #F7F9F8;
+  --v-bg-surface:    #FFFFFF;
+  --v-bg-elevated:   #FFFFFF;
+  --v-border:        #D8E0DB;
+  --v-border-glow:   #00843D20;
+  --v-green-primary: #00843D;
+  --v-green-dim:     #006B31;
+  --v-green-glow:    #00843D26;
+  --v-orange:        #B45309;
+  --v-orange-dim:    #92400E;
+  --v-purple:        #6D28D9;
+  --v-purple-dim:    #5B21B6;
+  --v-blue:          #0369A1;
+  --v-blue-dim:      #075985;
+  --v-text-primary:  #14201A;
+  --v-text-secondary:#46564D;
+  --v-text-muted:    #5C6B62;
+  --v-icon-bg-green:  #00843D1A;
+  --v-icon-bg-orange: #B453091A;
+  --v-icon-bg-purple: #6D28D91A;
+  --v-icon-bg-blue:   #0369A11A;
+  --v-grid-line-1:   rgba(0, 132, 61, 0.08);
+  --v-grid-line-2:   rgba(0, 132, 61, 0.045);
+  --v-sweep-line:    rgba(0, 132, 61, 0.05);
+  --v-sweep-glow:    rgba(0, 132, 61, 0.03);
+  --v-scan-tint:     rgba(0, 132, 61, 0.05);
+  --v-overlay-rgb:   247, 249, 248;
+  --v-tint-soft:     rgba(255, 255, 255, 0.82);
+  --v-tint-strong:   rgba(255, 255, 255, 0.97);
+  --v-cta-halo:      rgba(0, 132, 61, 0.05);
+  --v-glow-a1:       0.18;
+  --v-glow-a2:       0.10;
 }
 
 /* ── Reset ──────────────────────────────────────────────────── */
@@ -42,10 +97,10 @@ html {
 body {
   background-color: var(--v-bg-deep);
   background-image:
-    linear-gradient(rgba(0, 230, 118, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 230, 118, 0.05) 1px, transparent 1px),
-    linear-gradient(rgba(0, 230, 118, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 230, 118, 0.025) 1px, transparent 1px);
+    linear-gradient(var(--v-grid-line-1) 1px, transparent 1px),
+    linear-gradient(90deg, var(--v-grid-line-1) 1px, transparent 1px),
+    linear-gradient(var(--v-grid-line-2) 1px, transparent 1px),
+    linear-gradient(90deg, var(--v-grid-line-2) 1px, transparent 1px);
   background-size:
     20px 20px,
     20px 20px,
@@ -88,10 +143,10 @@ body::before {
   background: linear-gradient(
     to bottom,
     transparent,
-    rgba(0, 230, 118, 0.06) 50%,
+    var(--v-sweep-line) 50%,
     transparent
   );
-  box-shadow: 0 0 12px rgba(0, 230, 118, 0.04);
+  box-shadow: 0 0 12px var(--v-sweep-glow);
   animation: crtSweep 5s linear infinite;
 }
 
@@ -259,10 +314,33 @@ ul {
 }
 
 .nav--scrolled {
-  background-color: rgba(8, 11, 10, 0.95);
+  background-color: rgba(var(--v-overlay-rgb), 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
+
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--v-border);
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--v-text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.theme-toggle:hover { border-color: var(--v-green-primary); color: var(--v-text-primary); }
+.theme-toggle i, .theme-toggle svg { width: 18px; height: 18px; }
 
 /* ============================================================
    HERO SECTION
@@ -288,10 +366,10 @@ ul {
   z-index: 9998;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(var(--glow-rgb), 0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--glow-rgb), 0.15) 1px, transparent 1px),
-    linear-gradient(rgba(var(--glow-rgb), 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--glow-rgb), 0.08) 1px, transparent 1px);
+    linear-gradient(rgba(var(--glow-rgb), var(--v-glow-a1)) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--glow-rgb), var(--v-glow-a1)) 1px, transparent 1px),
+    linear-gradient(rgba(var(--glow-rgb), var(--v-glow-a2)) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--glow-rgb), var(--v-glow-a2)) 1px, transparent 1px);
   background-size: 20px 20px, 20px 20px, 80px 80px, 80px 80px;
   background-attachment: fixed;
   -webkit-mask: radial-gradient(
@@ -309,10 +387,10 @@ ul {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    #080B0ADD 0%,
-    #080B0A77 30%,
-    #080B0A99 70%,
-    #080B0AFF 100%
+    rgba(var(--v-overlay-rgb), 0.87) 0%,
+    rgba(var(--v-overlay-rgb), 0.47) 30%,
+    rgba(var(--v-overlay-rgb), 0.60) 70%,
+    rgba(var(--v-overlay-rgb), 1) 100%
   );
   z-index: 0;
 }
@@ -403,7 +481,7 @@ ul {
    OFFER SECTION
    ============================================================ */
 .offer {
-  background-color: rgba(13, 18, 16, 0.82);
+  background-color: var(--v-tint-soft);
 }
 
 .offer__inner {
@@ -475,7 +553,7 @@ ul {
    ABOUT SECTION
    ============================================================ */
 .about {
-  background-color: rgba(13, 18, 16, 0.97);
+  background-color: var(--v-tint-strong);
 }
 
 .about__inner {
@@ -508,7 +586,7 @@ ul {
    SERVICES SECTION
    ============================================================ */
 .services {
-  background-color: rgba(13, 18, 16, 0.97);
+  background-color: var(--v-tint-strong);
 }
 
 .services__inner {
@@ -585,10 +663,10 @@ a.service-card {
   flex-shrink: 0;
 }
 
-.service-card__icon--green  { background-color: #00E67633; }
-.service-card__icon--orange { background-color: #FF910020; }
-.service-card__icon--purple { background-color: #B388FF20; }
-.service-card__icon--blue   { background-color: #40C4FF20; }
+.service-card__icon--green  { background-color: var(--v-icon-bg-green); }
+.service-card__icon--orange { background-color: var(--v-icon-bg-orange); }
+.service-card__icon--purple { background-color: var(--v-icon-bg-purple); }
+.service-card__icon--blue   { background-color: var(--v-icon-bg-blue); }
 
 .service-card__icon i,
 .service-card__icon svg {
@@ -796,7 +874,7 @@ a.service-card {
    EXPERTISE SECTION
    ============================================================ */
 .expertise {
-  background-color: rgba(13, 18, 16, 0.97);
+  background-color: var(--v-tint-strong);
   overflow: hidden;
 }
 
@@ -883,7 +961,7 @@ a.service-card {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(0, 230, 118, 0.05) 50%,
+    var(--v-scan-tint) 50%,
     transparent
   );
   pointer-events: none;
@@ -1075,7 +1153,7 @@ a.service-card {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(0, 230, 118, 0.06) 50%,
+    var(--v-scan-tint) 50%,
     transparent
   );
   pointer-events: none;
@@ -1103,8 +1181,8 @@ a.service-card {
 }
 
 .role-card__badge--green  { color: var(--v-green-primary); background-color: var(--v-green-glow); }
-.role-card__badge--orange { color: var(--v-orange); background-color: #FF910020; }
-.role-card__badge--purple { color: var(--v-purple); background-color: #B388FF20; }
+.role-card__badge--orange { color: var(--v-orange); background-color: var(--v-icon-bg-orange); }
+.role-card__badge--purple { color: var(--v-purple); background-color: var(--v-icon-bg-purple); }
 
 .role-card__company {
   font-family: var(--font-primary);
@@ -1139,9 +1217,9 @@ a.service-card {
   width: 100%;
   height: 100%;
   background:
-    linear-gradient(rgba(0, 230, 118, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 230, 118, 0.025) 1px, transparent 1px),
-    radial-gradient(ellipse 600px 400px at 50% 50%, rgba(0, 230, 118, 0.04) 0%, transparent 70%),
+    linear-gradient(var(--v-grid-line-2) 1px, transparent 1px),
+    linear-gradient(90deg, var(--v-grid-line-2) 1px, transparent 1px),
+    radial-gradient(ellipse 600px 400px at 50% 50%, var(--v-cta-halo) 0%, transparent 70%),
     var(--v-bg-deep);
   background-size:
     20px 20px,
@@ -1153,7 +1231,7 @@ a.service-card {
 .cta-section__overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, #080B0AEE 0%, #080B0AFF 85%);
+  background: radial-gradient(ellipse at center, rgba(var(--v-overlay-rgb), 0.93) 0%, rgba(var(--v-overlay-rgb), 1) 85%);
   z-index: 0;
 }
 

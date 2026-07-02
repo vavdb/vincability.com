@@ -26,6 +26,17 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
+  <!-- Theme resolution before first paint: localStorage override, else OS preference -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -48,7 +59,12 @@
         <li><a href="#contact"    class="nav__link" aria-label="Ga naar Contact">Contact</a></li>
       </ul>
 
-      <a href="#contact" class="btn btn--primary">Plan een Clarity Sessie</a>
+      <div class="nav__actions">
+        <a href="#contact" class="btn btn--primary">Plan een Clarity Sessie</a>
+        <button class="theme-toggle" type="button" aria-label="Wissel kleurenschema">
+          <i data-lucide="sun-moon" aria-hidden="true"></i>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -698,6 +714,15 @@
        SCRIPTS
        ============================================================ -->
   <script>lucide.createIcons();</script>
+  <script>
+    document.querySelectorAll('.theme-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    });
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
