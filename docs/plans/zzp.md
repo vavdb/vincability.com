@@ -180,8 +180,15 @@ bevestigt; nog niet zelfstandig toevoegen.
    positionering; AI-termen daar ook terugschalen.
 5. Bestaande /how deep-dive blijft; alleen verwijzingen ernaar
    consistent houden met de nieuwe framing.
-6. Nederlands/Engels: site is nu Engels; dat blijft zo tenzij Vincent
-   anders beslist.
+6. Nederlands/Engels: **besloten door Vincent, 2026-07-02: de site wordt
+   Nederlands** — hoofdklandizie is Nederlandse bedrijven; poort 2/4-kopers
+   (directies, PE) verwachten NL. Uitwerking: motto en merkzinnen blijven
+   Engels ("See what others miss. Ship what actually matters.",
+   "Architect first. Stabilizer by necessity."); ingenieurstermen en
+   frameworknamen blijven Engels binnen de NL-copy (Deep Scan, Strategic
+   Map, Accelerate, dependency chains, ownership boundaries). Geen aparte
+   EN-versie totdat er een reële internationale pipeline is; `/en/` kan
+   later als statische duplicaat.
 
 ---
 
