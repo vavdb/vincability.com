@@ -39,6 +39,7 @@
   --v-glow-a2:       0.08;
   --font-primary:    'JetBrains Mono', monospace;
   --font-secondary:  'Geist', sans-serif;
+  --font-title:      'Asimovian', 'JetBrains Mono', monospace;
   color-scheme: dark;
 }
 
@@ -1678,4 +1679,26 @@ a.service-card {
   .expertise__header-right {
     align-items: flex-start;
   }
+}
+
+/* ============================================================
+   DISPLAY TITLES — Asimovian (single weight 400).
+   Mono details (tags, labels, buttons, stats, logo) stay
+   JetBrains Mono. Last in file so it wins the cascade.
+   ============================================================ */
+.hero__headline,
+.section-header__title,
+.cta-section__headline,
+.service-card__title,
+.offer-card__title,
+.micro-case__title,
+.step-card__title,
+.bento-card__title,
+.role-card__company,
+.proof-point__title,
+.how__title,
+.how__section-title,
+.how__card-title {
+  font-family: var(--font-title);
+  font-weight: 400;
 }
