@@ -438,7 +438,7 @@
     <div class="experience__inner">
       <header class="experience__header">
         <span class="section-label" style="color: var(--v-green-primary);">// TRACK RECORD</span>
-        <h2 class="section-header__title" style="text-align: center;">Waar ik gewerkt heb</h2>
+        <h2 class="section-header__title" style="text-align: center;">Wat ik gedaan heb</h2>
       </header>
 
       <!-- Stats row -->
@@ -479,30 +479,57 @@
 
       <!-- Role cards -->
       <div class="role-cards">
-        <!-- Role 1 -->
+        <!-- Opdracht 1: Legacy rescue -->
         <article class="role-card role-card--green">
-          <span class="role-card__badge role-card__badge--green">Technical Lead</span>
-          <h3 class="role-card__company">SkinConsult / Healthcare SaaS</h3>
+          <span class="role-card__badge role-card__badge--green">Legacy rescue</span>
+          <h3 class="role-card__company">SkinConsult · Healthcare SaaS</h3>
           <p class="role-card__desc">
-            Legacy rescue, SaaS-modernisering, teamleiderschap en klantgerichte delivery in één opdracht. Het werk beslaat codekwaliteit, architectuur en de uitvoering op gang houden terwijl het platform eronder verandert.
+            Cosmetovigilance-platform (EU-compliance) gemoderniseerd van legacy tool naar modulair, AI-enabled platform, zonder de productie te onderbreken. Inclusief remote teamleiderschap en release-discipline.
           </p>
         </article>
 
-        <!-- Role 2 -->
+        <!-- Opdracht 2: Externe-team validatie -->
+        <article class="role-card role-card--blue">
+          <span class="role-card__badge role-card__badge--blue">Externe-team validatie</span>
+          <h3 class="role-card__company">Life-sciences SaaS · Offshore handover</h3>
+          <p class="role-card__desc">
+            Post-merge review van het werk van een extern team: security, raw SQL, migraties en UI-compliance. Bevindingen geclassificeerd op ernst, met een herstelplan waar het team zelf mee verder kon.
+          </p>
+        </article>
+
+        <!-- Opdracht 3: Team lead in de enterprise -->
         <article class="role-card role-card--orange">
-          <span class="role-card__badge role-card__badge--orange">Technical Team Lead</span>
+          <span class="role-card__badge role-card__badge--orange">Enterprise delivery</span>
           <h3 class="role-card__company">Belastingdienst</h3>
           <p class="role-card__desc">
-            Technisch leiderschap binnen een grote overheidsomgeving waar release-helderheid, dependency management en coördinatie tussen teams net zo zwaar wegen als de implementatie zelf.
+            Lead technical architect na een eerste dashboard-opdracht. Testautomatisering opgezet ter vervanging van handmatige regressie, in een omgeving waar coördinatie net zo zwaar weegt als code.
           </p>
         </article>
 
-        <!-- Role 3 -->
+        <!-- Opdracht 4: Herbouw onder productie -->
         <article class="role-card role-card--purple">
-          <span class="role-card__badge role-card__badge--purple">Cloud Consultant</span>
-          <h3 class="role-card__company">Azure Integration Services</h3>
+          <span class="role-card__badge role-card__badge--purple">Herbouw onder productie</span>
+          <h3 class="role-card__company">Rabobank</h3>
           <p class="role-card__desc">
-            Integratie- en deployment-paden ontwarren over Azure Functions, Service Bus, DevOps en omliggende systemen. De waarde zit vaak in het vinden van de blocker-keten, niet in het fixen van één ticket.
+            Stuurset Financieel herbouwd en de onderliggende database vervangen door een cube. Pull request peer review ingevoerd als procesverbetering die bleef staan na mijn vertrek.
+          </p>
+        </article>
+
+        <!-- Opdracht 5: Integratie-ontwarring -->
+        <article class="role-card role-card--green">
+          <span class="role-card__badge role-card__badge--green">Integratie-ontwarring</span>
+          <h3 class="role-card__company">Rensa · Azure Integration Services</h3>
+          <p class="role-card__desc">
+            Integratie- en deployment-paden ontward over Azure Functions, Service Bus en DevOps. De waarde zat in het vinden van de blocker-keten, niet in het fixen van één ticket.
+          </p>
+        </article>
+
+        <!-- Opdracht 6: Security & patient data -->
+        <article class="role-card role-card--orange">
+          <span class="role-card__badge role-card__badge--orange">Security &amp; patient data</span>
+          <h3 class="role-card__company">Allergie Centra Nederland</h3>
+          <p class="role-card__desc">
+            Custom integraties, datapijplijnen en document-workflows op Azure, in een patiëntdata-context. Autorisatie, data-grenzen en audit-trail vanaf dag één als ontwerpbeslissing.
           </p>
         </article>
       </div>
@@ -652,7 +679,7 @@
         </div>
 
         <p class="contact-form__meta">
-          Liever e-mail? <a href="mailto:hello@vincability.com">hello@vincability.com</a>. Of app direct via <a href="https://wa.me/31612960436" target="_blank" rel="noopener noreferrer">WhatsApp</a>. Ik reageer doorgaans binnen 2 werkdagen.
+          Liever e-mail? <a href="#contact" data-obf="mail" data-obf-text>e-mail</a>. Of app direct via <a href="#contact" data-obf="wa" target="_blank" rel="noopener noreferrer">WhatsApp</a>. Ik reageer doorgaans binnen 2 werkdagen.
         </p>
       </form>
     </div>
@@ -693,9 +720,10 @@
               rel="noopener noreferrer"
               class="footer__nav-link"
             >LinkedIn</a>
-            <a href="mailto:hello@vincability.com" class="footer__nav-link">E-mail</a>
+            <a href="#contact" data-obf="mail" class="footer__nav-link">E-mail</a>
             <a
-              href="https://wa.me/31612960436"
+              href="#contact"
+              data-obf="wa"
               target="_blank"
               rel="noopener noreferrer"
               class="footer__nav-link"

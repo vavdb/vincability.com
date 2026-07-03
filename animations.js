@@ -510,3 +510,29 @@ gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
   });
 })();
 
+/* ── Contact link reveal — addresses are assembled from parts on first
+   human interaction, so they never appear in the static HTML. ── */
+(function () {
+  const mailParts = ['hello', 'vincability', 'com'];
+  const waParts = ['31', '612', '960', '436'];
+  let revealed = false;
+
+  function reveal() {
+    if (revealed) return;
+    revealed = true;
+    const mail = mailParts[0] + '@' + mailParts[1] + '.' + mailParts[2];
+    const wa = 'https://wa.me/' + waParts.join('');
+    document.querySelectorAll('[data-obf="mail"]').forEach((a) => {
+      a.href = 'mailto:' + mail;
+      if (a.hasAttribute('data-obf-text')) a.textContent = mail;
+    });
+    document.querySelectorAll('[data-obf="wa"]').forEach((a) => {
+      a.href = wa;
+    });
+  }
+
+  ['pointermove', 'pointerdown', 'scroll', 'keydown', 'touchstart'].forEach((ev) => {
+    window.addEventListener(ev, reveal, { once: true, passive: true });
+  });
+})();
+

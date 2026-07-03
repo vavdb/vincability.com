@@ -1120,7 +1120,8 @@ a.service-card {
 }
 
 .role-cards {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
@@ -1142,6 +1143,7 @@ a.service-card {
 .role-card--green:hover  { border-color: var(--v-green-primary); }
 .role-card--orange:hover { border-color: var(--v-orange); }
 .role-card--purple:hover { border-color: var(--v-purple); }
+.role-card--blue:hover   { border-color: var(--v-blue); }
 
 /* Scan-line pseudo-element */
 .role-card::after {
@@ -1184,6 +1186,7 @@ a.service-card {
 .role-card__badge--green  { color: var(--v-green-primary); background-color: var(--v-green-glow); }
 .role-card__badge--orange { color: var(--v-orange); background-color: var(--v-icon-bg-orange); }
 .role-card__badge--purple { color: var(--v-purple); background-color: var(--v-icon-bg-purple); }
+.role-card__badge--blue   { color: var(--v-blue); background-color: var(--v-icon-bg-blue); }
 
 .role-card__company {
   font-family: var(--font-primary);
@@ -1592,7 +1595,7 @@ a.service-card {
 
   /* ── Role cards — stack vertically ────────────────────── */
   .role-cards {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   /* ── Expertise — tighter padding on mobile ────────────── */
