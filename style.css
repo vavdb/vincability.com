@@ -206,7 +206,7 @@ ul {
 
 .btn--primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 20px var(--v-green-glow), 0 4px 16px rgba(0, 230, 118, 0.25);
+  box-shadow: 0 0 20px var(--v-green-glow), 0 4px 16px var(--v-green-glow);
 }
 
 .btn--outline {
@@ -706,7 +706,7 @@ a.service-card {
 }
 
 .service-card__tag--green  { color: var(--v-green-dim); }
-.service-card__tag--orange { color: var(--v-orange-dim); }
+.service-card__tag--orange { color: var(--v-orange); }
 .service-card__tag--purple { color: var(--v-purple); }
 .service-card__tag--blue   { color: var(--v-blue); }
 
