@@ -28,12 +28,12 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Theme resolution before first paint: localStorage override, else OS preference -->
+  <!-- Theme resolution before first paint: localStorage override, else light -->
   <script>
     (function () {
       var t = localStorage.getItem('theme');
       if (t !== 'light' && t !== 'dark') {
-        t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        t = 'light';
       }
       document.documentElement.setAttribute('data-theme', t);
     })();
