@@ -1685,6 +1685,127 @@ a.service-card {
 }
 
 /* ============================================================
+   ULTRA-SMALL PHONES (< 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+
+  /* ── Nav: collapse button to icon-only ─────────────────── */
+  .nav__inner {
+    padding: 0 12px;
+  }
+
+  .btn--primary {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  /* Nav button: hide on ultra-small, use hero CTAs instead */
+  .nav__actions .btn--primary {
+    display: none;
+  }
+
+  .nav__actions {
+    gap: 8px;
+  }
+
+  /* ── Hero: reduce padding and font sizes ───────────────── */
+  .hero__content {
+    padding: 60px 12px 48px;
+  }
+
+  .hero__headline {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .hero__subtitle {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .hero__ctas {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hero__ctas .btn {
+    width: 100%;
+  }
+
+  /* ── Sections: reduce padding ──────────────────────────── */
+  .offer__inner {
+    padding: 48px 12px 18px;
+  }
+
+  .about__inner {
+    padding: 24px 12px 12px;
+  }
+
+  .micro-cases__inner {
+    padding: 12px 12px 48px;
+  }
+
+  .services__inner,
+  .approach__inner,
+  .expertise__inner,
+  .experience__inner {
+    padding: 48px 12px;
+  }
+
+  .cta-section__content {
+    padding: 0 12px;
+  }
+
+  /* ── Service cards: reduce gap ────────────────────────── */
+  .services__cards {
+    gap: 20px;
+  }
+
+  /* ── Step cards: reduce title size ────────────────────── */
+  .step-card__title {
+    font-size: 18px;
+  }
+
+  .step-card__description {
+    font-size: 14px;
+  }
+
+  /* ── Role cards: reduce padding ───────────────────────── */
+  .role-card {
+    padding: 16px;
+  }
+
+  .role-card__badge {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  /* ── Buttons: full-width stacking ────────────────────── */
+  .contact-form__actions .btn {
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+
+  /* ── Footer: tighter spacing ──────────────────────────── */
+  .footer__main {
+    gap: 32px;
+  }
+
+  .footer__col {
+    gap: 12px;
+  }
+
+  .footer__col-title {
+    font-size: 13px;
+  }
+
+  .footer__col a {
+    font-size: 13px;
+  }
+
+}
+
+/* ============================================================
    DISPLAY TITLES — Asimovian (single weight 400).
    Mono details (tags, labels, buttons, stats, logo) stay
    JetBrains Mono. Last in file so it wins the cascade.
