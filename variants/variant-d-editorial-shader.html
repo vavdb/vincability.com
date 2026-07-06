@@ -23,9 +23,6 @@
   --green:        #00843D;
   --green-deep:   #00602C;
   --red:          #D93025;
-  --orange:       #B45309;
-  --purple:       #6D28D9;
-  --blue:         #0369A1;
   --green-neon:   #00E676;
   --paper-2:      #EFF4F1;
   --line-soft:    #D8E0DB;
@@ -340,23 +337,13 @@ a{ color: inherit; }
   letter-spacing:.04em; color: var(--green-deep);
   justify-self: end; text-align: right;
 }
-.svc--orange .svc__num b{ color: var(--orange); }
-.svc--orange::before{ background: var(--orange); }
-.svc--orange .svc__tag{ color: var(--orange); }
-.svc--purple .svc__num b{ color: var(--purple); }
-.svc--purple::before{ background: var(--purple); }
-.svc--purple .svc__tag{ color: var(--purple); }
-.svc--blue .svc__num b{ color: var(--blue); }
-.svc--blue::before{ background: var(--blue); }
-.svc--blue .svc__tag{ color: var(--blue); }
+.svc--risk .svc__num b{ color: var(--red); }
+.svc--risk::before{ background: var(--red); }
 @media (max-width: 980px){
-  .svc{ grid-template-columns: 70px 1fr; gap: 20px; }
-  .svc__tag{ grid-column: 2; justify-self: start; text-align: left; margin-top: 6px; }
-}
-@media (max-width: 520px){
-  .svc{ grid-template-columns: 1fr; padding: 24px 8px; }
+  .svc{ grid-template-columns: 1fr; gap: 14px; padding: 24px 8px; }
   .svc__num{ display:flex; gap: 10px; align-items: baseline; }
   .svc__num b{ margin: 0; }
+  .svc__tag{ justify-self: start; text-align: left; margin-top: 2px; }
 }
 
 /* --- pull-quote: grid-breaking --- */
@@ -385,38 +372,31 @@ a{ color: inherit; }
   color: var(--ink-3);
 }
 
-/* --- scan: pinned x-ray scrollytelling (variant B) --- */
+/* --- scan: x-ray scrolly — captions in normal flow, graph sticky --- */
 .scrolly{
   position: relative;
-  height: 440vh;
   margin: 0 calc(50% - 50vw);
-  background: linear-gradient(var(--paper) 0%, var(--paper-2) 30%, var(--paper-2) 80%, var(--paper) 100%);
-}
-.stage{
-  position: sticky; top: 0; height: 100vh;
-  overflow: hidden;
-  display: flex; align-items: center;
+  background: linear-gradient(var(--paper) 0%, var(--paper-2) 12%, var(--paper-2) 88%, var(--paper) 100%);
 }
 .stage__inner{
   width: 100%; max-width: 1360px; margin: 0 auto;
-  padding: 90px 32px 40px;
+  padding: clamp(48px, 8vh, 90px) 32px;
   display: grid;
   grid-template-columns: 340px 1fr;
   gap: 48px;
-  align-items: center;
-  height: 100%;
+  align-items: start;
 }
-.stage__copy{ position: relative; height: 320px; }
+.stage__copy{ position: relative; }
 .stage__kicker{
   font-family: var(--font-mono); font-size: 11.5px; font-weight: 600;
   letter-spacing: .16em; color: var(--green);
   margin-bottom: 14px; display: block;
 }
 .caption{
-  position: absolute; top: 30px; left: 0; right: 0;
-  opacity: 0;
-  visibility: hidden;
+  min-height: 78vh;
+  display: flex; flex-direction: column; justify-content: center;
 }
+.caption:last-of-type{ min-height: 60vh; }
 .caption h3{
   font-family: var(--font-display); font-weight: 400;
   font-size: clamp(24px, 2.2vw, 32px); line-height: 1.15;
@@ -429,8 +409,12 @@ a{ color: inherit; }
   font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em;
   color: var(--ink-3); display: block; margin-bottom: 10px;
 }
-.stage__graphwrap{ position: relative; }
-.stage__graphwrap svg{ width: 100%; height: auto; max-height: calc(100vh - 150px); display: block; }
+.stage__graphwrap{
+  position: sticky;
+  top: 90px;
+  align-self: start;
+}
+.stage__graphwrap svg{ width: 100%; height: auto; max-height: calc(100vh - 190px); display: block; }
 
 .edge{ fill: none; stroke: #A9BCB1; stroke-width: 1.4; stroke-linecap: round; }
 .edge--risk{ stroke: var(--red); stroke-width: 1.8; }
@@ -465,7 +449,7 @@ a{ color: inherit; }
 }
 
 .rail{
-  position: absolute; left: 32px; bottom: 40px;
+  margin-top: 18px;
   display: flex; gap: 22px; align-items: center;
   font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .14em;
   color: var(--ink-3);
@@ -478,24 +462,25 @@ a{ color: inherit; }
 .rail__step.is-active::before{ background: var(--green); }
 
 @media (max-width: 900px){
-  .stage__kicker{ display: none; }
-  .stage__inner{ grid-template-columns: 1fr; gap: 22px; padding: 80px 20px 56px; align-content: center; }
-  .stage__copy{ height: 215px; order: 2; }
-  .caption{ top: 6px; }
+  .stage__inner{ grid-template-columns: 1fr; gap: 0; padding: 56px 20px; }
+  .stage__graphwrap{
+    order: -1;
+    top: 64px;
+    z-index: 2;
+    background: var(--paper-2);
+    padding-bottom: 8px;
+  }
+  .stage__graphwrap svg{ max-height: 44vh; }
+  .caption{ min-height: 62vh; }
   .caption h3{ font-size: 21px; margin-bottom: 8px; }
   .caption p{ font-size: 14px; }
-  .stage__graphwrap{ order: 1; }
-  .stage__graphwrap svg{ max-height: 54vh; }
-  .rail{ left: 20px; bottom: 16px; gap: 12px; }
+  .rail{ margin-top: 8px; gap: 12px; }
   .rail__step::before{ width: 12px; }
   .rail__step span{ display: none; }
 }
 @media (prefers-reduced-motion: reduce){
-  .scrolly{ height: auto; }
-  .stage{ position: static; height: auto; display: block; }
-  .stage__inner{ height: auto; padding: 90px 32px 30px; align-items: start; }
-  .stage__copy{ height: auto; }
-  .caption{ position: static; opacity: 1 !important; visibility: visible !important; margin-bottom: 40px; transform: none !important; }
+  .stage__graphwrap{ position: static; }
+  .caption{ min-height: 0; margin-bottom: 40px; }
   .rail, .sweep{ display: none; }
   .layerband{ opacity: 1 !important; }
 }
@@ -722,7 +707,7 @@ a{ color: inherit; }
       </div>
 
       <div class="ledger">
-        <a class="svc rv" href="#contact">
+        <a class="svc svc--risk rv" href="#contact">
           <span class="svc__num"><b>01</b>TRIAGE</span>
           <span>
             <span class="svc__title">“Er is <span class="mark" data-mark>iets stuk</span> en niemand vindt het.”</span>
@@ -735,7 +720,7 @@ a{ color: inherit; }
           <span class="svc__tag">Triage &amp; Stabilisatie<br>Root cause in 48–72 uur<br>Herstelplan</span>
         </a>
 
-        <a class="svc svc--orange rv" href="#contact">
+        <a class="svc rv" href="#contact">
           <span class="svc__num"><b>02</b>AUDIT</span>
           <span>
             <span class="svc__title">“Klopt het wat hier <span class="mark" data-mark>gebouwd</span> is?”</span>
@@ -748,7 +733,7 @@ a{ color: inherit; }
           <span class="svc__tag">Deep Scan<br>Risicokaart<br>Due Diligence</span>
         </a>
 
-        <a class="svc svc--purple rv" href="#contact">
+        <a class="svc rv" href="#contact">
           <span class="svc__num"><b>03</b>AI-FLOW</span>
           <span>
             <span class="svc__title">“AI heeft ons sneller gemaakt. En <span class="mark" data-mark>rommeliger</span>.”</span>
@@ -761,7 +746,7 @@ a{ color: inherit; }
           <span class="svc__tag">Samen afstemmen<br>Review-grenzen<br>Onderhoudbaarheid</span>
         </a>
 
-        <a class="svc svc--blue rv" href="#contact">
+        <a class="svc rv" href="#contact">
           <span class="svc__num"><b>04</b>VALIDATIE</span>
           <span>
             <span class="svc__title">“Ons externe team levert. Maar is het <span class="mark" data-mark>het juiste</span>?”</span>
@@ -821,14 +806,13 @@ a{ color: inherit; }
               <g id="stageNodes"></g>
             </svg>
             <div class="sweep" aria-hidden="true"></div>
+            <div class="rail" aria-hidden="true">
+              <div class="rail__step is-active" data-rail="0"><span>KLUWEN</span></div>
+              <div class="rail__step" data-rail="1"><span>SCAN</span></div>
+              <div class="rail__step" data-rail="2"><span>RISICO</span></div>
+              <div class="rail__step" data-rail="3"><span>KAART</span></div>
+            </div>
           </div>
-        </div>
-
-        <div class="rail" aria-hidden="true">
-          <div class="rail__step is-active" data-rail="0"><span>KLUWEN</span></div>
-          <div class="rail__step" data-rail="1"><span>SCAN</span></div>
-          <div class="rail__step" data-rail="2"><span>RISICO</span></div>
-          <div class="rail__step" data-rail="3"><span>KAART</span></div>
         </div>
       </div>
     </section>
@@ -1358,82 +1342,81 @@ void main(){
     render();
     document.querySelectorAll('#scan .layerband').forEach(function(b){ b.style.opacity = 1; });
     document.querySelectorAll('#scan .edge--ghost').forEach(function(e){ e.style.display = 'none'; });
-    captions.forEach(function(c){ c.style.position = 'static'; c.style.opacity = 1; c.style.visibility = 'visible'; c.style.marginBottom = '32px'; });
     return;
   }
 
   gsap.registerPlugin(ScrollTrigger);
 
-  function showCap(tl, idx, at){
-    if(idx > 0) tl.to(captions[idx-1], { opacity: 0, y: -18, visibility: 'hidden', duration: .25 }, at);
-    tl.fromTo(captions[idx], { opacity: 0, y: 26, visibility: 'visible' },
-      { opacity: 1, y: 0, visibility: 'visible', duration: .35, ease: 'power2.out' }, at + .12);
-    tl.call(function(){ railSteps.forEach(function(r, i){ r.classList.toggle('is-active', i === idx); }); }, null, at + .12);
-  }
+  /* rail follows whichever caption is nearest the viewport center */
+  captions.forEach(function(cap, idx){
+    ScrollTrigger.create({
+      trigger: cap,
+      start: 'top center',
+      end: 'bottom center',
+      onToggle: function(self){
+        if(self.isActive) railSteps.forEach(function(r, i){ r.classList.toggle('is-active', i === idx); });
+      }
+    });
+  });
 
-  gsap.set(captions[0], { opacity: 1, visibility: 'visible' });
-
+  /* one scrubbed timeline across the section — the page keeps scrolling
+     through real content (the captions), no pin, no hijack.
+     phase boundaries ≈ caption centers: 0→2 / 2→4 / 4→5.6 / 5.6→8 */
   var tl = gsap.timeline({
     defaults: { ease: 'power2.inOut' },
     scrollTrigger: {
       trigger: '#scan',
-      start: 'top top',
+      start: 'top 60%',
       end: 'bottom bottom',
       scrub: 0.7
     }
   });
 
-  /* P0 (0→1.2): the living tangle */
+  /* P0 (0→2): the living tangle */
   g.nodes.forEach(function(n, i){
     tl.to(n, {
       x: n.chaos[0] + (prand(i+21)-.5) * 46,
       y: n.chaos[1] + (prand(i+34)-.5) * 46,
-      duration: 1.2, ease: 'sine.inOut', onUpdate: render
+      duration: 2, ease: 'sine.inOut', onUpdate: render
     }, 0);
   });
 
-  /* P1 (1.2→2.6): x-ray sweep + risk edges flare red */
-  showCap(tl, 1, 1.15);
-  tl.fromTo('#scan .sweep', { left: '-10%', opacity: 0 }, { opacity: 1, duration: .15 }, 1.3);
-  tl.to('#scan .sweep', { left: '105%', duration: 1.1, ease: 'none' }, 1.35);
-  tl.to('#scan .sweep', { opacity: 0, duration: .15 }, 2.35);
-  tl.to('#scan .edge:not(.edge--risk)', { opacity: .45, duration: .6 }, 1.6);
+  /* P1 (2→4): x-ray sweep + risk edges flare red */
+  tl.fromTo('#scan .sweep', { left: '-10%', opacity: 0 }, { opacity: 1, duration: .2 }, 2.1);
+  tl.to('#scan .sweep', { left: '105%', duration: 1.5, ease: 'none' }, 2.2);
+  tl.to('#scan .sweep', { opacity: 0, duration: .2 }, 3.6);
+  tl.to('#scan .edge:not(.edge--risk)', { opacity: .45, duration: .8 }, 2.5);
   g.edges.filter(function(e){ return e.risk; }).forEach(function(e, i){
-    tl.fromTo(e.el, { strokeWidth: 1.8 }, { strokeWidth: 3.2, duration: .3, ease: 'power3.out' }, 1.5 + i * .12)
-      .to(e.el, { strokeWidth: 2.4, duration: .3 }, 1.9 + i * .12);
+    tl.fromTo(e.el, { strokeWidth: 1.8 }, { strokeWidth: 3.2, duration: .35, ease: 'power3.out' }, 2.4 + i * .15)
+      .to(e.el, { strokeWidth: 2.4, duration: .35 }, 2.9 + i * .15);
   });
-  tl.to('#scan .gnode--risk rect', { stroke: '#D93025', strokeWidth: 2.4, duration: .5 }, 1.8);
+  tl.to('#scan .gnode--risk rect', { stroke: '#D93025', strokeWidth: 2.4, duration: .6 }, 2.8);
 
-  /* P2 (2.6→3.4): dwell on the findings */
-  showCap(tl, 2, 2.6);
-  tl.to({}, { duration: .7 }, 2.7);
+  /* P2 (4→5.6): dwell on the findings — risks pulse */
+  g.edges.filter(function(e){ return e.risk; }).forEach(function(e, i){
+    tl.to(e.el, { strokeWidth: 3.2, duration: .4, ease: 'power2.out' }, 4.2 + i * .1)
+      .to(e.el, { strokeWidth: 2.4, duration: .4 }, 4.7 + i * .1);
+  });
+  tl.to({}, { duration: .4 }, 5.2);
 
-  /* P3 (3.4→6.2): the untangle */
-  showCap(tl, 3, 5.1);
-  var untangleStart = 3.4;
-  var layerDelay = { data: 0, dom: .45, svc: .95, ui: 1.5 };
+  /* P3 (5.6→8): the untangle into four layers */
+  var untangleStart = 5.6;
+  var layerDelay = { data: 0, dom: .4, svc: .85, ui: 1.35 };
   g.nodes.forEach(function(n){
     tl.to(n, {
       x: n.clean[0], y: n.clean[1],
-      duration: 1.25, ease: 'power3.inOut',
+      duration: 1.1, ease: 'power3.inOut',
       onUpdate: render
     }, untangleStart + layerDelay[n.layer] + prand(n.i+5) * .2);
   });
-  tl.to(g, { order: 1, duration: 2.4, onUpdate: render }, untangleStart + .2);
-  tl.to('#scan .edge--ghost', { opacity: 0, duration: .9 }, untangleStart + .3);
+  tl.to(g, { order: 1, duration: 2.1, onUpdate: render }, untangleStart + .15);
+  tl.to('#scan .edge--ghost', { opacity: 0, duration: .8 }, untangleStart + .25);
   Array.prototype.slice.call(document.querySelectorAll('#scan .layerband')).reverse().forEach(function(b, i){
-    tl.to(b, { opacity: 1, duration: .5 }, untangleStart + .9 + i * .5);
+    tl.to(b, { opacity: 1, duration: .45 }, untangleStart + .8 + i * .4);
   });
-  tl.to('#scan .edge:not(.edge--risk):not(.edge--ghost)', { opacity: .8, duration: .8 }, untangleStart + 1.6);
-
-  /* P4 (6.2→7.5): clean map dwell — risks pulse once, then recede */
-  g.edges.filter(function(e){ return e.risk; }).forEach(function(e, i){
-    tl.fromTo(e.el, { strokeWidth: 2.4 }, { strokeWidth: 3.4, duration: .35, ease: 'power2.out' }, 6.3 + i * .08)
-      .to(e.el, { strokeWidth: 2.6, duration: .35 }, 6.7 + i * .08);
-  });
-  tl.to({}, { duration: .6 }, 6.6);
-  tl.to('#scan .edge--risk', { opacity: .28, strokeWidth: 1.5, duration: .7 }, 6.9);
-  tl.to({}, { duration: .5 }, 7.0); /* settle dwell before unpin */
+  tl.to('#scan .edge:not(.edge--risk):not(.edge--ghost)', { opacity: .8, duration: .7 }, untangleStart + 1.4);
+  tl.to('#scan .edge--risk', { opacity: .28, strokeWidth: 1.5, duration: .6 }, untangleStart + 2.1);
+  tl.to({}, { duration: .3 }, untangleStart + 2.4);
 })();
 </script>
 </body>
