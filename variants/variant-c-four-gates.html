@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vincability — Vier poorten. Elke commit.</title>
+  <meta name="description" content="Onafhankelijke technische audits en crisis-triage. Elk stuk werk passeert vier kwaliteitspoorten voordat het telt.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600&family=Asimovian&display=swap" rel="stylesheet">
+
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t !== 'light' && t !== 'dark') { t = 'light'; }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <style>
+  /* ── Tokens ─────────────────────────────────────────────── */
+  :root {
+    --v-bg-deep:       #080B0A;
+    --v-bg-surface:    #0D1210;
+    --v-bg-elevated:   #141C18;
+    --v-border:        #1E2D25;
+    --v-green-primary: #00E676;
+    --v-green-dim:     #00C853;
+    --v-orange:        #FF9100;
+    --v-purple:        #B388FF;
+    --v-blue:          #40C4FF;
+    --v-red:           #FF5252;
+    --v-text-primary:  #F0FFF4;
+    --v-text-secondary:#A8B5AD;
+    --v-text-muted:    #5A6B60;
+    --v-grid-line-1:   rgba(0, 230, 118, 0.05);
+    --v-grid-line-2:   rgba(0, 230, 118, 0.025);
+    /* scene */
+    --sc-sky-a:   #0A100D;
+    --sc-sky-b:   #0D1512;
+    --sc-floor:   #0C1310;
+    --sc-floor-line: rgba(0,230,118,0.06);
+    --sc-far:     #14201A;
+    --sc-steel-top:   #2C3B33;
+    --sc-steel-front: #1D2A23;
+    --sc-steel-side:  #131E18;
+    --sc-rail-top:    #223129;
+    --sc-rail-front:  #16211B;
+    --sc-rail-side:   #0F1813;
+    --sc-rail-edge:   rgba(0,230,118,0.5);
+    --sc-plate:       #101915;
+    --sc-plate-text:  #E8FFF1;
+    --sc-shadow:      rgba(0,0,0,0.55);
+    --panel-bg: rgba(13,18,16,0.88);
+    --font-primary:  'JetBrains Mono', monospace;
+    --font-secondary:'Geist', sans-serif;
+    --font-title:    'Asimovian', 'JetBrains Mono', monospace;
+    color-scheme: dark;
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --v-bg-deep:       #F7F9F8;
+    --v-bg-surface:    #FFFFFF;
+    --v-bg-elevated:   #FFFFFF;
+    --v-border:        #D8E0DB;
+    --v-green-primary: #00843D;
+    --v-green-dim:     #006B31;
+    --v-orange:        #B45309;
+    --v-purple:        #6D28D9;
+    --v-blue:          #0369A1;
+    --v-red:           #D93025;
+    --v-text-primary:  #14201A;
+    --v-text-secondary:#46564D;
+    --v-text-muted:    #5C6B62;
+    --v-grid-line-1:   rgba(0, 132, 61, 0.08);
+    --v-grid-line-2:   rgba(0, 132, 61, 0.045);
+    --sc-sky-a:   #EEF4F1;
+    --sc-sky-b:   #F7F9F8;
+    --sc-floor:   #E7EEEA;
+    --sc-floor-line: rgba(0,132,61,0.10);
+    --sc-far:     #D6E0DA;
+    --sc-steel-top:   #F2F6F3;
+    --sc-steel-front: #C9D5CE;
+    --sc-steel-side:  #A9B8B0;
+    --sc-rail-top:    #DDE6E1;
+    --sc-rail-front:  #BCC9C2;
+    --sc-rail-side:   #9FAFA6;
+    --sc-rail-edge:   rgba(0,132,61,0.55);
+    --sc-plate:       #1B2620;
+    --sc-plate-text:  #EAF6EE;
+    --sc-shadow:      rgba(20,32,26,0.28);
+    --panel-bg: rgba(255,255,255,0.92);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: auto; }
+  body {
+    background-color: var(--v-bg-deep);
+    background-image:
+      linear-gradient(var(--v-grid-line-1) 1px, transparent 1px),
+      linear-gradient(90deg, var(--v-grid-line-1) 1px, transparent 1px),
+      linear-gradient(var(--v-grid-line-2) 1px, transparent 1px),
+      linear-gradient(90deg, var(--v-grid-line-2) 1px, transparent 1px);
+    background-size: 20px 20px, 20px 20px, 80px 80px, 80px 80px;
+    background-attachment: fixed;
+    color: var(--v-text-primary);
+    font-family: var(--font-secondary);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  ::selection { background: var(--v-green-primary); color: var(--v-bg-deep); }
+
+  /* ── Nav ────────────────────────────────────────────────── */
+  .nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 60;
+    backdrop-filter: blur(14px);
+    background: color-mix(in srgb, var(--v-bg-deep) 78%, transparent);
+    border-bottom: 1px solid var(--v-border);
+  }
+  .nav__inner {
+    max-width: 1280px; margin: 0 auto; padding: 0 32px;
+    height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .nav__logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav__logo-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--v-green-primary);
+    box-shadow: 0 0 12px var(--v-green-primary);
+  }
+  .nav__logo-text {
+    font-family: var(--font-primary); font-weight: 700; letter-spacing: 0.14em;
+    font-size: 15px; color: var(--v-text-primary);
+  }
+  .nav__links { display: flex; gap: 28px; list-style: none; }
+  .nav__link {
+    font-family: var(--font-primary); font-size: 13px; text-decoration: none;
+    color: var(--v-text-secondary); letter-spacing: 0.04em; transition: color .2s;
+  }
+  .nav__link:hover { color: var(--v-green-primary); }
+  .nav__actions { display: flex; align-items: center; gap: 12px; }
+  .theme-toggle {
+    width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--v-border); background: transparent;
+    color: var(--v-text-secondary); font-size: 15px; line-height: 1;
+    transition: color .2s, border-color .2s;
+  }
+  .theme-toggle:hover { color: var(--v-green-primary); border-color: var(--v-green-primary); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-primary); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.02em; text-decoration: none; cursor: pointer;
+    padding: 11px 20px; border-radius: 8px; border: 1px solid transparent;
+    transition: transform .18s cubic-bezier(.16,1,.3,1), box-shadow .18s, background .18s, color .18s, border-color .18s;
+  }
+  .btn--primary {
+    background: var(--v-green-primary); color: var(--v-bg-deep);
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+  }
+  .btn--primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px color-mix(in srgb, var(--v-green-primary) 35%, transparent); }
+  .btn--outline { border-color: var(--v-border); color: var(--v-text-primary); background: transparent; }
+  .btn--outline:hover { border-color: var(--v-green-primary); color: var(--v-green-primary); transform: translateY(-2px); }
+
+  /* ── Pipeline stage (pinned scrollytelling) ─────────────── */
+  .stage { position: relative; height: 520vh; }
+  .stage__sticky {
+    position: sticky; top: 0; height: 100vh; overflow: hidden;
+    display: flex; align-items: stretch;
+  }
+  .scene { position: absolute; inset: 0; }
+  .scene svg { width: 100%; height: 100%; display: block; }
+
+  /* hero copy overlay */
+  .hero-copy {
+    position: absolute; z-index: 5;
+    left: max(32px, calc(50vw - 620px)); top: 17vh; max-width: 640px;
+    will-change: transform, opacity;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-primary); font-size: 12px; letter-spacing: 0.06em;
+    color: var(--v-text-secondary);
+    border: 1px solid var(--v-border); border-radius: 100px;
+    padding: 7px 14px; margin-bottom: 22px;
+    background: color-mix(in srgb, var(--v-bg-surface) 70%, transparent);
+  }
+  .hero-badge__dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--v-green-primary);
+    box-shadow: 0 0 10px var(--v-green-primary);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+  .hero-title {
+    font-family: var(--font-title); font-weight: 400;
+    font-size: clamp(40px, 5.6vw, 76px); line-height: 1.04;
+    letter-spacing: 0.01em; margin-bottom: 20px;
+  }
+  .hero-title em { font-style: normal; color: var(--v-green-primary); }
+  .hero-sub {
+    font-size: clamp(16px, 1.4vw, 19px); color: var(--v-text-secondary);
+    max-width: 520px; margin-bottom: 30px;
+  }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-scrollhint {
+    margin-top: 42px; font-family: var(--font-primary); font-size: 12px;
+    letter-spacing: 0.1em; color: var(--v-text-muted);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-scrollhint::after {
+    content: ''; width: 60px; height: 1px;
+    background: linear-gradient(90deg, var(--v-green-primary), transparent);
+  }
+
+  /* gate explanation panels */
+  .gate-panel {
+    position: absolute; z-index: 6; top: 50%;
+    width: min(460px, 44vw);
+    transform: translateY(-50%);
+    background: var(--panel-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--v-border);
+    border-radius: 14px;
+    padding: 30px 32px 28px;
+    opacity: 0; visibility: hidden;
+    box-shadow: 0 24px 60px -20px var(--sc-shadow);
+    will-change: transform, opacity;
+  }
+  .gate-panel--left  { left: max(32px, calc(50vw - 640px)); }
+  .gate-panel--right { right: max(32px, calc(50vw - 640px)); }
+  .gate-panel__label {
+    font-family: var(--font-primary); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.12em; margin-bottom: 14px; display: block;
+  }
+  .gate-panel__title {
+    font-family: var(--font-secondary); font-weight: 600;
+    font-size: clamp(21px, 2vw, 27px); line-height: 1.25; margin-bottom: 12px;
+  }
+  .gate-panel__desc { color: var(--v-text-secondary); font-size: 15.5px; margin-bottom: 18px; }
+  .gate-panel__tag {
+    font-family: var(--font-primary); font-size: 12px; letter-spacing: 0.03em;
+    display: inline-block; padding: 7px 12px; border-radius: 6px; margin-bottom: 20px;
+  }
+  .gate-panel__cta {
+    font-family: var(--font-primary); font-size: 13px; font-weight: 600;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .gate-panel__cta:hover { text-decoration: underline; }
+  .gp--g1 .gate-panel__label, .gp--g1 .gate-panel__cta { color: var(--v-green-primary); }
+  .gp--g2 .gate-panel__label, .gp--g2 .gate-panel__cta { color: var(--v-orange); }
+  .gp--g3 .gate-panel__label, .gp--g3 .gate-panel__cta { color: var(--v-purple); }
+  .gp--g4 .gate-panel__label, .gp--g4 .gate-panel__cta { color: var(--v-blue); }
+  .gp--g1 .gate-panel__tag { color: var(--v-green-primary); background: color-mix(in srgb, var(--v-green-primary) 12%, transparent); }
+  .gp--g2 .gate-panel__tag { color: var(--v-orange); background: color-mix(in srgb, var(--v-orange) 12%, transparent); }
+  .gp--g3 .gate-panel__tag { color: var(--v-purple); background: color-mix(in srgb, var(--v-purple) 12%, transparent); }
+  .gp--g4 .gate-panel__tag { color: var(--v-blue); background: color-mix(in srgb, var(--v-blue) 12%, transparent); }
+
+  /* progress rail (right edge) */
+  .stage-progress {
+    position: absolute; z-index: 7; right: 26px; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 18px; align-items: center;
+  }
+  .stage-progress__dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    border: 1px solid var(--v-text-muted); background: transparent;
+    transition: background .3s, border-color .3s, box-shadow .3s;
+  }
+  .stage-progress__dot.is-active {
+    background: var(--v-green-primary); border-color: var(--v-green-primary);
+    box-shadow: 0 0 10px var(--v-green-primary);
+  }
+
+  /* ── Content sections ───────────────────────────────────── */
+  .section { position: relative; padding: 110px 32px; }
+  .section__inner { max-width: 1120px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--font-primary); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.1em; display: block; margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--font-title); font-weight: 400;
+    font-size: clamp(30px, 3.6vw, 48px); line-height: 1.12; margin-bottom: 16px;
+  }
+  .section-desc { color: var(--v-text-secondary); max-width: 640px; font-size: 17px; }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 56px; }
+  .step-card {
+    background: var(--v-bg-surface); border: 1px solid var(--v-border);
+    border-radius: 14px; padding: 30px 28px; position: relative; overflow: hidden;
+    transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s, border-color .25s;
+  }
+  .step-card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px -18px var(--sc-shadow); }
+  .step-card__num {
+    font-family: var(--font-primary); font-size: 13px; font-weight: 700;
+    letter-spacing: 0.1em; display: block; margin-bottom: 16px;
+  }
+  .step-card__title { font-family: var(--font-secondary); font-weight: 600; font-size: 21px; margin-bottom: 10px; }
+  .step-card__desc { color: var(--v-text-secondary); font-size: 15px; }
+  .step-card::after {
+    content: ''; position: absolute; left: 0; top: 0; height: 3px; width: 100%;
+    background: var(--step-accent, var(--v-green-primary)); opacity: .85;
+  }
+  .step-card--1 { --step-accent: var(--v-green-primary); } .step-card--1 .step-card__num { color: var(--v-green-primary); }
+  .step-card--2 { --step-accent: var(--v-orange); }        .step-card--2 .step-card__num { color: var(--v-orange); }
+  .step-card--3 { --step-accent: var(--v-purple); }        .step-card--3 .step-card__num { color: var(--v-purple); }
+
+  .fit { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: start; margin-top: 20px; }
+  .fit__facts { display: grid; gap: 14px; }
+  .fact {
+    display: flex; gap: 16px; align-items: baseline;
+    border: 1px solid var(--v-border); border-radius: 12px; padding: 18px 22px;
+    background: var(--v-bg-surface);
+  }
+  .fact__num {
+    font-family: var(--font-primary); font-weight: 700; font-size: 26px;
+    color: var(--v-green-primary); min-width: 88px;
+  }
+  .fact__label { color: var(--v-text-secondary); font-size: 15px; }
+
+  /* ── CTA / contact ──────────────────────────────────────── */
+  .cta { text-align: center; padding: 130px 32px 120px; position: relative; overflow: hidden; }
+  .cta::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(600px 320px at 50% 30%, color-mix(in srgb, var(--v-green-primary) 9%, transparent), transparent 70%);
+  }
+  .cta__inner { position: relative; max-width: 720px; margin: 0 auto; }
+  .cta__title { font-family: var(--font-title); font-weight: 400; font-size: clamp(32px, 4.2vw, 54px); line-height: 1.1; margin-bottom: 18px; }
+  .cta__sub { color: var(--v-text-secondary); font-size: 17px; margin-bottom: 36px; }
+  .contact-form { display: grid; gap: 14px; text-align: left; }
+  .contact-form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-input, .form-textarea {
+    width: 100%; font-family: var(--font-secondary); font-size: 15px;
+    color: var(--v-text-primary); background: var(--v-bg-surface);
+    border: 1px solid var(--v-border); border-radius: 10px; padding: 14px 16px;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .form-input:focus, .form-textarea:focus {
+    outline: none; border-color: var(--v-green-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--v-green-primary) 18%, transparent);
+  }
+  .form-textarea { resize: vertical; min-height: 96px; }
+  .contact-form__actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+  .contact-form__trap { position: absolute; left: -9999px; }
+  .contact-form__meta { font-size: 13.5px; color: var(--v-text-muted); text-align: center; margin-top: 6px; }
+  .contact-form__meta a { color: var(--v-text-secondary); }
+
+  /* ── Footer ─────────────────────────────────────────────── */
+  .footer { border-top: 1px solid var(--v-border); padding: 56px 32px 32px; }
+  .footer__inner { max-width: 1120px; margin: 0 auto; }
+  .footer__main { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-bottom: 44px; }
+  .footer__tagline { color: var(--v-text-muted); font-size: 14px; margin-top: 10px; }
+  .footer__nav { display: flex; gap: 64px; }
+  .footer__nav-col { display: grid; gap: 10px; align-content: start; }
+  .footer__nav-heading { font-family: var(--font-primary); font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: var(--v-text-muted); margin-bottom: 6px; }
+  .footer__nav-link { font-size: 14px; color: var(--v-text-secondary); text-decoration: none; }
+  .footer__nav-link:hover { color: var(--v-green-primary); }
+  .footer__bottom { border-top: 1px solid var(--v-border); padding-top: 22px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .footer__bottom-text { font-size: 13px; color: var(--v-text-muted); font-family: var(--font-primary); }
+
+  /* ── Scene SVG element styling ──────────────────────────── */
+  /* dark theme: soften the hero scrim so gate 01 stays readable behind the headline */
+  :root:not([data-theme="light"]) #heroScrim { opacity: .62; }
+
+  .gate-glow { transition: opacity .25s; }
+  .gate-curtain { animation: curtain 3.2s ease-in-out infinite; }
+  @keyframes curtain { 0%,100% { opacity: .34; } 50% { opacity: .62; } }
+  .gate.is-processing .gate-curtain { animation: none; opacity: .95; }
+  .gate.is-processing .gate-glow { opacity: .45; }
+  .gate-counter { font-family: var(--font-primary); font-weight: 600; }
+  .gate-name { font-family: var(--font-primary); font-weight: 700; letter-spacing: 2px; }
+  .gate-num { font-family: var(--font-primary); font-weight: 700; }
+  .rail-chevrons { animation: belt 1.6s linear infinite; }
+  @keyframes belt { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -48; } }
+
+  /* ── Flat mode (mobile + reduced motion): unpin everything ── */
+  .flat .stage { height: auto; }
+  .flat .stage__sticky { position: relative; height: auto; overflow: visible; display: flex; flex-direction: column; }
+  .flat .scene { position: relative; height: 46vh; min-height: 300px; margin-top: 8px; order: 2; }
+  .flat .hero-copy { position: relative; left: auto; top: auto; margin: 96px auto 0; padding: 0 24px; max-width: 720px; order: 1; }
+  .flat .gate-panel { order: 3; }
+  .flat .gate-panel {
+    position: relative; top: auto; left: auto; right: auto; transform: none;
+    opacity: 1; visibility: visible; width: auto;
+    margin: 20px 24px;
+  }
+  .flat .stage-progress, .flat .hero-scrollhint { display: none; }
+
+  @media (max-width: 900px) {
+    .nav__links { display: none; }
+    .nav__inner { padding: 0 20px; }
+    .section { padding: 80px 20px; }
+    .steps { grid-template-columns: 1fr; }
+    .fit { grid-template-columns: 1fr; gap: 28px; }
+    .contact-form__row { grid-template-columns: 1fr; }
+    .footer__main { flex-direction: column; }
+    .footer__nav { gap: 40px; }
+    .hero-title { font-size: clamp(34px, 9.6vw, 48px); }
+    .flat .scene { height: 34vh; }
+  }
+  @media (max-width: 480px) {
+    .nav__actions .btn { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-badge__dot, .gate-curtain, .rail-chevrons { animation: none !important; }
+    .btn, .step-card { transition: none; }
+  }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" aria-label="Hoofdnavigatie">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo" aria-label="Vincability home">
+        <span class="nav__logo-dot" aria-hidden="true"></span>
+        <span class="nav__logo-text">VINCABILITY</span>
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="#poorten" class="nav__link">De vier poorten</a></li>
+        <li><a href="#aanpak" class="nav__link">Aanpak</a></li>
+        <li><a href="#waarom" class="nav__link">Waarom</a></li>
+        <li><a href="#contact" class="nav__link">Contact</a></li>
+      </ul>
+      <div class="nav__actions">
+        <a href="#contact" class="btn btn--primary">Plan een Clarity Sessie</a>
+        <button class="theme-toggle" type="button" aria-label="Wissel kleurenschema">◐</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PINNED PIPELINE STAGE -->
+  <section class="stage" id="poorten" aria-label="De vier kwaliteitspoorten">
+    <div class="stage__sticky">
+      <div class="scene" aria-hidden="true">
+        <svg id="pipeline" viewBox="0 0 2400 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Geanimeerde pijplijn waarin commits vier kwaliteitspoorten passeren"></svg>
+      </div>
+
+      <div class="hero-copy" id="heroCopy">
+        <span class="hero-badge"><span class="hero-badge__dot" aria-hidden="true"></span>Beschikbaar voor nieuwe opdrachten</span>
+        <h1 class="hero-title">Elke commit langs<br><em>vier poorten.</em></h1>
+        <p class="hero-sub">
+          Zien wat anderen missen, bouwen wat er echt toe doet. Ik onderzoek wat er werkelijk speelt in je codebase en je team, en elk stuk werk passeert daarbij vier kwaliteitspoorten voordat het telt.
+        </p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn--primary">Vraag een Tech Clarity Sessie aan</a>
+          <a href="#aanpak" class="btn btn--outline">Hoe ik werk</a>
+        </div>
+        <div class="hero-scrollhint">SCROLL — VOLG DE LIJN LANGS DE POORTEN</div>
+      </div>
+
+      <!-- Gate panels -->
+      <aside class="gate-panel gate-panel--left gp--g1" id="panel1">
+        <span class="gate-panel__label">// POORT 01 — TRIAGE</span>
+        <h2 class="gate-panel__title">"Er is iets stuk en niemand vindt het."</h2>
+        <p class="gate-panel__desc">
+          Release-druk, schaalproblemen, een productie-incident, of degene die alles doorzag is net vertrokken. Ik neem de coördinatie over en vind binnen enkele dagen de oorzaak. Je team krijgt een herstelplan waar het direct mee verder kan.
+        </p>
+        <span class="gate-panel__tag">Triage &amp; Stabilisatie · Root cause in 48-72 uur</span><br>
+        <a href="#contact" class="gate-panel__cta">Meld je situatie →</a>
+      </aside>
+
+      <aside class="gate-panel gate-panel--right gp--g2" id="panel2">
+        <span class="gate-panel__label">// POORT 02 — AUDIT</span>
+        <h2 class="gate-panel__title">"Klopt het wat hier gebouwd is?"</h2>
+        <p class="gate-panel__desc">
+          Een legacy-overdracht, een overname onder due diligence, of AI-gegenereerde code waar je niet volledig voor kunt instaan. Ik lees de code zelf en vertel je wat kritiek is en wat acceptabele ruis. Je krijgt een risicokaart met prioriteiten en een herstelroadmap.
+        </p>
+        <span class="gate-panel__tag">Deep Scan · Risicokaart · Technical Due Diligence</span><br>
+        <a href="#contact" class="gate-panel__cta">Vraag een audit aan →</a>
+      </aside>
+
+      <aside class="gate-panel gate-panel--left gp--g3" id="panel3">
+        <span class="gate-panel__label">// POORT 03 — ORKESTRATIE</span>
+        <h2 class="gate-panel__title">"AI heeft ons sneller gemaakt. En rommeliger."</h2>
+        <p class="gate-panel__desc">
+          AI is een integratievraagstuk, geen magie. Samen met je team stem ik agent-workflows, review-grenzen en codebase-conventies af, tot de output onderhoudbaar blijft nadat de demo-glans is verdwenen. Daarna ga ik weer weg.
+        </p>
+        <span class="gate-panel__tag">Samen afstemmen · Review-grenzen · Onderhoudbaarheid</span><br>
+        <a href="#contact" class="gate-panel__cta">Bespreek je workflow →</a>
+      </aside>
+
+      <aside class="gate-panel gate-panel--right gp--g4" id="panel4">
+        <span class="gate-panel__label">// POORT 04 — VALIDATIE</span>
+        <h2 class="gate-panel__title">"Ons externe team levert. Maar bouwen ze wel het juiste?"</h2>
+        <p class="gate-panel__desc">
+          Een onafhankelijke blik op de vraag of uitbesteed werk doet wat de business nodig heeft. Vaak zit het probleem in de vertaling tussen opdracht en bedoeling. Die maak ik weer kloppend.
+        </p>
+        <span class="gate-panel__tag">Onafhankelijke Validatie · Actieve Bijsturing</span><br>
+        <a href="#contact" class="gate-panel__cta">Plan een validatie →</a>
+      </aside>
+
+      <div class="stage-progress" aria-hidden="true">
+        <span class="stage-progress__dot is-active" data-step="0"></span>
+        <span class="stage-progress__dot" data-step="1"></span>
+        <span class="stage-progress__dot" data-step="2"></span>
+        <span class="stage-progress__dot" data-step="3"></span>
+        <span class="stage-progress__dot" data-step="4"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- AANPAK -->
+  <section class="section" id="aanpak" aria-label="Aanpak">
+    <div class="section__inner">
+      <span class="section-label" style="color: var(--v-orange);">// HOE IK WERK</span>
+      <h2 class="section-title">Het Vincability-proces</h2>
+      <p class="section-desc">
+        In de eerste dagen weet je waar de knel zit. In week één liggen de prioriteiten vast. Daarna beginnen de verbeteringen.
+      </p>
+      <div class="steps">
+        <article class="step-card step-card--1">
+          <span class="step-card__num">01 — DEEP SCAN</span>
+          <h3 class="step-card__title">Deep Scan</h3>
+          <p class="step-card__desc">
+            Ik lees de code, maar ik spreek vooral je mensen: stakeholders, product owners, de developers zelf. De codebase en CI/CD vertellen de helft van het verhaal. Wat schuurt in de samenwerking vertelt de rest.
+          </p>
+        </article>
+        <article class="step-card step-card--2">
+          <span class="step-card__num">02 — STRATEGIC MAP</span>
+          <h3 class="step-card__title">Strategic Map</h3>
+          <p class="step-card__desc">
+            Wat ik vind leg ik naast wat je team zelf al voelde. Je krijgt een compacte readout: risicokaart, trade-offs, volgorde, en wat je moet stóppen. Beslissingen waar je team maandag mee aan de slag kan.
+          </p>
+        </article>
+        <article class="step-card step-card--3">
+          <span class="step-card__num">03 — ACCELERATE</span>
+          <h3 class="step-card__title">Accelerate</h3>
+          <p class="step-card__desc">
+            Ik schuif aan in je team: uitvoering deblokkeren, leads coachen, eigenaarschap op de juiste plek leggen. Zodra het loopt, draag ik schoon over en vertrek ik. Een consultancy-infuus heeft niemand nodig.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAAROM / BEWIJS -->
+  <section class="section" id="waarom" aria-label="Waarom dit werkt">
+    <div class="section__inner">
+      <span class="section-label" style="color: var(--v-purple);">// HET BEWIJS</span>
+      <h2 class="section-title">Eén project. 20 weken.<br>Hetzelfde team.</h2>
+      <div class="fit">
+        <div>
+          <p class="section-desc" style="margin-bottom: 18px;">
+            Een recent voorbeeld van wat er gebeurt als je AI-workflow en codekwaliteit tegelijk serieus neemt. De vier poorten hierboven zijn geen metafoor achteraf: het is de review-discipline die dit resultaat mogelijk maakte.
+          </p>
+          <p class="section-desc">
+            "De winst zit niet in snelheid, maar in iteratiedichtheid." Meer werk parallel, minder wachten op elkaar, en code die schoner werd terwijl het tempo omhoog ging.
+          </p>
+        </div>
+        <div class="fit__facts">
+          <div class="fact"><span class="fact__num">11x</span><span class="fact__label">Output-multiplier — commit-volume jaar-op-jaar</span></div>
+          <div class="fact"><span class="fact__num">4</span><span class="fact__label">Parallelle tracks, voorheen 1</span></div>
+          <div class="fact"><span class="fact__num">0</span><span class="fact__label">Extra mensen — zelfde team, zelfde mensen</span></div>
+          <div class="fact"><span class="fact__num">8 dgn</span><span class="fact__label">Levertijd voor 6-8 weken aan scope</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="cta" id="contact" aria-label="Contact">
+    <div class="cta__inner">
+      <h2 class="cta__title">Klaar om te zien wat er werkelijk speelt?</h2>
+      <p class="cta__sub">
+        Stuur de rommelige versie. Een alinea over de codebase, het team of het AI-initiatief is genoeg om te beginnen. Ik reageer doorgaans binnen 2 werkdagen.
+      </p>
+      <form class="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" aria-label="Contactformulier">
+        <p class="contact-form__trap" aria-hidden="true">
+          <label>Laat dit veld leeg <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+        </p>
+        <input type="hidden" name="form-name" value="contact">
+        <div class="contact-form__row">
+          <input class="form-input" type="text" name="name" placeholder="Je naam" autocomplete="name" required aria-label="Je naam">
+          <input class="form-input" type="email" name="email" placeholder="naam@bedrijf.nl" autocomplete="email" required aria-label="Je e-mailadres">
+        </div>
+        <textarea class="form-textarea" name="message" rows="3" placeholder="Wat speelt er?" required aria-label="Je bericht"></textarea>
+        <div class="contact-form__actions">
+          <button type="submit" class="btn btn--primary">Start een vertrouwelijke Deep Scan</button>
+          <a href="https://www.linkedin.com/in/vincent-van-den-braken/" target="_blank" rel="noopener noreferrer" class="btn btn--outline">Connect via LinkedIn</a>
+        </div>
+        <p class="contact-form__meta">Vertrouwelijk. Geen nieuwsbrief, geen sales-opvolging.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="footer__inner">
+      <div class="footer__main">
+        <div>
+          <a href="#" class="nav__logo" aria-label="Vincability home">
+            <span class="nav__logo-dot" aria-hidden="true"></span>
+            <span class="nav__logo-text">VINCABILITY</span>
+          </a>
+          <p class="footer__tagline">Zien wat anderen missen. Bouwen wat er echt toe doet.</p>
+        </div>
+        <nav class="footer__nav" aria-label="Footernavigatie">
+          <div class="footer__nav-col">
+            <span class="footer__nav-heading">DE VIER POORTEN</span>
+            <a href="#poorten" class="footer__nav-link">01 · Triage &amp; Stabilisatie</a>
+            <a href="#poorten" class="footer__nav-link">02 · Audit &amp; Risicokaart</a>
+            <a href="#poorten" class="footer__nav-link">03 · Agent-orkestratie</a>
+            <a href="#poorten" class="footer__nav-link">04 · Validatie &amp; Bijsturing</a>
+          </div>
+          <div class="footer__nav-col">
+            <span class="footer__nav-heading">CONNECT</span>
+            <a href="https://www.linkedin.com/in/vincent-van-den-braken/" target="_blank" rel="noopener noreferrer" class="footer__nav-link">LinkedIn</a>
+            <a href="https://github.com/vincability" target="_blank" rel="noopener noreferrer" class="footer__nav-link">GitHub</a>
+            <a href="#contact" class="footer__nav-link">Contactformulier</a>
+          </div>
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        <span class="footer__bottom-text">© 2026 Vincability. Alle rechten voorbehouden.</span>
+        <span class="footer__bottom-text">Nederland</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+  <script>
+  'use strict';
+  /* ════════════════════════════════════════════════════════════
+     FOUR GATES PIPELINE — isometric SVG scene, generated in JS
+     ════════════════════════════════════════════════════════════ */
+  (function () {
+    var SVG_NS = 'http://www.w3.org/2000/svg';
+    var svg = document.getElementById('pipeline');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var isNarrow = window.matchMedia('(max-width: 900px)').matches;
+    var FLAT = reduceMotion || isNarrow;
+    if (FLAT) {
+      document.documentElement.classList.add('flat');
+      if (isNarrow) {
+        /* narrow screens: frame gate 02 up close so the scene stays legible */
+        svg.setAttribute('viewBox', '850 310 540 540');
+        svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+      } else {
+        /* reduced motion on wide screens: show the whole line, letterboxed */
+        svg.setAttribute('viewBox', '160 340 2260 560');
+        svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+      }
+    }
+
+    /* World constants */
+    var RAIL_Y = 620;                 // front edge of rail top face
+    var RAIL_X0 = -520, RAIL_X1 = 3260;
+    var DEP = 26;                     // depth unit; depth vector = (2,-1)*DEP
+    var GATES = [
+      { x: 560,  key: 'g1', num: '01', name: 'TRIAGE',      accentVar: '--v-green-primary' },
+      { x: 1090, key: 'g2', num: '02', name: 'AUDIT',       accentVar: '--v-orange' },
+      { x: 1620, key: 'g3', num: '03', name: 'ORKESTRATIE', accentVar: '--v-purple' },
+      { x: 2150, key: 'g4', num: '04', name: 'VALIDATIE',   accentVar: '--v-blue' }
+    ];
+
+    function el(tag, attrs, parent) {
+      var n = document.createElementNS(SVG_NS, tag);
+      for (var k in attrs) { n.setAttribute(k, attrs[k]); }
+      if (parent) { parent.appendChild(n); }
+      return n;
+    }
+    function pts(list) {
+      return list.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
+    }
+    /* iso box: base center (cx, baseY), width w, height h, depth d (units of DEP-vector) */
+    function isoBox(g, cx, baseY, w, h, d, fills, opts) {
+      opts = opts || {};
+      var dx = 2 * d, dy = -d;
+      var x0 = cx - w / 2, x1 = cx + w / 2;
+      var yT = baseY - h;
+      el('polygon', { points: pts([[x0, baseY], [x1, baseY], [x1, yT], [x0, yT]]), fill: fills.front, rx: 2 }, g);
+      el('polygon', { points: pts([[x1, baseY], [x1 + dx, baseY + dy], [x1 + dx, yT + dy], [x1, yT]]), fill: fills.side }, g);
+      el('polygon', { points: pts([[x0, yT], [x1, yT], [x1 + dx, yT + dy], [x0 + dx, yT + dy]]), fill: fills.top }, g);
+      if (opts.edge) {
+        el('polyline', { points: pts([[x0, yT], [x1, yT], [x1 + dx, yT + dy]]), fill: 'none', stroke: opts.edge, 'stroke-width': 1.4, opacity: 0.8 }, g);
+      }
+      return g;
+    }
+    function cssVar(name) {
+      return 'var(' + name + ')';
+    }
+
+    /* ── defs: gradients & filters ── */
+    var defs = el('defs', {}, svg);
+    var sky = el('linearGradient', { id: 'skyGrad', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+    el('stop', { offset: '0%', 'stop-color': 'var(--sc-sky-a)' }, sky);
+    el('stop', { offset: '100%', 'stop-color': 'var(--sc-sky-b)' }, sky);
+    GATES.forEach(function (gt) {
+      var cg = el('linearGradient', { id: 'curtain-' + gt.key, x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+      el('stop', { offset: '0%', 'stop-color': cssVar(gt.accentVar), 'stop-opacity': 0.85 }, cg);
+      el('stop', { offset: '55%', 'stop-color': cssVar(gt.accentVar), 'stop-opacity': 0.18 }, cg);
+      el('stop', { offset: '100%', 'stop-color': cssVar(gt.accentVar), 'stop-opacity': 0.5 }, cg);
+    });
+    var soft = el('filter', { id: 'softBlur', x: '-60%', y: '-60%', width: '220%', height: '220%' }, defs);
+    el('feGaussianBlur', { stdDeviation: 7 }, soft);
+    var glowF = el('filter', { id: 'dotGlow', x: '-120%', y: '-120%', width: '340%', height: '340%' }, defs);
+    el('feGaussianBlur', { stdDeviation: 6 }, glowF);
+    var farBlur = el('filter', { id: 'farBlur', x: '-30%', y: '-30%', width: '160%', height: '160%' }, defs);
+    el('feGaussianBlur', { stdDeviation: 3.5 }, farBlur);
+
+    /* ── static sky (outside camera) ── */
+    el('rect', { x: -400, y: -300, width: 3200, height: 1500, fill: 'url(#skyGrad)' }, svg);
+
+    /* ── far parallax layer (outside camera, moved at lower rate) ── */
+    var bgFar = el('g', { id: 'bgFar' }, svg);
+    (function () {
+      var silhouettes = [
+        [180, 470, 150, 120], [420, 500, 90, 70], [820, 455, 200, 140], [1180, 495, 110, 85],
+        [1500, 465, 170, 125], [1900, 490, 130, 95], [2230, 460, 190, 135], [2520, 500, 100, 70]
+      ];
+      silhouettes.forEach(function (s) {
+        var g = el('g', { filter: 'url(#farBlur)', opacity: 0.38 }, bgFar);
+        isoBox(g, s[0], s[1], s[2], s[3], 14, { front: 'var(--sc-far)', side: 'var(--sc-far)', top: 'var(--sc-steel-front)' });
+      });
+      /* distant crane-like masts */
+      [640, 1740, 2400].forEach(function (mx) {
+        var g = el('g', { opacity: 0.35, filter: 'url(#farBlur)' }, bgFar);
+        el('rect', { x: mx, y: 300, width: 10, height: 190, fill: 'var(--sc-far)' }, g);
+        el('rect', { x: mx - 70, y: 300, width: 190, height: 9, fill: 'var(--sc-far)' }, g);
+        el('rect', { x: mx + 96, y: 309, width: 4, height: 46, fill: 'var(--sc-far)' }, g);
+      });
+    })();
+
+    /* ── camera group ── */
+    var cam = el('g', { id: 'camera' }, svg);
+    /* directional scrim so hero copy reads calmly (fades out on scroll) */
+    var scrimGrad = el('linearGradient', { id: 'scrimGrad', x1: 0, y1: 0, x2: 1, y2: 0 }, defs);
+    el('stop', { offset: '0%', 'stop-color': 'var(--v-bg-deep)', 'stop-opacity': 0.97 }, scrimGrad);
+    el('stop', { offset: '45%', 'stop-color': 'var(--v-bg-deep)', 'stop-opacity': 0.9 }, scrimGrad);
+    el('stop', { offset: '75%', 'stop-color': 'var(--v-bg-deep)', 'stop-opacity': 0 }, scrimGrad);
+    var scrim = null;
+    if (!FLAT) {
+      scrim = el('rect', { id: 'heroScrim', x: -400, y: -300, width: 2200, height: 1500, fill: 'url(#scrimGrad)', 'pointer-events': 'none' }, svg);
+    }
+
+    /* floor */
+    el('polygon', { points: pts([[-800, 700], [3600, 700], [3800, 560], [-600, 560]]), fill: 'var(--sc-floor)' }, cam);
+    /* floor apron: fill everything below the front edge so the scene never ends in blank sky */
+    el('rect', { x: -800, y: 700, width: 4600, height: 500, fill: 'var(--sc-floor)' }, cam);
+    el('line', { x1: -800, y1: 700, x2: 3800, y2: 700, stroke: 'var(--sc-floor-line)', 'stroke-width': 1.5 }, cam);
+    for (var fl = 0; fl < 34; fl++) {
+      var fx = -700 + fl * 130;
+      el('line', { x1: fx, y1: 700, x2: fx + 190, y2: 560, stroke: 'var(--sc-floor-line)', 'stroke-width': 1 }, cam);
+    }
+    el('line', { x1: -800, y1: 632, x2: 3800, y2: 632, stroke: 'var(--sc-floor-line)', 'stroke-width': 1 }, cam);
+
+    /* rail shadow on floor */
+    el('polygon', { points: pts([[RAIL_X0, RAIL_Y + 46], [RAIL_X1, RAIL_Y + 46], [RAIL_X1 + 40, RAIL_Y + 26], [RAIL_X0 + 40, RAIL_Y + 26]]), fill: 'var(--sc-shadow)', opacity: 0.35, filter: 'url(#softBlur)' }, cam);
+
+    /* ── rail (iso slab) ── */
+    (function () {
+      var g = el('g', { id: 'rail' }, cam);
+      var d = DEP, dx = 2 * d, dy = -d, h = 26;
+      /* legs */
+      for (var lx = -440; lx < 3220; lx += 160) {
+        isoBox(el('g', {}, g), lx, RAIL_Y + 44, 16, 44, 8, { front: 'var(--sc-rail-side)', side: 'var(--sc-rail-side)', top: 'var(--sc-rail-front)' });
+      }
+      /* slab */
+      el('polygon', { points: pts([[RAIL_X0, RAIL_Y], [RAIL_X1, RAIL_Y], [RAIL_X1, RAIL_Y + h], [RAIL_X0, RAIL_Y + h]]), fill: 'var(--sc-rail-front)' }, g);
+      el('polygon', { points: pts([[RAIL_X1, RAIL_Y], [RAIL_X1 + dx, RAIL_Y + dy], [RAIL_X1 + dx, RAIL_Y + dy + h], [RAIL_X1, RAIL_Y + h]]), fill: 'var(--sc-rail-side)' }, g);
+      el('polygon', { points: pts([[RAIL_X0, RAIL_Y], [RAIL_X1, RAIL_Y], [RAIL_X1 + dx, RAIL_Y + dy], [RAIL_X0 + dx, RAIL_Y + dy]]), fill: 'var(--sc-rail-top)' }, g);
+      /* glowing guide edge */
+      el('line', { x1: RAIL_X0, y1: RAIL_Y, x2: RAIL_X1, y2: RAIL_Y, stroke: 'var(--sc-rail-edge)', 'stroke-width': 2 }, g);
+      /* moving belt chevrons on top face centerline */
+      el('line', {
+        x1: RAIL_X0 + dx / 2, y1: RAIL_Y + dy / 2, x2: RAIL_X1 + dx / 2, y2: RAIL_Y + dy / 2,
+        stroke: 'var(--sc-rail-edge)', 'stroke-width': 3, 'stroke-dasharray': '14 34',
+        'stroke-linecap': 'round', opacity: 0.55, 'class': 'rail-chevrons'
+      }, g);
+    })();
+
+    /* ── gates ── */
+    var gateNodes = [];
+    GATES.forEach(function (gt) {
+      var g = el('g', { 'class': 'gate gate--' + gt.key }, cam);
+      var accent = cssVar(gt.accentVar);
+      var d = 34;                        /* gate depth units — spans past the rail */
+      var dx = 2 * d, dy = -d;
+      var H = 218;                       /* pillar height */
+      var frontBase = RAIL_Y + 58;       /* front pillar stands in front of the rail */
+      var topY = frontBase - H;
+      var pw = 30;
+      var fx = gt.x;                     /* front pillar center */
+
+      /* floor shadow */
+      el('ellipse', { cx: fx + dx / 2, cy: frontBase + dy / 2 + 8, rx: 130, ry: 26, fill: 'var(--sc-shadow)', opacity: 0.5, filter: 'url(#softBlur)' }, g);
+
+      /* glow halo behind gate (accent) */
+      el('ellipse', { cx: fx + dx / 2, cy: topY + 100 + dy / 2, rx: 82, ry: 118, fill: accent, opacity: 0.12, filter: 'url(#dotGlow)', 'class': 'gate-glow' }, g);
+
+      /* BACK pillar first (painter's order) */
+      isoBox(el('g', {}, g), fx + dx, frontBase + dy, pw, H, 9, { front: 'var(--sc-steel-front)', side: 'var(--sc-steel-side)', top: 'var(--sc-steel-top)' }, { edge: accent });
+
+      /* scan curtain between pillars (behind front pillar, over the rail) */
+      el('polygon', {
+        points: pts([[fx, frontBase - 6], [fx + dx, frontBase + dy - 6], [fx + dx, topY + dy + 14], [fx, topY + 14]]),
+        fill: 'url(#curtain-' + gt.key + ')', 'class': 'gate-curtain', opacity: 0.4
+      }, g);
+      /* scan line */
+      el('line', { x1: fx, y1: RAIL_Y + 2, x2: fx + dx, y2: RAIL_Y + dy + 2, stroke: accent, 'stroke-width': 2.5, opacity: 0.9, 'class': 'gate-scanline' }, g);
+
+      /* FRONT pillar */
+      isoBox(el('g', {}, g), fx, frontBase, pw, H, 9, { front: 'var(--sc-steel-front)', side: 'var(--sc-steel-side)', top: 'var(--sc-steel-top)' }, { edge: accent });
+
+      /* lintel spanning depth axis */
+      (function () {
+        var lg = el('g', {}, g);
+        var lh = 26;
+        el('polygon', { points: pts([[fx - pw / 2 - 8, topY], [fx + pw / 2 + 8, topY], [fx + pw / 2 + 8 + dx, topY + dy], [fx - pw / 2 - 8 + dx, topY + dy]]), fill: 'var(--sc-steel-top)' }, lg);
+        el('polygon', { points: pts([[fx - pw / 2 - 8, topY], [fx + pw / 2 + 8, topY], [fx + pw / 2 + 8, topY + lh], [fx - pw / 2 - 8, topY + lh]]), fill: 'var(--sc-steel-front)' }, lg);
+        el('polygon', { points: pts([[fx + pw / 2 + 8, topY], [fx + pw / 2 + 8 + dx, topY + dy], [fx + pw / 2 + 8 + dx, topY + dy + lh], [fx + pw / 2 + 8, topY + lh]]), fill: 'var(--sc-steel-side)' }, lg);
+        /* beacon on lintel */
+        el('circle', { cx: fx + dx / 2, cy: topY + dy / 2 - 8, r: 6, fill: accent, 'class': 'gate-beacon' }, lg);
+        el('circle', { cx: fx + dx / 2, cy: topY + dy / 2 - 8, r: 12, fill: accent, opacity: 0.3, filter: 'url(#dotGlow)', 'class': 'gate-glow' }, lg);
+      })();
+
+      /* status LEDs on front pillar */
+      for (var li = 0; li < 3; li++) {
+        el('circle', { cx: fx, cy: frontBase - 38 - li * 16, r: 3.2, fill: accent, opacity: li === 0 ? 0.95 : 0.35 }, g);
+      }
+
+      /* label plate */
+      var plateY = frontBase + 34;
+      el('rect', { x: fx - 92, y: plateY, width: 184, height: 58, rx: 8, fill: 'var(--sc-plate)', stroke: accent, 'stroke-width': 1.2, opacity: 0.96 }, g);
+      el('text', { x: fx - 76, y: plateY + 26, fill: accent, 'font-size': 19, 'class': 'gate-num' }, g).textContent = gt.num;
+      el('text', { x: fx - 44, y: plateY + 25, fill: 'var(--sc-plate-text)', 'font-size': 13, 'class': 'gate-name' }, g).textContent = gt.name;
+      var counterT = el('text', { x: fx - 76, y: plateY + 46, fill: 'var(--sc-plate-text)', 'font-size': 11.5, opacity: 0.75, 'class': 'gate-counter' }, g);
+      counterT.textContent = '0 checks';
+
+      gateNodes.push({ g: g, x: gt.x, cx: gt.x + d, count: 1000 + Math.floor(Math.random() * 400), counterEl: counterT, busyUntil: 0 });
+      counterT.textContent = gateNodes[gateNodes.length - 1].count.toLocaleString('nl-NL') + ' checks';
+    });
+
+    /* ── commit dots (iso cubes) ── */
+    var dotsLayer = el('g', { id: 'dots' }, cam);
+    var DOT_Y = RAIL_Y - 2 + (-DEP) / 2 + DEP / 2; /* centerline-ish; ride on front area of top face */
+    var GREEN = { top: '#7CFFB5', front: cssVar('--v-green-primary'), side: cssVar('--v-green-dim') };
+    var RED   = { top: '#FF9E99', front: cssVar('--v-red'), side: '#A61B12' };
+
+    function makeDot() {
+      var g = el('g', { 'class': 'dot' }, dotsLayer);
+      el('ellipse', { cx: 0, cy: 10, rx: 15, ry: 5, fill: 'var(--sc-shadow)', opacity: 0.5 }, g);
+      var glow = el('circle', { cx: 0, cy: -8, r: 15, fill: cssVar('--v-green-primary'), opacity: 0.4, filter: 'url(#dotGlow)' }, g);
+      var cube = el('g', {}, g);
+      var s = 11, dd = 5, ddx = 2 * dd, ddy = -dd;
+      var faces = {
+        front: el('polygon', { points: pts([[-s, 0], [s, 0], [s, -2 * s], [-s, -2 * s]]) }, cube),
+        side:  el('polygon', { points: pts([[s, 0], [s + ddx, ddy], [s + ddx, -2 * s + ddy], [s, -2 * s]]) }, cube),
+        top:   el('polygon', { points: pts([[-s, -2 * s], [s, -2 * s], [s + ddx, -2 * s + ddy], [-s + ddx, -2 * s + ddy]]) }, cube)
+      };
+      return { g: g, glow: glow, faces: faces };
+    }
+    function paintDot(d, palette, glowColor) {
+      d.faces.front.setAttribute('fill', palette.front);
+      d.faces.side.setAttribute('fill', palette.side);
+      d.faces.top.setAttribute('fill', palette.top);
+      d.glow.setAttribute('fill', glowColor);
+    }
+
+    var dots = [];
+    function spawnDot(startX) {
+      var visual = makeDot();
+      var isRed = Math.random() < 0.28;
+      var failGate = isRed ? Math.floor(Math.random() * 4) : -1;
+      var d = {
+        v: visual, x: startX !== undefined ? startX : RAIL_X0 + 40,
+        speed: 150 + Math.random() * 60,
+        red: isRed, failGate: failGate, nextGate: 0,
+        state: 'run', stateUntil: 0, bounceT: 0
+      };
+      paintDot(visual, isRed ? RED : GREEN, isRed ? cssVar('--v-red') : cssVar('--v-green-primary'));
+      dots.push(d);
+      return d;
+    }
+    function setDotPos(d, wobbleY) {
+      d.v.g.setAttribute('transform', 'translate(' + d.x.toFixed(1) + ',' + (DOT_Y + (wobbleY || 0)).toFixed(1) + ')');
+    }
+
+    function tickGate(gi) {
+      var gn = gateNodes[gi];
+      gn.count++;
+      gn.counterEl.textContent = gn.count.toLocaleString('nl-NL') + ' checks';
+    }
+    function setProcessing(gi, on) {
+      gateNodes[gi].g.classList.toggle('is-processing', !!on);
+    }
+
+    /* ── main loop ── */
+    if (!FLAT && !reduceMotion) {
+      var last = performance.now();
+      var spawnTimer = 0;
+      /* pre-seed a few dots along the line */
+      [200, 760, 1300, 1860, 2300].forEach(function (x) {
+        var d = spawnDot(x);
+        d.nextGate = GATES.findIndex(function (gt) { return gt.x > x + 10; });
+        if (d.nextGate === -1) { d.nextGate = 4; }
+        if (d.red && d.failGate < d.nextGate) { d.red = false; d.failGate = -1; paintDot(d.v, GREEN, cssVar('--v-green-primary')); }
+        setDotPos(d, 0);
+      });
+
+      function frame(now) {
+        var dt = Math.min((now - last) / 1000, 0.05);
+        last = now;
+        spawnTimer -= dt;
+        if (spawnTimer <= 0 && dots.length < 9) {
+          spawnDot();
+          spawnTimer = 1.3 + Math.random() * 1.2;
+        }
+        for (var i = dots.length - 1; i >= 0; i--) {
+          var d = dots[i];
+          var wob = 0;
+          if (d.state === 'run') {
+            d.x += d.speed * dt;
+            if (d.nextGate < 4 && d.x >= GATES[d.nextGate].x - 2) {
+              /* arrive at gate */
+              d.x = GATES[d.nextGate].x - 2;
+              var failsHere = d.red && d.failGate === d.nextGate;
+              d.state = failsHere ? 'caught' : 'scan';
+              d.stateUntil = now + (failsHere ? 1100 : 320);
+              d.bounceT = 0;
+              setProcessing(d.nextGate, true);
+              gateNodes[d.nextGate].busyUntil = d.stateUntil;
+            }
+          } else if (d.state === 'scan') {
+            wob = -3 * Math.sin((1 - (d.stateUntil - now) / 320) * Math.PI);
+            if (now >= d.stateUntil) {
+              tickGate(d.nextGate);
+              setProcessing(d.nextGate, false);
+              d.nextGate++;
+              d.state = 'run';
+            }
+          } else if (d.state === 'caught') {
+            /* bounce back + shake, then get fixed (turn green) */
+            d.bounceT += dt;
+            var t = d.bounceT;
+            var kick = Math.max(0, 26 * Math.exp(-3 * t) * Math.cos(9 * t));
+            d.x = GATES[d.nextGate].x - 2 - kick;
+            wob = -Math.abs(10 * Math.exp(-2.5 * t) * Math.sin(12 * t));
+            if (now >= d.stateUntil) {
+              d.red = false; d.failGate = -1;
+              paintDot(d.v, GREEN, cssVar('--v-green-primary'));
+              tickGate(d.nextGate);
+              setProcessing(d.nextGate, false);
+              d.nextGate++;
+              d.state = 'run';
+            }
+          }
+          if (d.x > RAIL_X1 - 30) {
+            dotsLayer.removeChild(d.v.g);
+            dots.splice(i, 1);
+            continue;
+          }
+          setDotPos(d, wob);
+        }
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    } else {
+      /* static composition: a handful of dots frozen on the line, one caught at gate 2 */
+      [[300, false], [940, false], [1088, true], [1330, false], [1980, false]].forEach(function (cfg) {
+        var d = spawnDot(cfg[0]);
+        d.red = cfg[1];
+        paintDot(d.v, cfg[1] ? RED : GREEN, cfg[1] ? cssVar('--v-red') : cssVar('--v-green-primary'));
+        setDotPos(d, 0);
+      });
+      gateNodes[1].g.classList.add('is-processing');
+    }
+
+    /* ── camera choreography (pinned scroll) ── */
+    if (!FLAT && window.gsap && window.ScrollTrigger) {
+      gsap.registerPlugin(ScrollTrigger);
+      /* wide view: keep the left side calm for the hero copy */
+      var WIDE_X = -420;
+      /* hero framing: slightly zoomed out so all four gates fit the sliced viewport */
+      gsap.set(cam, { svgOrigin: '0 0', scale: 0.8, x: 136, y: 100 });
+      gsap.set(bgFar, { x: WIDE_X * 0.4 });
+      var panels = [1, 2, 3, 4].map(function (n) { return document.getElementById('panel' + n); });
+      var progressDots = Array.prototype.slice.call(document.querySelectorAll('.stage-progress__dot'));
+
+      function setStep(n) {
+        progressDots.forEach(function (p, i) { p.classList.toggle('is-active', i === n); });
+      }
+
+      /* explicit camera math: world point (gx,gy) lands at viewBox point (1200+shift, 450) */
+      function gateCam(i) {
+        var gx = GATES[i].x + 34, gy = 532, s = 1.7;
+        var shift = (i % 2 === 0) ? 280 : -280; /* panel left → gate right of center */
+        return {
+          scale: s,
+          x: 1200 + shift - s * gx,
+          y: 450 - s * gy,
+          gx: gx
+        };
+      }
+
+      var tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.stage', start: 'top top', end: 'bottom bottom', scrub: 0.6,
+          onUpdate: function (st) {
+            var p = st.progress;
+            setStep(p < 0.12 ? 0 : p < 0.32 ? 1 : p < 0.52 ? 2 : p < 0.74 ? 3 : 4);
+          }
+        }
+      });
+
+      /* hero out */
+      tl.to('#heroCopy', { y: -90, autoAlpha: 0, ease: 'power2.in', duration: 0.9 }, 0.35);
+      tl.to(scrim, { autoAlpha: 0, ease: 'power1.in', duration: 0.8 }, 0.4);
+
+      var HOLD = 2.2, MOVE = 1.4;
+      var t = 1.0;
+      [0, 1, 2, 3].forEach(function (i) {
+        var c = gateCam(i);
+        tl.to(cam, {
+          scale: c.scale, x: c.x, y: c.y,
+          ease: 'power2.inOut', duration: MOVE
+        }, t);
+        /* far bg parallax: lags behind camera pan */
+        tl.to(bgFar, { x: -(c.gx - 1200) * 0.10, ease: 'power2.inOut', duration: MOVE }, t);
+        tl.fromTo(panels[i],
+          { autoAlpha: 0, y: 44 },
+          { autoAlpha: 1, y: 0, ease: 'power2.out', duration: MOVE * 0.7 }, t + MOVE * 0.5);
+        t += MOVE + HOLD;
+        if (i < 3) {
+          tl.to(panels[i], { autoAlpha: 0, y: -36, ease: 'power2.in', duration: MOVE * 0.5 }, t - MOVE * 0.4);
+        }
+      });
+      /* final: pull back out with last panel still visible a moment, then wide */
+      tl.to(panels[3], { autoAlpha: 0, y: -36, ease: 'power2.in', duration: 0.5 }, t + 0.1);
+      tl.to(cam, { scale: 1, x: WIDE_X, y: -80, ease: 'power2.inOut', duration: 1.0 }, t + 0.2);
+      tl.to(bgFar, { x: WIDE_X * 0.4, ease: 'power2.inOut', duration: 1.0 }, t + 0.2);
+      tl.to({}, { duration: 0.15 }); /* tail padding */
+    }
+  })();
+
+  /* theme toggle */
+  document.querySelectorAll('.theme-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  });
+  </script>
+</body>
+</html>

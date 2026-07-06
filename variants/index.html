@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vincability — Design varianten</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #F7F9F8;
+      color: #14201A;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    main { width: min(680px, 100%); }
+    h1 {
+      font-size: 15px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .sub { font-size: 12px; color: #5A6A61; margin-bottom: 32px; }
+    ol { list-style: none; border-top: 1.5px solid #14201A; }
+    li { border-bottom: 1px solid rgba(20,32,26,.16); }
+    a {
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      gap: 18px;
+      align-items: baseline;
+      padding: 20px 8px;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      transition: background .2s;
+    }
+    a::before {
+      content: "";
+      position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: #00843D;
+      transform: scaleY(0); transform-origin: top;
+      transition: transform .25s;
+    }
+    a:hover { background: rgba(0,132,61,.05); }
+    a:hover::before { transform: scaleY(1); }
+    .num { font-weight: 700; font-size: 18px; color: #00843D; }
+    .name b { display: block; font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+    .name span { font-size: 11.5px; color: #5A6A61; }
+    .arrow { font-size: 13px; color: #5A6A61; }
+    .foot { margin-top: 28px; font-size: 11px; color: #5A6A61; }
+    .foot a { display: inline; padding: 0; color: #00602C; text-decoration: underline; }
+    .foot a::before { display: none; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Design varianten</h1>
+    <p class="sub">// vincability.com — vier richtingen, één keuze</p>
+    <ol>
+      <li>
+        <a href="variant-a-premium-3d.html">
+          <span class="num">A</span>
+          <span class="name"><b>Premium 3D</b><span>Three.js scène, donker, diepte en parallax</span></span>
+          <span class="arrow">→</span>
+        </a>
+      </li>
+      <li>
+        <a href="variant-b-xray-scrolly.html">
+          <span class="num">B</span>
+          <span class="name"><b>X-ray scrollytelling</b><span>De audit als röntgenfoto, scroll-gedreven verhaal</span></span>
+          <span class="arrow">→</span>
+        </a>
+      </li>
+      <li>
+        <a href="variant-c-four-gates.html">
+          <span class="num">C</span>
+          <span class="name"><b>Four Gates</b><span>Vier ingangen als centrale navigatie</span></span>
+          <span class="arrow">→</span>
+        </a>
+      </li>
+      <li>
+        <a href="variant-d-editorial-shader.html">
+          <span class="num">D</span>
+          <span class="name"><b>Editorial + shader</b><span>Auditrapport op papier, WebGL-achtergrond, scan-scrolly</span></span>
+          <span class="arrow">→</span>
+        </a>
+      </li>
+    </ol>
+    <p class="foot">Huidige site: <a href="../index.htm">vincability.com</a></p>
+  </main>
+</body>
+</html>

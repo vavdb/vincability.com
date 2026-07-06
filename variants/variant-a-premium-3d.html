@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vincability — Zien wat anderen missen. Bouwen wat er echt toe doet.</title>
+<meta name="description" content="Onafhankelijke technische audits en crisis-triage: codebase-audits, due diligence, AI-orkestratie en validatie van externe teams.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600&family=Asimovian&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14201A; --ink-2:#46564D; --ink-3:#5C6B62;
+    --paper:#F7F9F8; --paper-2:#FFFFFF; --line:#D8E0DB;
+    --green:#00843D; --green-neon:#00E676; --red:#d93025;
+    --dark:#060A0D; --dark-2:#0B1116; --dark-text:#EAF4EE; --dark-text-2:#9FB3A8;
+    --mono:'JetBrains Mono',monospace; --body:'Geist',system-ui,sans-serif; --display:'Asimovian',var(--mono);
+    --max:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
+  ::selection{background:#00E67655}
+
+  /* ============ NAV (lives on the dark hero) ============ */
+  .nav{position:absolute;top:0;left:0;right:0;z-index:30;padding:26px 0}
+  .nav__inner{max-width:var(--max);margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between}
+  .nav__logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .nav__logo-dot{width:9px;height:9px;border-radius:50%;background:var(--green-neon);box-shadow:0 0 12px #00e676aa}
+  .nav__logo-text{font-family:var(--mono);font-weight:700;font-size:15px;letter-spacing:.18em;color:var(--dark-text)}
+  .nav__links{display:flex;gap:30px;list-style:none}
+  .nav__link{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;color:var(--dark-text-2);text-decoration:none;transition:color .2s}
+  .nav__link:hover{color:var(--green-neon)}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.03em;text-decoration:none;padding:13px 22px;border-radius:6px;transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .18s,background .18s,color .18s;cursor:pointer;border:none}
+  .btn--neon{background:var(--green-neon);color:#04140b;box-shadow:0 0 0 rgba(0,230,118,0)}
+  .btn--neon:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(0,230,118,.35)}
+  .btn--ghost{background:transparent;color:var(--dark-text);border:1px solid #2a3a33}
+  .btn--ghost:hover{border-color:var(--green-neon);color:var(--green-neon)}
+  .btn--solid{background:var(--green);color:#fff}
+  .btn--solid:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,132,61,.28)}
+  .btn--outline{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn--outline:hover{border-color:var(--green);color:var(--green)}
+  .nav .btn{padding:10px 18px;font-size:12px}
+
+  /* ============ HERO ============ */
+  .hero{position:relative;min-height:100svh;background:var(--dark);overflow:hidden;display:flex;align-items:center}
+  #scene{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .hero__vignette{position:absolute;inset:0;pointer-events:none;z-index:2;
+    background:radial-gradient(120% 90% at 50% 42%,transparent 40%,rgba(3,6,8,.55) 100%);}
+  .hero__scrim{position:absolute;inset:0;pointer-events:none;z-index:3;
+    background:linear-gradient(100deg,rgba(4,8,10,.88) 0%,rgba(4,8,10,.62) 34%,rgba(4,8,10,.14) 58%,transparent 75%);}
+  .hero__fade{position:absolute;left:0;right:0;bottom:0;height:180px;z-index:3;pointer-events:none;
+    background:linear-gradient(to bottom,rgba(6,10,13,0),var(--dark) 78%)}
+  .hero__scanline-divider{position:absolute;left:0;right:0;bottom:0;height:2px;z-index:4;
+    background:linear-gradient(90deg,transparent,var(--green-neon) 30%,var(--green-neon) 70%,transparent);opacity:.65}
+  .hero__grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E")}
+  .hero__content{position:relative;z-index:10;max-width:var(--max);margin:0 auto;padding:130px 28px 120px;width:100%}
+  .hero__col{max-width:640px}
+  .hero__badge{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--green-neon);border:1px solid rgba(0,230,118,.3);background:rgba(0,230,118,.06);padding:7px 14px;border-radius:100px;margin-bottom:26px;backdrop-filter:blur(4px)}
+  .hero__badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green-neon);animation:pulse 2.2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 8px #00e676}50%{opacity:.4;box-shadow:0 0 2px #00e676}}
+  .hero__headline{font-family:var(--display);font-weight:400;font-size:clamp(38px,5.4vw,68px);line-height:1.06;color:var(--dark-text);letter-spacing:.01em;text-wrap:balance}
+  .hero__headline em{font-style:normal;color:var(--green-neon);text-shadow:0 0 34px rgba(0,230,118,.45)}
+  .hero__sub{margin-top:24px;font-size:clamp(15.5px,1.35vw,17.5px);line-height:1.65;color:var(--dark-text-2);max-width:540px}
+  .hero__ctas{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap}
+  /* audit log ticker */
+  .hero__log{position:absolute;right:34px;bottom:44px;z-index:10;font-family:var(--mono);font-size:11px;line-height:1.9;color:#5f7a6c;text-align:right;pointer-events:none}
+  .hero__log strong{color:var(--green-neon);font-weight:500}
+  .hero__log .risk{color:#ff6b5e}
+
+  /* ============ SHARED SECTION CHROME ============ */
+  section{position:relative}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+  .label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--green);display:block;margin-bottom:16px}
+  .h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.6vw,44px);line-height:1.14;color:var(--ink);letter-spacing:.035em;text-wrap:balance}
+  .lede{margin-top:18px;font-size:16.5px;line-height:1.65;color:var(--ink-2);max-width:600px}
+  .js [data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+  .js [data-reveal].is-in{opacity:1;transform:none}
+  @media print{.js [data-reveal]{opacity:1 !important;transform:none !important}}
+
+  /* ============ DIENSTEN — editorial numbered ledger ============ */
+  .services{background:var(--paper);padding:110px 0 90px}
+  .services__head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:40px;align-items:end;margin-bottom:64px}
+  .services__head .lede{margin-top:0}
+  .svc{display:grid;grid-template-columns:110px minmax(0,1fr) 300px;gap:32px;align-items:baseline;padding:36px 8px;border-top:1px solid var(--line);text-decoration:none;position:relative;transition:background .25s}
+  .svc:last-of-type{border-bottom:1px solid var(--line)}
+  .svc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green);transform:scaleY(0);transform-origin:top;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+  .svc:hover{background:var(--paper-2)}
+  .svc:hover::before{transform:scaleY(1)}
+  .svc__num{font-family:var(--mono);font-size:13px;color:var(--ink-3);letter-spacing:.08em}
+  .svc__num b{display:block;font-size:26px;font-weight:600;color:var(--green);margin-bottom:2px}
+  .svc__title{font-family:var(--body);font-weight:600;font-size:clamp(19px,2vw,24px);color:var(--ink);line-height:1.3;margin-bottom:10px}
+  .svc__desc{font-size:15px;line-height:1.6;color:var(--ink-2);max-width:560px}
+  .svc__tag{font-family:var(--mono);font-size:11.5px;line-height:1.9;letter-spacing:.04em;color:var(--ink-3);justify-self:end;text-align:right}
+  .svc--risk .svc__num b{color:var(--red)}
+  .svc--risk::before{background:var(--red)}
+
+  /* ============ AANPAK — timeline ============ */
+  .approach{background:var(--paper-2);padding:110px 0;border-top:1px solid var(--line)}
+  .approach__head{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;align-items:center}
+  .approach__grid{margin-top:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative}
+  .approach__grid::before{content:"";position:absolute;top:29px;left:29px;right:calc(33.333% - 29px);height:1px;background:linear-gradient(90deg,var(--green),var(--line) 55%,var(--line))}
+  .step{padding:0 34px 0 0;position:relative}
+  .step__dot{width:58px;height:58px;border-radius:50%;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:15px;color:var(--green);position:relative;z-index:1;margin-bottom:26px;transition:box-shadow .3s,border-color .3s}
+  .step:hover .step__dot{border-color:var(--green);box-shadow:0 0 0 6px rgba(0,132,61,.08)}
+  .step__title{font-family:var(--mono);font-weight:600;font-size:16px;letter-spacing:.02em;color:var(--ink);margin-bottom:12px}
+  .step__desc{font-size:14.5px;line-height:1.65;color:var(--ink-2)}
+  .approach__note{padding:28px 32px;border-left:3px solid var(--green);background:var(--paper);font-size:15.5px;line-height:1.65;color:var(--ink-2)}
+  .approach__note b{color:var(--ink);font-weight:600}
+
+  /* ============ CTA — back to the dark scene language ============ */
+  .cta{background:var(--dark);padding:110px 0;overflow:hidden;position:relative}
+  .cta::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--green-neon) 30%,var(--green-neon) 70%,transparent);opacity:.5}
+  .cta::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 70% 20%,rgba(0,230,118,.07),transparent 70%);pointer-events:none}
+  .cta__inner{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:60px;align-items:center}
+  .cta .label{color:var(--green-neon)}
+  .cta__title{font-family:var(--display);font-weight:400;font-size:clamp(30px,4vw,50px);line-height:1.12;color:var(--dark-text)}
+  .cta__sub{margin-top:20px;font-size:16px;line-height:1.65;color:var(--dark-text-2);max-width:480px}
+  .cta__actions{display:flex;flex-direction:column;gap:14px;align-items:stretch}
+  .cta__actions .btn{justify-content:center;padding:16px 26px}
+  .cta__meta{font-family:var(--mono);font-size:11.5px;color:#5f7a6c;text-align:center;letter-spacing:.04em}
+
+  /* ============ FOOTER ============ */
+  .footer{background:var(--dark-2);border-top:1px solid #16211c;padding:44px 0}
+  .footer__inner{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .footer__brand{display:flex;align-items:center;gap:10px}
+  .footer__brand .nav__logo-text{font-size:13px}
+  .footer__links{display:flex;gap:24px}
+  .footer__links a{font-family:var(--mono);font-size:12px;color:var(--dark-text-2);text-decoration:none}
+  .footer__links a:hover{color:var(--green-neon)}
+  .footer__copy{font-family:var(--mono);font-size:11px;color:#4a5a52;letter-spacing:.04em}
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:940px){
+    .nav__links{display:none}
+    .services__head{grid-template-columns:1fr;gap:18px}
+    .approach__head{grid-template-columns:1fr;gap:36px}
+    .svc{grid-template-columns:70px 1fr;gap:20px}
+    .svc__tag{grid-column:2;justify-self:start;text-align:left;margin-top:6px}
+    .approach__grid{grid-template-columns:1fr;gap:44px}
+    .approach__grid::before{display:none}
+    .step{padding-right:0}
+    .cta__inner{grid-template-columns:1fr;gap:44px}
+    .hero__log{display:none}
+  }
+  @media (max-width:640px){
+    .nav .btn{display:none}
+    .hero__scrim{background:linear-gradient(180deg,rgba(4,8,10,.36) 0%,rgba(4,8,10,.70) 45%,rgba(4,8,10,.30) 100%)}
+    .hero__vignette{background:radial-gradient(130% 100% at 50% 40%,transparent 55%,rgba(3,6,8,.4) 100%)}
+  }
+  @media (max-width:520px){
+    .hero__content{padding:110px 22px 90px}
+    .wrap{padding:0 22px}
+    .svc{grid-template-columns:1fr;padding:28px 8px}
+    .svc__num{display:flex;gap:10px;align-items:baseline}
+    .svc__num b{margin:0}
+    .hero__ctas .btn{width:100%;justify-content:center}
+  }
+
+  /* ============ REDUCED MOTION ============ */
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .js [data-reveal]{opacity:1;transform:none;transition:none}
+    .hero__badge-dot{animation:none}
+    .btn{transition:none}
+  }
+  /* static fallback if WebGL fails */
+  .hero--fallback #scene{display:none}
+  .hero--fallback{background:
+    radial-gradient(90% 70% at 68% 30%,rgba(0,230,118,.10),transparent 60%),
+    linear-gradient(180deg,#0a1014,#060a0d)}
+</style>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="hero__vignette" aria-hidden="true"></div>
+  <div class="hero__scrim" aria-hidden="true"></div>
+  <div class="hero__grain" aria-hidden="true"></div>
+  <div class="hero__fade" aria-hidden="true"></div>
+  <div class="hero__scanline-divider" aria-hidden="true"></div>
+
+  <nav class="nav" aria-label="Hoofdnavigatie">
+    <div class="nav__inner">
+      <a href="#top" class="nav__logo" aria-label="Vincability home">
+        <span class="nav__logo-dot" aria-hidden="true"></span>
+        <span class="nav__logo-text">VINCABILITY</span>
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="#diensten" class="nav__link">Diensten</a></li>
+        <li><a href="#aanpak" class="nav__link">Aanpak</a></li>
+        <li><a href="#contact" class="nav__link">Contact</a></li>
+      </ul>
+      <a href="#contact" class="btn btn--neon">Plan een Tech Clarity Sessie</a>
+    </div>
+  </nav>
+
+  <div class="hero__content">
+    <div class="hero__col">
+      <div class="hero__badge">
+        <span class="hero__badge-dot" aria-hidden="true"></span>
+        BESCHIKBAAR VOOR NIEUWE OPDRACHTEN
+      </div>
+      <h1 class="hero__headline">Zien wat anderen missen.<br>Bouwen wat <em>er echt toe doet</em>.</h1>
+      <p class="hero__sub">
+        Je schakelt mij in als je niet meer zeker weet of het systeem klopt, of hoe je verder moet.
+        Ik zoek uit wat er werkelijk aan de hand is en vertel je precies waar je staat.
+        Daarna kun je weer beslissen op basis van feiten.
+      </p>
+      <div class="hero__ctas">
+        <a href="#contact" class="btn btn--neon">Plan een Tech Clarity Sessie</a>
+        <a href="#aanpak" class="btn btn--ghost">Hoe ik werk</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__log" id="auditLog" aria-hidden="true">
+    <div>deep scan <strong id="logPct">0%</strong></div>
+    <div>modules gelezen <strong id="logMods">0/126</strong></div>
+    <div>risico's gevonden <span class="risk" id="logRisks">0</span></div>
+  </div>
+</header>
+
+<!-- ================= DIENSTEN ================= -->
+<section class="services" id="diensten" aria-label="Diensten">
+  <div class="wrap">
+    <div class="services__head">
+      <div data-reveal>
+        <span class="label">// VIER REDENEN OM TE BELLEN</span>
+        <h2 class="h2">Welke hiervan klinkt als jouw maandagochtend?</h2>
+      </div>
+      <p class="lede" data-reveal>Vier verschillende situaties, dezelfde kern: je wilt een onafhankelijke senior blik op wat er speelt, en een plan dat je eigen team kan uitvoeren.</p>
+    </div>
+
+    <a href="#contact" class="svc svc--risk" data-reveal>
+      <span class="svc__num"><b>01</b>TRIAGE</span>
+      <span>
+        <span class="svc__title">"Er is iets stuk en niemand vindt het."</span>
+        <span class="svc__desc">Release-druk, schaalproblemen, een productie-incident, of degene die alles doorzag is net vertrokken. Ik neem de coördinatie over en vind binnen enkele dagen de oorzaak.</span>
+      </span>
+      <span class="svc__tag">Triage &amp; Stabilisatie<br>Root cause in 48–72 uur<br>Herstelplan</span>
+    </a>
+
+    <a href="#contact" class="svc" data-reveal>
+      <span class="svc__num"><b>02</b>AUDIT</span>
+      <span>
+        <span class="svc__title">"Klopt het wat hier gebouwd is?"</span>
+        <span class="svc__desc">Een legacy-overdracht, een overname onder due diligence, of AI-gegenereerde code waar je niet volledig voor kunt instaan. Ik lees de code zelf en vertel je wat kritiek is en wat acceptabele ruis.</span>
+      </span>
+      <span class="svc__tag">Deep Scan<br>Risicokaart<br>Technical Due Diligence</span>
+    </a>
+
+    <a href="#contact" class="svc" data-reveal>
+      <span class="svc__num"><b>03</b>AI-FLOW</span>
+      <span>
+        <span class="svc__title">"AI heeft ons sneller gemaakt. En rommeliger."</span>
+        <span class="svc__desc">AI is een integratievraagstuk. Samen met je team stem ik agent-workflows, review-grenzen en conventies af, tot de output onderhoudbaar blijft nadat de demo-glans is verdwenen.</span>
+      </span>
+      <span class="svc__tag">Samen afstemmen<br>Review-grenzen<br>Onderhoudbaarheid</span>
+    </a>
+
+    <a href="#contact" class="svc" data-reveal>
+      <span class="svc__num"><b>04</b>VALIDATIE</span>
+      <span>
+        <span class="svc__title">"Ons externe team levert. Maar is het het juiste?"</span>
+        <span class="svc__desc">Een onafhankelijke blik op de vraag of uitbesteed werk doet wat de business nodig heeft. Vaak zit het probleem in de vertaling tussen opdracht en bedoeling. Die maak ik weer kloppend.</span>
+      </span>
+      <span class="svc__tag">Onafhankelijke Validatie<br>Actieve Bijsturing<br>Domein-eigenaarschap</span>
+    </a>
+  </div>
+</section>
+
+<!-- ================= AANPAK ================= -->
+<section class="approach" id="aanpak" aria-label="Aanpak">
+  <div class="wrap">
+    <div class="approach__head">
+      <div data-reveal>
+        <span class="label">// HOE IK WERK</span>
+        <h2 class="h2">Het Vincability-proces</h2>
+        <p class="lede">In de eerste dagen weet je waar de knel zit. In week één liggen de prioriteiten vast. Daarna beginnen de verbeteringen.</p>
+      </div>
+      <div class="approach__note" data-reveal>
+        <b>Doorgaans binnen twee weken:</b> een technische scan, een risicokaart en een geprioriteerde actielijst. Afgesloten met een sessie waarin ik het management precies vertel waar het staat en wat er nu moet gebeuren.
+      </div>
+    </div>
+
+    <div class="approach__grid">
+      <div class="step" data-reveal>
+        <div class="step__dot">01</div>
+        <h3 class="step__title">Deep Scan</h3>
+        <p class="step__desc">Ik lees de code, maar ik spreek vooral je mensen: stakeholders, product owners, de developers zelf. De codebase en CI/CD vertellen de helft van het verhaal. Wat schuurt in de samenwerking vertelt de rest.</p>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step__dot">02</div>
+        <h3 class="step__title">Strategic Map</h3>
+        <p class="step__desc">Wat ik vind leg ik naast wat je team zelf al voelde. Je krijgt een compacte readout: risicokaart, trade-offs, volgorde, en wat je moet stóppen. Beslissingen waar je team maandag mee aan de slag kan.</p>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step__dot">03</div>
+        <h3 class="step__title">Accelerate</h3>
+        <p class="step__desc">Ik schuif aan in je team: uitvoering deblokkeren, leads coachen, eigenaarschap op de juiste plek leggen. Zodra het loopt, draag ik schoon over en vertrek ik.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT / CTA ================= -->
+<section class="cta" id="contact" aria-label="Contact">
+  <div class="wrap cta__inner">
+    <div data-reveal>
+      <span class="label">// CONTACT</span>
+      <h2 class="cta__title">Klaar om te zien wat er werkelijk speelt?</h2>
+      <p class="cta__sub">Stuur de rommelige versie. Een alinea over de codebase, het team of het AI-initiatief is genoeg om te beginnen.</p>
+    </div>
+    <div class="cta__actions" data-reveal>
+      <a href="#contact" class="btn btn--neon" data-obf="mail">Plan een Tech Clarity Sessie</a>
+      <a href="https://www.linkedin.com/in/vincent-van-den-braken/" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">Connect via LinkedIn</a>
+      <span class="cta__meta">Vertrouwelijk · reactie binnen 2 werkdagen</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer" aria-label="Site footer">
+  <div class="wrap footer__inner">
+    <div class="footer__brand">
+      <span class="nav__logo-dot" aria-hidden="true"></span>
+      <span class="nav__logo-text">VINCABILITY</span>
+    </div>
+    <div class="footer__links">
+      <a href="#diensten">Diensten</a>
+      <a href="#aanpak">Aanpak</a>
+      <a href="https://www.linkedin.com/in/vincent-van-den-braken/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/vincability" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+    <span class="footer__copy">© 2026 Vincability · Nederland</span>
+  </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+import {EffectComposer} from 'three/addons/postprocessing/EffectComposer.js';
+import {RenderPass} from 'three/addons/postprocessing/RenderPass.js';
+import {UnrealBloomPass} from 'three/addons/postprocessing/UnrealBloomPass.js';
+import {OutputPass} from 'three/addons/postprocessing/OutputPass.js';
+
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = innerWidth < 768;
+const hero = document.querySelector('.hero');
+const canvas = document.getElementById('scene');
+
+function fallback(){ hero.classList.add('hero--fallback'); }
+
+try{
+  // ---------- renderer ----------
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true, powerPreference:'high-performance'});
+  renderer.setPixelRatio(Math.min(devicePixelRatio, isMobile?1.3:1.75));
+  renderer.setSize(hero.clientWidth, hero.clientHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = isMobile ? 1.45 : 1.1;
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x060a0d);
+  scene.fog = new THREE.FogExp2(0x060a0d, 0.020);
+
+  // environment lighting (PBR reflections)
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+  // ---------- camera ----------
+  const camera = new THREE.PerspectiveCamera(isMobile?46:38, hero.clientWidth/hero.clientHeight, 0.1, 220);
+  // on mobile: lift the camera and pull closer so the city stays visible behind the text
+  const camBase = isMobile ? new THREE.Vector3(15, 21, 24) : new THREE.Vector3(22, 16, 32);
+  camera.position.copy(camBase);
+  const lookAt = isMobile ? new THREE.Vector3(-1, 2.2, -4) : new THREE.Vector3(-2, 1.6, -3);
+  camera.lookAt(lookAt);
+
+  // ---------- lights ----------
+  const key = new THREE.DirectionalLight(0xbfd8ff, 2.2);
+  key.position.set(-18, 26, 14);
+  key.castShadow = true;
+  key.shadow.mapSize.set(2048, 2048);
+  key.shadow.camera.left=-34; key.shadow.camera.right=34;
+  key.shadow.camera.top=34; key.shadow.camera.bottom=-34;
+  key.shadow.camera.far=90; key.shadow.bias=-0.0004;
+  key.shadow.radius = 6;
+  scene.add(key);
+  scene.add(new THREE.HemisphereLight(0x28414f, 0x05080a, 0.55));
+  const rim = new THREE.DirectionalLight(0x00e676, 0.35);
+  rim.position.set(24, 8, -20);
+  scene.add(rim);
+
+  // ---------- ground with subtle emissive grid ----------
+  const gCan = document.createElement('canvas'); gCan.width=gCan.height=512;
+  const g = gCan.getContext('2d');
+  g.fillStyle='#000'; g.fillRect(0,0,512,512);
+  g.strokeStyle='rgba(0,230,118,0.55)'; g.lineWidth=1;
+  for(let i=0;i<=512;i+=64){ g.beginPath();g.moveTo(i,0);g.lineTo(i,512);g.stroke(); g.beginPath();g.moveTo(0,i);g.lineTo(512,i);g.stroke(); }
+  const gridTex = new THREE.CanvasTexture(gCan);
+  gridTex.wrapS=gridTex.wrapT=THREE.RepeatWrapping; gridTex.repeat.set(24,24);
+  const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(300,300),
+    new THREE.MeshStandardMaterial({color:0x0b1013, roughness:0.32, metalness:0.75, emissive:0x00e676, emissiveMap:gridTex, emissiveIntensity:0.06, envMapIntensity:0.9})
+  );
+  ground.rotation.x=-Math.PI/2; ground.receiveShadow=true;
+  scene.add(ground);
+
+  // ---------- window-lights texture for towers ----------
+  const wCan = document.createElement('canvas'); wCan.width=64; wCan.height=128;
+  const w = wCan.getContext('2d');
+  w.fillStyle='#0c1216'; w.fillRect(0,0,64,128);
+  for(let y=6;y<128;y+=10) for(let x=6;x<64;x+=12){
+    if(Math.random()<0.42){ w.fillStyle=`rgba(${140+Math.random()*80|0},${190+Math.random()*50|0},${200+Math.random()*55|0},${0.5+Math.random()*0.5})`; w.fillRect(x,y,5,3); }
+  }
+  const winTex = new THREE.CanvasTexture(wCan);
+
+  // ---------- tower city ----------
+  const towers=[], risks=[];
+  const boxGeo = new THREE.BoxGeometry(1,1,1);
+  boxGeo.translate(0,0.5,0);
+  const N = isMobile?9:13, SP=3.4;
+  const winBoost = isMobile?1.7:1;
+  for(let ix=0;ix<N;ix++) for(let iz=0;iz<N;iz++){
+    const x=(ix-(N-1)/2)*SP+(Math.random()-.5)*1.1;
+    const z=(iz-(N-1)/2)*SP+(Math.random()-.5)*1.1;
+    // keep a diagonal boulevard clear near camera line of sight
+    if(Math.abs(x*0.5+z*0.35)<1.4 && Math.random()<0.7) continue;
+    const h = 1.2+Math.pow(Math.random(),1.9)*6.5;
+    const mat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color().setHSL(0.55,0.14,0.10+Math.random()*0.06),
+      roughness:0.34+Math.random()*0.25, metalness:0.72,
+      envMapIntensity:1.1,
+      emissive: 0x9fdcff,
+      emissiveMap: winTex,
+      emissiveIntensity: (0.25+Math.random()*0.4)*winBoost
+    });
+    const m = new THREE.Mesh(boxGeo, mat);
+    m.position.set(x,0,z);
+    m.scale.set(1.5+Math.random()*1.3, h, 1.5+Math.random()*1.3);
+    m.rotation.y=(Math.random()-.5)*0.14;
+    m.castShadow=m.receiveShadow=true;
+    scene.add(m);
+    towers.push({mesh:m, mat, isRisk:false, base:mat.emissiveIntensity, h, scanned:false});
+  }
+
+  // pick risk towers only outside the headline text safe-zone (screen-space):
+  // desktop text sits in the left ~58% of the viewport, mobile text is centered/high,
+  // so risks must project to the right side and not too high on screen.
+  const proj = new THREE.Vector3();
+  const riskCandidates = towers.filter(t=>{
+    if(t.h<=3) return false;
+    proj.set(t.mesh.position.x, t.h, t.mesh.position.z).project(camera);
+    return isMobile ? (proj.y < -0.60) : (proj.x > 0.30);
+  });
+  for(let i=riskCandidates.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [riskCandidates[i],riskCandidates[j]]=[riskCandidates[j],riskCandidates[i]]; }
+  for(const t of riskCandidates.slice(0,5)){
+    t.isRisk = true; t.base = 0;
+    t.mat.emissive = new THREE.Color(0xff2a1a);
+    t.mat.emissiveMap = null;
+    t.mat.emissiveIntensity = 0;
+    t.mat.needsUpdate = true;
+    risks.push(t);
+  }
+
+  // ---------- scan plane (vertical light wall sweeping over the city) ----------
+  const sCan=document.createElement('canvas'); sCan.width=8; sCan.height=256;
+  const s=sCan.getContext('2d');
+  const grad=s.createLinearGradient(0,256,0,0);
+  grad.addColorStop(0,'rgba(80,255,160,1)');
+  grad.addColorStop(0.10,'rgba(0,230,118,0.45)');
+  grad.addColorStop(0.5,'rgba(0,230,118,0.09)');
+  grad.addColorStop(1,'rgba(0,230,118,0)');
+  s.fillStyle=grad; s.fillRect(0,0,8,256);
+  const scanTex=new THREE.CanvasTexture(sCan);
+  const scanWall=new THREE.Mesh(
+    new THREE.PlaneGeometry(70,10),
+    new THREE.MeshBasicMaterial({map:scanTex, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, side:THREE.DoubleSide})
+  );
+  scanWall.position.y=5;
+  scanWall.material.opacity=0.6;
+  scene.add(scanWall);
+  // bright emitter line at the base (feeds bloom)
+  const scanLine=new THREE.Mesh(
+    new THREE.BoxGeometry(70,0.06,0.10),
+    new THREE.MeshBasicMaterial({color:0x00ff85})
+  );
+  scanLine.position.y=0.05;
+  scene.add(scanLine);
+
+  // ---------- post: bloom + output ----------
+  const composer=new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene,camera));
+  const bloom=new UnrealBloomPass(new THREE.Vector2(hero.clientWidth,hero.clientHeight), 0.55, 0.7, 0.82);
+  composer.addPass(bloom);
+  composer.addPass(new OutputPass());
+
+  // ---------- audit log ----------
+  const logPct=document.getElementById('logPct');
+  const logMods=document.getElementById('logMods');
+  const logRisks=document.getElementById('logRisks');
+  const total=towers.length;
+
+  // ---------- interaction ----------
+  let mx=0,my=0,tx=0,ty=0;
+  addEventListener('pointermove',e=>{ tx=(e.clientX/innerWidth-.5); ty=(e.clientY/innerHeight-.5); },{passive:true});
+
+  const Z0=-26, Z1=26, SCAN_T=11; // seconds per sweep
+  const clock=new THREE.Clock();
+
+  function setScan(z){
+    scanWall.position.z=z; scanLine.position.z=z;
+    let scannedCount=0, riskCount=0;
+    for(const t of towers){
+      if(t.mesh.position.z<z){ scannedCount++;
+        if(t.isRisk){ riskCount++;
+          t.mat.emissiveIntensity=Math.min(t.mat.emissiveIntensity+0.05, 0.85+Math.sin(performance.now()*0.004)*0.35);
+        }
+      } else if(t.isRisk){ t.mat.emissiveIntensity=Math.max(0,t.mat.emissiveIntensity-0.05); }
+    }
+    const pct=Math.round(THREE.MathUtils.clamp((z-Z0)/(Z1-Z0),0,1)*100);
+    logPct.textContent=pct+'%';
+    logMods.textContent=Math.round(pct/100*total)+'/'+total;
+    logRisks.textContent=riskCount;
+  }
+
+  function resize(){
+    const W=hero.clientWidth,H=hero.clientHeight;
+    camera.aspect=W/H; camera.updateProjectionMatrix();
+    renderer.setSize(W,H); composer.setSize(W,H);
+  }
+  addEventListener('resize',resize);
+
+  if(reduced){
+    // static frame: scan mid-city, risks lit
+    setScan(6);
+    for(const r of risks) r.mat.emissiveIntensity=1.8;
+    camera.lookAt(lookAt);
+    composer.render();
+    // one extra render after env settles
+    requestAnimationFrame(()=>composer.render());
+  } else {
+    let visible=true;
+    new IntersectionObserver(en=>{visible=en[0].isIntersecting;},{threshold:0.02}).observe(hero);
+    (function loop(){
+      requestAnimationFrame(loop);
+      if(!visible) return;
+      const t=clock.getElapsedTime();
+      // scan sweep with pause at end
+      const cyc=(t%(SCAN_T+2.5))/SCAN_T;
+      const z=Z0+Math.min(cyc,1)*(Z1-Z0);
+      setScan(z);
+      // cinematic drift + parallax
+      mx+=(tx-mx)*0.045; my+=(ty-my)*0.045;
+      camera.position.x=camBase.x+Math.sin(t*0.11)*1.6+mx*2.6;
+      camera.position.y=camBase.y+Math.sin(t*0.07)*0.7-my*1.6;
+      camera.position.z=camBase.z+Math.cos(t*0.09)*1.2;
+      camera.lookAt(lookAt);
+      composer.render();
+    })();
+  }
+}catch(e){ console.warn('3D hero failed, falling back', e); fallback(); }
+</script>
+
+<script>
+// scroll reveals
+(function(){
+  var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els=document.querySelectorAll('[data-reveal]');
+  if(reduced||!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('is-in');}); return; }
+  var io=new IntersectionObserver(function(en){
+    en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('is-in'); io.unobserve(x.target);} });
+  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(e){io.observe(e);});
+  // safety net: full-page capture / print / stalled IO must never leave blank sections
+  function revealAll(){ els.forEach(function(e){e.classList.add('is-in');}); io.disconnect(); }
+  setTimeout(revealAll,3000);
+  window.addEventListener('beforeprint',revealAll);
+})();
+// obfuscated mail
+(function(){
+  var u='vincent', d='vincability.com';
+  document.querySelectorAll('[data-obf="mail"]').forEach(function(a){
+    a.addEventListener('click',function(ev){ ev.preventDefault(); location.href='mailto:'+u+'@'+d; });
+  });
+})();
+</script>
+</body>
+</html>

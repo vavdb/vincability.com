@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vincability — Röntgenfoto van je codebase</title>
+<meta name="description" content="Onafhankelijke technische audits en crisis-triage. Van kluwen naar kaart: zie waar je systeem werkelijk staat.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='34' fill='%2300843D'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600&family=Asimovian&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════ TOKENS ════════════════════ */
+:root {
+  --bg:            #F7F9F8;
+  --bg-2:          #EFF4F1;
+  --surface:       #FFFFFF;
+  --ink:           #14201A;
+  --ink-2:         #46564D;
+  --ink-3:         #6B7A70;
+  --line:          #D8E0DB;
+  --green:         #00843D;
+  --green-deep:    #006B31;
+  --green-neon:    #00E676;
+  --red:           #D93025;
+  --red-soft:      rgba(217,48,37,.12);
+  --mono:          'JetBrains Mono', monospace;
+  --body:          'Geist', sans-serif;
+  --display:       'Asimovian', 'JetBrains Mono', monospace;
+  --ease-expo:     cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-card:   0 1px 2px rgba(20,32,26,.05), 0 12px 40px -12px rgba(20,32,26,.14);
+  --shadow-float:  0 2px 6px rgba(20,32,26,.06), 0 24px 64px -16px rgba(20,32,26,.22);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: rgba(0,132,61,.18); }
+
+/* grain atmosphere */
+body::after {
+  content: '';
+  position: fixed; inset: -50%;
+  width: 200%; height: 200%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: .32;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.08 0 0 0 0 0.12 0 0 0 0 0.1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+a { color: inherit; }
+.mono { font-family: var(--mono); }
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--green);
+  display: block;
+  margin-bottom: 18px;
+}
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 13.5px; font-weight: 600;
+  letter-spacing: .02em;
+  padding: 13px 24px; border-radius: 8px;
+  text-decoration: none; cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform .25s var(--ease-expo), box-shadow .25s var(--ease-expo), background .2s, color .2s;
+}
+.btn--primary {
+  background: var(--green); color: #fff;
+  box-shadow: 0 8px 24px -8px rgba(0,132,61,.5);
+}
+.btn--primary:hover { background: var(--green-deep); transform: translateY(-2px); box-shadow: 0 14px 32px -8px rgba(0,132,61,.55); }
+.btn--outline {
+  background: transparent; color: var(--ink);
+  border-color: var(--line);
+}
+.btn--outline:hover { border-color: var(--green); color: var(--green); transform: translateY(-2px); }
+
+/* ════════════════════ NAV ════════════════════ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  backdrop-filter: blur(14px);
+  background: rgba(247,249,248,.78);
+  border-bottom: 1px solid rgba(216,224,219,.7);
+}
+.nav__inner {
+  max-width: 1240px; margin: 0 auto;
+  padding: 0 32px; height: 66px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav__logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+  font-family: var(--mono); font-weight: 700; font-size: 15px;
+  letter-spacing: .16em; color: var(--ink);
+}
+.nav__dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 4px rgba(0,132,61,.15);
+  animation: pulse 2.6s ease-in-out infinite;
+}
+@keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(0,132,61,.06); } }
+.nav__links { display: flex; gap: 30px; list-style: none; }
+.nav__links a {
+  font-family: var(--mono); font-size: 13px; font-weight: 500;
+  color: var(--ink-2); text-decoration: none;
+  transition: color .2s;
+}
+.nav__links a:hover { color: var(--green); }
+.nav__cta { padding: 9px 18px; font-size: 12.5px; }
+/* dark theme when nav floats over the dark contact/footer sections */
+.nav.nav--dark {
+  background: rgba(13,21,18,.82);
+  border-bottom-color: rgba(240,255,244,.09);
+}
+.nav.nav--dark .nav__logo { color: #F0FFF4; }
+.nav.nav--dark .nav__links a { color: #A8B5AD; }
+.nav.nav--dark .nav__links a:hover { color: var(--green-neon); }
+
+/* ════════════════════ HERO — ACT 1 ════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(420px, 5.2fr) 6fr;
+  align-items: center;
+  max-width: 1360px; margin: 0 auto;
+  padding: 130px 32px 60px;
+  gap: 24px;
+  position: relative;
+}
+.hero__badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  color: var(--green-deep);
+  border: 1px solid rgba(0,132,61,.3);
+  background: rgba(0,132,61,.06);
+  padding: 6px 14px; border-radius: 999px;
+  margin-bottom: 28px;
+}
+.hero__badge::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green); animation: pulse 2.6s ease-in-out infinite;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(42px, 4.6vw, 64px);
+  line-height: 1.04;
+  letter-spacing: .005em;
+  margin-bottom: 26px;
+}
+.hero h1 .accent { color: var(--green); }
+.hero__sub {
+  font-size: 18px; line-height: 1.65; color: var(--ink-2);
+  max-width: 46ch; margin-bottom: 36px;
+}
+.hero__ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 44px; }
+.hero__hint {
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em;
+  color: var(--ink-3); display: flex; align-items: center; gap: 10px;
+}
+.hero__hint::after {
+  content: ''; width: 1px; height: 34px;
+  background: linear-gradient(var(--green), transparent);
+  animation: dropline 1.8s ease-in-out infinite;
+}
+@keyframes dropline { 0% { transform: translateY(-4px); opacity: 0; } 40% { opacity: 1; } 100% { transform: translateY(8px); opacity: 0; } }
+
+.hero__visual { position: relative; }
+.hero__visual svg { width: 100%; height: auto; display: block; }
+.hero__visual-tag {
+  position: absolute; top: 8px; right: 4px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  color: var(--ink-3);
+  border: 1px solid var(--line); background: var(--surface);
+  padding: 5px 12px; border-radius: 6px;
+}
+
+/* graph shared styles */
+.edge {
+  fill: none;
+  stroke: #A9BCB1;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+.edge--risk { stroke: var(--red); stroke-width: 1.8; }
+.edge--ghost { stroke: #B4C5BA; stroke-width: 1.1; }
+.gnode rect {
+  fill: var(--surface);
+  stroke: #7E938A;
+  stroke-width: 1.2;
+  filter: drop-shadow(0 2px 5px rgba(20,32,26,.10));
+}
+.gnode--risk rect { stroke: var(--red); stroke-width: 1.6; }
+.gnode text {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 500;
+  fill: var(--ink); text-anchor: middle; dominant-baseline: middle;
+}
+.gnode--risk text { fill: var(--red); }
+.layerband { opacity: 0; }
+.layerband rect { fill: rgba(0,132,61,.045); stroke: rgba(0,132,61,.14); stroke-dasharray: 3 5; rx: 10; }
+.layerband text {
+  font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+  letter-spacing: .2em; fill: var(--green);
+}
+
+/* ════════════════════ SCROLLY — ACT 2 & 3 ════════════════════ */
+.scrolly { position: relative; height: 560vh; background: linear-gradient(var(--bg) 0%, var(--bg-2) 30%, var(--bg-2) 80%, var(--bg) 100%); }
+.stage {
+  position: sticky; top: 0; height: 100vh;
+  overflow: hidden;
+  display: flex; align-items: center;
+}
+.stage__inner {
+  width: 100%; max-width: 1360px; margin: 0 auto;
+  padding: 90px 32px 40px;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 48px;
+  align-items: center;
+  height: 100%;
+}
+.stage__copy { position: relative; height: 320px; }
+.stage__kicker {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 600;
+  letter-spacing: .16em; color: var(--green);
+  margin-bottom: 14px; display: block;
+}
+.caption {
+  position: absolute; top: 30px; left: 0; right: 0;
+  opacity: 0;
+  visibility: hidden;
+}
+.caption h3 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(24px, 2.2vw, 32px); line-height: 1.15;
+  margin-bottom: 16px;
+}
+.caption p { font-size: 16.5px; line-height: 1.65; color: var(--ink-2); }
+.caption .bad { color: var(--red); font-weight: 500; }
+.caption .good { color: var(--green-deep); font-weight: 500; }
+.caption__idx {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+  color: var(--ink-3); display: block; margin-bottom: 10px;
+}
+.stage__graphwrap { position: relative; }
+.stage__graphwrap svg { width: 100%; height: auto; max-height: calc(100vh - 150px); display: block; }
+
+/* x-ray sweep */
+.sweep {
+  position: absolute; top: -4%; bottom: -4%; width: 90px;
+  left: 0; pointer-events: none; opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(0,230,118,.16) 45%, rgba(0,132,61,.34) 50%, rgba(0,230,118,.16) 55%, transparent);
+}
+.sweep::after {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 1.5px; background: rgba(0,132,61,.7);
+  box-shadow: 0 0 18px 2px rgba(0,230,118,.65);
+}
+
+/* progress rail */
+.rail {
+  position: absolute; left: 32px; bottom: 40px;
+  display: flex; gap: 22px; align-items: center;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em;
+  color: var(--ink-3);
+}
+.rail__step { display: flex; align-items: center; gap: 8px; transition: color .3s; }
+.rail__step::before {
+  content: ''; width: 22px; height: 2px; background: var(--line); transition: background .3s;
+}
+.rail__step.is-active { color: var(--green-deep); }
+.rail__step.is-active::before { background: var(--green); }
+
+/* diensten cards growing out of the graph */
+.stage__cards {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  gap: 22px;
+  /* keep clear of the caption column: content starts at (vw-1360)/2+32, plus 340px copy + 48px gap */
+  padding: 0 16px 0 calc(max(32px, (100vw - 1360px) / 2 + 32px) + 372px);
+  pointer-events: none;
+}
+.stage__cards .svc-card { width: min(310px, 32%); }
+.svc-card {
+  width: min(300px, 30%);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--green);
+  border-radius: 14px;
+  padding: 26px 24px 22px;
+  box-shadow: var(--shadow-float);
+  opacity: 0;
+  pointer-events: auto;
+  text-decoration: none; display: block;
+  transition: transform .3s var(--ease-expo), box-shadow .3s var(--ease-expo);
+}
+.svc-card:hover { transform: translateY(-4px) !important; }
+.svc-card--deep { border-top-color: var(--green-deep); }
+.svc-card--ink { border-top-color: var(--ink); }
+.svc-card__tag {
+  font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--green); display: block; margin-bottom: 12px;
+}
+.svc-card--deep .svc-card__tag { color: var(--green-deep); }
+.svc-card--ink .svc-card__tag { color: var(--ink-2); }
+.svc-card h4 {
+  font-family: var(--body); font-weight: 600; font-size: 18.5px;
+  line-height: 1.3; margin-bottom: 10px;
+}
+.svc-card p { font-size: 14.5px; line-height: 1.55; color: var(--ink-2); }
+.svc-card__more {
+  font-family: var(--mono); font-size: 12px; font-weight: 600;
+  color: var(--green-deep); margin-top: 14px; display: inline-block;
+}
+
+/* ════════════════════ AANPAK — ACT 4 ════════════════════ */
+.approach { padding: 130px 32px 110px; max-width: 1240px; margin: 0 auto; }
+.approach__head { max-width: 640px; margin-bottom: 70px; }
+.approach__head h2 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(32px, 3.4vw, 46px); line-height: 1.1;
+  margin-bottom: 18px;
+}
+.approach__head p { color: var(--ink-2); font-size: 17.5px; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-left: 1px solid var(--line); }
+.step {
+  padding: 8px 34px 8px 30px;
+  border-right: 1px solid var(--line);
+  position: relative;
+}
+.step__num {
+  font-family: var(--display); font-size: 58px; line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.2px var(--green);
+  display: block; margin-bottom: 20px;
+}
+.step:nth-child(2) .step__num { -webkit-text-stroke-color: var(--green-deep); }
+.step:nth-child(3) .step__num { -webkit-text-stroke-color: var(--ink-2); }
+.step h3 { font-family: var(--mono); font-size: 17px; font-weight: 700; margin-bottom: 12px; letter-spacing: .01em; }
+.step p { font-size: 15.5px; color: var(--ink-2); line-height: 1.62; }
+
+/* ════════════════════ CONTACT ════════════════════ */
+.contact {
+  position: relative;
+  background: #0D1512;
+  color: #F0FFF4;
+  padding: 120px 32px;
+  overflow: hidden;
+}
+.contact::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,230,118,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,230,118,.05) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse 70% 90% at 50% 40%, #000 30%, transparent 75%);
+}
+.contact__inner { position: relative; max-width: 760px; margin: 0 auto; text-align: center; }
+.contact .section-label { color: var(--green-neon); }
+.contact h2 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(34px, 4vw, 52px); line-height: 1.08;
+  margin-bottom: 20px;
+}
+.contact__sub { color: #A8B5AD; font-size: 17.5px; max-width: 52ch; margin: 0 auto 44px; }
+.contact-form { display: grid; gap: 14px; text-align: left; }
+.contact-form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-input, .form-textarea {
+  font-family: var(--mono); font-size: 14px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(168,181,173,.25);
+  border-radius: 8px; padding: 14px 16px;
+  color: #F0FFF4; width: 100%;
+  transition: border-color .2s, background .2s;
+}
+.form-input:focus, .form-textarea:focus {
+  outline: none; border-color: var(--green-neon);
+  background: rgba(0,230,118,.05);
+}
+.form-input::placeholder, .form-textarea::placeholder { color: #5A6B60; }
+.form-textarea { resize: vertical; min-height: 96px; }
+.contact-form__actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+.contact .btn--primary { background: var(--green-neon); color: #08110C; box-shadow: 0 10px 32px -8px rgba(0,230,118,.45); }
+.contact .btn--primary:hover { background: #33F191; }
+.contact .btn--outline { color: #F0FFF4; border-color: rgba(168,181,173,.35); }
+.contact .btn--outline:hover { border-color: var(--green-neon); color: var(--green-neon); }
+.contact__meta { font-size: 13.5px; color: #7C8B81; margin-top: 22px; text-align: center; }
+.contact__meta a { color: #A8B5AD; }
+.contact-form__trap { position: absolute; left: -9999px; }
+
+/* ════════════════════ FOOTER ════════════════════ */
+.footer {
+  background: #0A100D; color: #7C8B81;
+  padding: 44px 32px;
+  font-family: var(--mono); font-size: 12.5px;
+}
+.footer__inner {
+  max-width: 1240px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+.footer__logo { display: flex; align-items: center; gap: 9px; color: #DCE7E0; font-weight: 700; letter-spacing: .16em; }
+.footer__logo .nav__dot { background: var(--green-neon); box-shadow: none; animation: none; }
+.footer__links { display: flex; gap: 24px; }
+.footer__links a { color: #7C8B81; text-decoration: none; transition: color .2s; }
+.footer__links a:hover { color: var(--green-neon); }
+
+/* ════════════════════ REDUCED MOTION / STATIC FALLBACK ════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .scrolly { height: auto !important; }
+  .stage { position: static; height: auto; display: block; }
+  .stage__inner { height: auto; padding: 90px 32px 30px; align-items: start; }
+  .stage__copy { height: auto; }
+  .caption { position: static; opacity: 1 !important; visibility: visible !important; margin-bottom: 40px; transform: none !important; }
+  .rail, .sweep, .hero__hint::after { display: none; }
+  .stage__cards { position: static; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 0 32px 70px; }
+  .svc-card { opacity: 1 !important; transform: none !important; width: min(320px, 100%); }
+  .layerband { opacity: 1 !important; }
+}
+
+/* ════════════════════ MOBILE ════════════════════ */
+@media (max-width: 900px) {
+  .nav__links { display: none; }
+  .nav__cta { display: none; }
+  .nav__inner { padding: 0 20px; }
+  .stage__kicker { display: none; }
+  .caption { top: 0; }
+  .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 110px; padding-bottom: 28px; gap: 36px; }
+  .hero h1 { font-size: clamp(36px, 9.5vw, 46px); }
+  .stage__inner { grid-template-columns: 1fr; gap: 22px; padding: 80px 20px 56px; align-content: center; }
+  .stage__copy { height: 215px; order: 2; }
+  .caption { top: 6px; }
+  .caption h3 { font-size: 21px; margin-bottom: 8px; }
+  .caption p { font-size: 14px; }
+  .stage__graphwrap { order: 1; }
+  .stage__graphwrap svg { max-height: 54vh; }
+  .rail { left: 20px; bottom: 16px; gap: 12px; }
+  .rail__step::before { width: 12px; }
+  .rail__step span { display: none; }
+  .stage__cards { flex-direction: column; justify-content: center; gap: 12px; padding: 84px 20px 20px; }
+  .svc-card, .stage__cards .svc-card { width: min(400px, 100%); padding: 18px 20px 16px; }
+  .svc-card p { display: none; }
+  .svc-card h4 { margin-bottom: 0; font-size: 16px; }
+  .svc-card__more { margin-top: 8px; }
+  .steps { grid-template-columns: 1fr; gap: 40px; }
+  .step { border-right: none; }
+  .contact-form__row { grid-template-columns: 1fr; }
+  .footer__inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav class="nav" aria-label="Hoofdnavigatie">
+  <div class="nav__inner">
+    <a href="#" class="nav__logo" aria-label="Vincability home">
+      <span class="nav__dot" aria-hidden="true"></span>VINCABILITY
+    </a>
+    <ul class="nav__links" role="list">
+      <li><a href="#scan">De scan</a></li>
+      <li><a href="#diensten">Diensten</a></li>
+      <li><a href="#aanpak">Aanpak</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn btn--primary nav__cta">Plan een Clarity Sessie</a>
+  </div>
+</nav>
+
+<!-- ══════════ ACT 1 — HERO ══════════ -->
+<header class="hero" aria-label="Hero">
+  <div class="hero__copy">
+    <span class="hero__badge">Beschikbaar voor nieuwe opdrachten</span>
+    <h1>See what<br>others miss.<br><span class="accent">Ship what<br>actually matters.</span></h1>
+    <p class="hero__sub">
+      Je schakelt mij in als je niet meer zeker weet of het systeem klopt, of hoe je verder moet.
+      Ik zoek uit wat er werkelijk aan de hand is en vertel je precies waar je staat.
+    </p>
+    <div class="hero__ctas">
+      <a href="#contact" class="btn btn--primary">Vraag een Tech Clarity Sessie aan</a>
+      <a href="#scan" class="btn btn--outline">Bekijk de röntgenfoto</a>
+    </div>
+    <span class="hero__hint">SCROLL — VAN KLUWEN NAAR KAART</span>
+  </div>
+  <div class="hero__visual" aria-hidden="true">
+    <span class="hero__visual-tag">dependency-graph · dag 1</span>
+    <svg id="heroSvg" viewBox="0 0 720 560">
+      <g id="heroEdges"></g>
+      <g id="heroNodes"></g>
+    </svg>
+  </div>
+</header>
+
+<!-- ══════════ ACT 2/3 — SCROLLY STAGE ══════════ -->
+<section class="scrolly" id="scan" aria-label="De audit als röntgenfoto">
+  <div class="stage">
+    <div class="stage__inner">
+      <div class="stage__copy">
+        <span class="stage__kicker">// DE AUDIT, IN VIER STAPPEN</span>
+
+        <div class="caption" data-cap="0">
+          <span class="caption__idx">01 / 05 — DAG ÉÉN</span>
+          <h3>Alles hangt aan alles.</h3>
+          <p>Zo voelt de codebase als ik binnenkom: niemand durft nog iets te verschuiven, want niemand weet meer wat er dan meebeweegt.</p>
+        </div>
+
+        <div class="caption" data-cap="1">
+          <span class="caption__idx">02 / 05 — DE SCAN</span>
+          <h3>De scan begint bij de verbindingen.</h3>
+          <p>Ik lees de code, de CI/CD en de gesprekken eromheen. Elke afhankelijkheid krijgt een oordeel: <span class="good">gezond</span>, of <span class="bad">reden tot zorg</span>.</p>
+        </div>
+
+        <div class="caption" data-cap="2">
+          <span class="caption__idx">03 / 05 — DE BEVINDINGEN</span>
+          <h3>Rood is waar het schuurt.</h3>
+          <p><span class="bad">UI die rechtstreeks de database inleest. Een legacy-bibliotheek die overal doorheen loopt.</span> Dit zijn de vondsten die releases stilleggen.</p>
+        </div>
+
+        <div class="caption" data-cap="3">
+          <span class="caption__idx">04 / 05 — DE KAART</span>
+          <h3>Dezelfde codebase. Vier lagen.</h3>
+          <p>Elke pijl heeft nu een reden of een vervaldatum. <span class="good">Hier kun je over praten</span> — met je team, je management en je roadmap.</p>
+        </div>
+
+        <div class="caption" data-cap="4">
+          <span class="caption__idx">05 / 05 — HET WERK</span>
+          <h3>Uit de kaart groeit het plan.</h3>
+          <p>Drie manieren waarop dat werk er in de praktijk uitziet. Steeds hetzelfde principe: eerst zien, dan pas bouwen.</p>
+        </div>
+      </div>
+
+      <div class="stage__graphwrap">
+        <svg id="stageSvg" viewBox="0 0 1000 660">
+          <g id="stageBands"></g>
+          <g id="stageEdges"></g>
+          <g id="stageNodes"></g>
+        </svg>
+        <div class="sweep" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <!-- diensten cards, grow out of the services layer -->
+    <div class="stage__cards" id="diensten" aria-label="Diensten">
+      <a class="svc-card" href="#contact">
+        <span class="svc-card__tag">Triage &amp; Stabilisatie</span>
+        <h4>"Er is iets stuk en niemand vindt het."</h4>
+        <p>Productie-incident, release-druk, of de persoon die alles doorzag is net weg. Ik vind binnen enkele dagen de oorzaak en je team krijgt een herstelplan waar het direct mee verder kan.</p>
+        <span class="svc-card__more">Root cause in 48–72 uur →</span>
+      </a>
+      <a class="svc-card svc-card--deep" href="#contact">
+        <span class="svc-card__tag">Audit &amp; Risicokaart</span>
+        <h4>"Klopt het wat hier gebouwd is?"</h4>
+        <p>Legacy-overdracht, due diligence of AI-gegenereerde code waar je niet volledig voor kunt instaan. Ik lees de code zelf en vertel je wat kritiek is en wat acceptabele ruis.</p>
+        <span class="svc-card__more">Deep Scan + roadmap →</span>
+      </a>
+      <a class="svc-card svc-card--ink" href="#contact">
+        <span class="svc-card__tag">AI-orkestratie</span>
+        <h4>"AI maakte ons sneller. En rommeliger."</h4>
+        <p>Samen met je team stem ik agent-workflows, review-grenzen en conventies af, tot de output onderhoudbaar blijft nadat de demo-glans verdwenen is. Daarna ga ik weer weg.</p>
+        <span class="svc-card__more">Review-grenzen die blijven →</span>
+      </a>
+    </div>
+
+    <div class="rail" aria-hidden="true">
+      <div class="rail__step is-active" data-rail="0"><span>KLUWEN</span></div>
+      <div class="rail__step" data-rail="1"><span>SCAN</span></div>
+      <div class="rail__step" data-rail="2"><span>RISICO</span></div>
+      <div class="rail__step" data-rail="3"><span>KAART</span></div>
+      <div class="rail__step" data-rail="4"><span>PLAN</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ACT 4 — AANPAK ══════════ -->
+<section class="approach" id="aanpak" aria-label="Aanpak">
+  <div class="approach__head">
+    <span class="section-label">// HOE IK WERK</span>
+    <h2>In de eerste dagen weet je waar de knel zit.</h2>
+    <p>In week één liggen de prioriteiten vast. Daarna beginnen de verbeteringen — met je eigen team aan het stuur.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <span class="step__num">01</span>
+      <h3>Deep Scan</h3>
+      <p>Ik lees de code, maar ik spreek vooral je mensen: stakeholders, product owners, de developers zelf. De codebase vertelt de helft van het verhaal. Wat schuurt in de samenwerking vertelt de rest.</p>
+    </div>
+    <div class="step">
+      <span class="step__num">02</span>
+      <h3>Strategic Map</h3>
+      <p>Wat ik vind leg ik naast wat je team zelf al voelde. Je krijgt een compacte readout: risicokaart, trade-offs, volgorde, en wat je moet stóppen. Beslissingen waar je team maandag mee aan de slag kan.</p>
+    </div>
+    <div class="step">
+      <span class="step__num">03</span>
+      <h3>Accelerate</h3>
+      <p>Ik schuif aan in je team: uitvoering deblokkeren, leads coachen, eigenaarschap op de juiste plek leggen. Zodra het loopt, draag ik schoon over en vertrek ik.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section class="contact" id="contact" aria-label="Contact">
+  <div class="contact__inner">
+    <span class="section-label">// CONTACT</span>
+    <h2>Klaar om te zien wat er werkelijk speelt?</h2>
+    <p class="contact__sub">Stuur de rommelige versie. Een alinea over de codebase, het team of het AI-initiatief is genoeg om te beginnen.</p>
+    <form class="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" aria-label="Contactformulier">
+      <p class="contact-form__trap" aria-hidden="true">
+        <label>Laat dit veld leeg <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+      </p>
+      <input type="hidden" name="form-name" value="contact">
+      <div class="contact-form__row">
+        <input class="form-input" type="text" name="name" placeholder="Je naam" autocomplete="name" required aria-label="Je naam">
+        <input class="form-input" type="email" name="email" placeholder="naam@bedrijf.nl" autocomplete="email" required aria-label="Je e-mailadres">
+      </div>
+      <textarea class="form-textarea" name="message" rows="3" placeholder="Wat speelt er?" required aria-label="Je bericht"></textarea>
+      <div class="contact-form__actions">
+        <button type="submit" class="btn btn--primary">Start een vertrouwelijke Deep Scan</button>
+        <a href="https://www.linkedin.com/in/vincent-van-den-braken/" target="_blank" rel="noopener noreferrer" class="btn btn--outline">Connect via LinkedIn</a>
+      </div>
+      <p class="contact__meta">Ik reageer doorgaans binnen 2 werkdagen.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer" aria-label="Site footer">
+  <div class="footer__inner">
+    <span class="footer__logo"><span class="nav__dot" aria-hidden="true"></span>VINCABILITY</span>
+    <div class="footer__links">
+      <a href="#diensten">Diensten</a>
+      <a href="#aanpak">Aanpak</a>
+      <a href="https://www.linkedin.com/in/vincent-van-den-braken/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/vincability" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+    <span>© 2026 Vincability · Nederland</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+<script>
+/* ════════════════════ GRAPH ENGINE ════════════════════ */
+const SVGNS = 'http://www.w3.org/2000/svg';
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* deterministic pseudo-random */
+function prand(i) { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+
+/* ── Node model: chaos → clean layered map (viewBox 1000×660) ── */
+const LAYER_Y = { ui: 90, svc: 260, dom: 430, data: 590 };
+const NODES = [
+  { id:'web',     label:'Web UI',      layer:'ui',   chaos:[430,300], clean:[250, LAYER_Y.ui] },
+  { id:'admin',   label:'Admin',       layer:'ui',   chaos:[300,190], clean:[500, LAYER_Y.ui] },
+  { id:'mobiel',  label:'Mobiel',      layer:'ui',   chaos:[620,240], clean:[750, LAYER_Y.ui] },
+  { id:'auth',    label:'Auth',        layer:'svc',  chaos:[520,170], clean:[170, LAYER_Y.svc] },
+  { id:'orders',  label:'Orders',      layer:'svc',  chaos:[380,430], clean:[420, LAYER_Y.svc] },
+  { id:'billing', label:'Billing',     layer:'svc',  chaos:[565,390], clean:[650, LAYER_Y.svc], risk:true },
+  { id:'rapport', label:'Rapportage',  layer:'svc',  chaos:[680,330], clean:[880, LAYER_Y.svc] },
+  { id:'klant',   label:'Klant-domein',layer:'dom',  chaos:[330,330], clean:[280, LAYER_Y.dom] },
+  { id:'contract',label:'Contracten',  layer:'dom',  chaos:[470,270], clean:[530, LAYER_Y.dom] },
+  { id:'legacy',  label:'Legacy lib',  layer:'dom',  chaos:[455,345], clean:[790, LAYER_Y.dom], risk:true },
+  { id:'db',      label:'Database',    layer:'data', chaos:[400,235], clean:[300, LAYER_Y.data] },
+  { id:'cache',   label:'Cache',       layer:'data', chaos:[550,290], clean:[560, LAYER_Y.data] },
+  { id:'queue',   label:'Queue',       layer:'data', chaos:[490,420], clean:[790, LAYER_Y.data] },
+];
+const EDGES = [
+  ['web','auth'], ['web','orders'], ['admin','auth'], ['admin','rapport'],
+  ['mobiel','orders'], ['mobiel','auth'],
+  ['orders','klant'], ['orders','contract'], ['billing','contract'], ['rapport','contract'],
+  ['auth','db'], ['klant','db'], ['contract','db'], ['contract','queue'], ['billing','cache'], ['rapport','cache'],
+  /* the findings */
+  ['web','db', true], ['admin','legacy', true], ['legacy','db', true],
+  ['legacy','billing', true], ['orders','billing', true], ['mobiel','legacy', true],
+  /* noise dependencies — real in the tangle, pruned during the untangle */
+  ['web','cache', false, true], ['admin','queue', false, true], ['mobiel','db', false, true],
+  ['rapport','klant', false, true], ['billing','db', false, true], ['auth','contract', false, true],
+  ['admin','contract', false, true], ['mobiel','cache', false, true], ['web','rapport', false, true],
+  ['klant','queue', false, true], ['web','billing', false, true], ['admin','billing', false, true],
+];
+const BANDS = [
+  { label:'UI',       y: LAYER_Y.ui },
+  { label:'SERVICES', y: LAYER_Y.svc },
+  { label:'DOMEIN',   y: LAYER_Y.dom },
+  { label:'DATA',     y: LAYER_Y.data },
+];
+const NODE_W = 118, NODE_H = 40;
+
+function buildGraph(svgId, nodes, edges, opts = {}) {
+  const scale = opts.scale || 1;
+  const g = {
+    nodes: nodes.map((n, i) => ({ ...n, x: n.chaos[0]*scale, y: n.chaos[1]*scale, i })),
+    order: 0,   /* 0 = chaotic bends, 1 = calm bends */
+    edges: [],
+  };
+  const byId = Object.fromEntries(g.nodes.map(n => [n.id, n]));
+  const edgesG = document.querySelector('#' + svgId + (opts.edgeSel || 'Edges'));
+  const nodesG = document.querySelector('#' + svgId + (opts.nodeSel || 'Nodes'));
+
+  edges.forEach(([a, b, risk, ghost], i) => {
+    const p = document.createElementNS(SVGNS, 'path');
+    p.setAttribute('class', 'edge' + (risk ? ' edge--risk' : '') + (ghost ? ' edge--ghost' : ''));
+    edgesG.appendChild(p);
+    /* organic chaos bend: strong, alternating perpendicular offset */
+    const bend = (prand(i) - .5) * 320 * scale;
+    g.edges.push({ a: byId[a], b: byId[b], risk: !!risk, ghost: !!ghost, el: p, chaosBend: bend, cleanBend: (prand(i+40)-.5) * 44 * scale });
+  });
+
+  g.nodes.forEach(n => {
+    const grp = document.createElementNS(SVGNS, 'g');
+    grp.setAttribute('class', 'gnode' + (n.risk ? ' gnode--risk' : ''));
+    const w = NODE_W*scale, h = NODE_H*scale;
+    const r = document.createElementNS(SVGNS, 'rect');
+    r.setAttribute('width', w); r.setAttribute('height', h);
+    r.setAttribute('x', -w/2); r.setAttribute('y', -h/2);
+    r.setAttribute('rx', 8*scale);
+    const t = document.createElementNS(SVGNS, 'text');
+    t.textContent = n.label;
+    if (scale !== 1) t.setAttribute('style', 'font-size:' + (11.5*scale) + 'px');
+    grp.appendChild(r); grp.appendChild(t);
+    nodesG.appendChild(grp);
+    n.el = grp;
+  });
+
+  g.render = function () {
+    g.nodes.forEach(n => n.el.setAttribute('transform', `translate(${n.x}, ${n.y})`));
+    g.edges.forEach(e => {
+      const bend = e.chaosBend + (e.cleanBend - e.chaosBend) * g.order;
+      const ax = e.a.x, ay = e.a.y, bx = e.b.x, by = e.b.y;
+      const dx = bx - ax, dy = by - ay;
+      const len = Math.max(1, Math.hypot(dx, dy));
+      const nx = -dy/len, ny = dx/len; /* perpendicular */
+      const c1x = ax + dx*.3 + nx*bend, c1y = ay + dy*.3 + ny*bend;
+      const c2x = ax + dx*.7 + nx*bend*.6, c2y = ay + dy*.7 + ny*bend*.6;
+      e.el.setAttribute('d', `M ${ax} ${ay} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${bx} ${by}`);
+    });
+  };
+  g.byId = byId;
+  g.render();
+  return g;
+}
+
+/* ════════════════════ HERO GRAPH (Act 1) ════════════════════ */
+const heroNodes = NODES.filter(n => ['web','admin','auth','orders','billing','contract','legacy','db','queue'].includes(n.id))
+  .map(n => ({ ...n, chaos: [ (n.chaos[0]-180) * 1.05, (n.chaos[1]-120) * 1.35 + 40 ] }));
+const heroEdges = EDGES.filter(([a,b]) => heroNodes.some(n=>n.id===a) && heroNodes.some(n=>n.id===b));
+const heroG = buildGraph('hero', heroNodes, heroEdges, {});
+
+/* line-drawing entrance + idle drift — fast: the fold must not sit half-blank */
+if (!reduced) {
+  heroG.edges.forEach((e, i) => {
+    const len = e.el.getTotalLength();
+    e.el.style.strokeDasharray = len;
+    e.el.style.strokeDashoffset = len * .8; /* start partially drawn */
+    gsap.to(e.el.style, { strokeDashoffset: 0, duration: .8, delay: .08 + i * .025, ease: 'power2.out',
+      onComplete: () => { e.el.style.strokeDasharray = 'none'; } });
+  });
+  heroG.nodes.forEach((n, i) => {
+    gsap.from(n.el, { opacity: 0, scale: .6, transformOrigin: 'center', duration: .55, delay: .05 + i * .04, ease: 'back.out(1.6)' });
+    /* organic drift — the tangle breathes */
+    const amp = 9 + prand(i) * 10;
+    gsap.to(n, {
+      x: `+=${(prand(i+7)-.5) * amp * 2}`,
+      y: `+=${(prand(i+13)-.5) * amp * 2}`,
+      duration: 3 + prand(i+3) * 2.5,
+      yoyo: true, repeat: -1, ease: 'sine.inOut',
+      onUpdate: heroG.render,
+    });
+  });
+}
+
+/* ════════════════════ STAGE GRAPH (Act 2/3) ════════════════════ */
+const stageG = buildGraph('stage', NODES, EDGES, {});
+
+/* layer bands */
+const bandsG = document.getElementById('stageBands');
+BANDS.forEach(b => {
+  const grp = document.createElementNS(SVGNS, 'g');
+  grp.setAttribute('class', 'layerband');
+  const r = document.createElementNS(SVGNS, 'rect');
+  r.setAttribute('x', 90); r.setAttribute('y', b.y - 36);
+  r.setAttribute('width', 880); r.setAttribute('height', 72);
+  r.setAttribute('rx', 10);
+  const t = document.createElementNS(SVGNS, 'text');
+  t.setAttribute('x', 104); t.setAttribute('y', b.y - 46);
+  t.textContent = '// ' + b.label;
+  grp.appendChild(r); grp.appendChild(t);
+  bandsG.appendChild(grp);
+});
+
+const captions = gsap.utils.toArray('.caption');
+const railSteps = gsap.utils.toArray('.rail__step');
+const svcCards = gsap.utils.toArray('.svc-card');
+
+if (reduced) {
+  /* static fallback: clean map, risks visible, noise pruned, everything readable */
+  stageG.order = 1;
+  stageG.nodes.forEach(n => { n.x = n.clean[0]; n.y = n.clean[1]; });
+  stageG.render();
+  document.querySelectorAll('.layerband').forEach(b => b.style.opacity = 1);
+  document.querySelectorAll('.edge--ghost').forEach(e => e.style.display = 'none');
+} else {
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* caption crossfade helper */
+  function showCap(tl, idx, at) {
+    if (idx > 0) tl.to(captions[idx-1], { opacity: 0, y: -18, visibility: 'hidden', duration: .25 }, at);
+    tl.fromTo(captions[idx], { opacity: 0, y: 26, visibility: 'visible' },
+      { opacity: 1, y: 0, visibility: 'visible', duration: .35, ease: 'power2.out' }, at + .12);
+    tl.call(() => railSteps.forEach((r, i) => r.classList.toggle('is-active', i === idx)), null, at + .12);
+  }
+
+  gsap.set(captions[0], { opacity: 1, visibility: 'visible' });
+
+  const tl = gsap.timeline({
+    defaults: { ease: 'power2.inOut' },
+    scrollTrigger: {
+      trigger: '.scrolly',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.7,
+    },
+  });
+  /* timeline uses a 10-unit clock */
+
+  /* ── P0 (0→1.2): the living tangle — nodes writhe slightly ── */
+  stageG.nodes.forEach((n, i) => {
+    tl.to(n, {
+      x: n.chaos[0] + (prand(i+21)-.5) * 46,
+      y: n.chaos[1] + (prand(i+34)-.5) * 46,
+      duration: 1.2, ease: 'sine.inOut', onUpdate: stageG.render,
+    }, 0);
+  });
+
+  /* ── P1 (1.2→2.6): x-ray sweep + risk edges flare red ── */
+  showCap(tl, 1, 1.15);
+  tl.fromTo('.sweep', { left: '-10%', opacity: 0 }, { opacity: 1, duration: .15 }, 1.3);
+  tl.to('.sweep', { left: '105%', duration: 1.1, ease: 'none' }, 1.35);
+  tl.to('.sweep', { opacity: 0, duration: .15 }, 2.35);
+  /* edges dim to reveal judgement, risks flare */
+  tl.to('.edge:not(.edge--risk)', { opacity: .45, duration: .6 }, 1.6);
+  stageG.edges.filter(e => e.risk).forEach((e, i) => {
+    tl.fromTo(e.el, { strokeWidth: 1.8 }, { strokeWidth: 3.2, duration: .3, ease: 'power3.out' }, 1.5 + i * .12)
+      .to(e.el, { strokeWidth: 2.4, duration: .3 }, 1.9 + i * .12);
+  });
+  tl.to('.gnode--risk rect', { stroke: '#D93025', strokeWidth: 2.4, duration: .5 }, 1.8);
+
+  /* ── P2 (2.6→3.4): dwell on the findings ── */
+  showCap(tl, 2, 2.6);
+  tl.to({}, { duration: .7 }, 2.7); /* hold */
+
+  /* ── P3 (3.4→6.2): the untangle — nodes fly to layers, bends calm down ── */
+  showCap(tl, 3, 5.1);
+  const untangleStart = 3.4;
+  /* order: data layer settles first (foundation), then domain, services, ui */
+  const layerDelay = { data: 0, dom: .45, svc: .95, ui: 1.5 };
+  stageG.nodes.forEach((n) => {
+    tl.to(n, {
+      x: n.clean[0], y: n.clean[1],
+      duration: 1.25, ease: 'power3.inOut',
+      onUpdate: stageG.render,
+    }, untangleStart + layerDelay[n.layer] + prand(n.i+5) * .2);
+  });
+  tl.to(stageG, { order: 1, duration: 2.4, onUpdate: stageG.render }, untangleStart + .2);
+  /* noise dependencies are pruned as the map takes shape */
+  tl.to('.edge--ghost', { opacity: 0, duration: .9 }, untangleStart + .3);
+  /* bands fade in as their layer settles */
+  gsap.utils.toArray('.layerband').reverse().forEach((b, i) => {
+    tl.to(b, { opacity: 1, duration: .5 }, untangleStart + .9 + i * .5);
+  });
+  tl.to('.edge:not(.edge--risk):not(.edge--ghost)', { opacity: .8, duration: .8 }, untangleStart + 1.6);
+
+  /* ── P4 (6.2→7.2): clean map dwell — risks pulse once, then resolve ── */
+  stageG.edges.filter(e => e.risk).forEach((e, i) => {
+    tl.fromTo(e.el, { strokeWidth: 2.4 }, { strokeWidth: 3.4, duration: .35, ease: 'power2.out' }, 6.3 + i * .08)
+      .to(e.el, { strokeWidth: 2.6, duration: .35 }, 6.7 + i * .08);
+  });
+  tl.to({}, { duration: .6 }, 6.6);
+  /* resolution: risk edges recede into annotations — the plan is the cleanest frame */
+  tl.to('.edge--risk', { opacity: .28, strokeWidth: 1.5, duration: .7 }, 6.9);
+
+  /* ── P5 (7.2→10): cards grow out of the services layer ── */
+  const isMobile = window.innerWidth < 900;
+  if (isMobile) {
+    /* on mobile the cards overlay the whole stage: clear caption + copy fully first */
+    tl.to(captions[3], { opacity: 0, y: -18, visibility: 'hidden', duration: .3 }, 7.0);
+    tl.call(() => railSteps.forEach((r, i) => r.classList.toggle('is-active', i === 4)), null, 7.1);
+    tl.to('.stage__copy', { opacity: 0, duration: .3 }, 7.1);
+    tl.to('#stageSvg', { opacity: .05, scale: .96, transformOrigin: '50% 50%', duration: .6 }, 7.2);
+  } else {
+    showCap(tl, 4, 7.15);
+    tl.to('#stageSvg', { opacity: .1, scale: .96, transformOrigin: '50% 50%', duration: .9 }, 7.4);
+  }
+  tl.to('.layerband', { opacity: 0, duration: .5 }, 7.3);
+
+  /* each card scales up FROM its seed node's on-screen position */
+  const seedIds = ['auth', 'orders', 'billing'];
+  svcCards.forEach((card, i) => {
+    tl.fromTo(card, {
+      opacity: 0, scale: .06,
+      x: () => {
+        const svg = document.getElementById('stageSvg');
+        const sb = svg.getBoundingClientRect();
+        const seed = stageG.byId[seedIds[i]];
+        const px = sb.left + (seed.clean[0] / 1000) * sb.width;
+        const cb = card.getBoundingClientRect();
+        return px - (cb.left + cb.width/2);
+      },
+      y: () => {
+        const svg = document.getElementById('stageSvg');
+        const sb = svg.getBoundingClientRect();
+        const seed = stageG.byId[seedIds[i]];
+        const py = sb.top + (seed.clean[1] / 660) * sb.height;
+        const cb = card.getBoundingClientRect();
+        return py - (cb.top + cb.height/2);
+      },
+    }, {
+      opacity: 1, scale: 1, x: 0, y: 0,
+      duration: 1.1, ease: 'power3.inOut',
+    }, 7.6 + i * .35);
+  });
+  tl.to({}, { duration: .6 }, 9.4); /* settle dwell before unpin */
+
+  /* recompute function-based from values on resize */
+  ScrollTrigger.addEventListener('refreshInit', () => tl.invalidate());
+}
+
+/* nav goes dark when floating over the dark contact/footer sections */
+const navEl = document.querySelector('.nav');
+const contactEl = document.querySelector('.contact');
+function syncNavTheme() {
+  navEl.classList.toggle('nav--dark', contactEl.getBoundingClientRect().top <= 66);
+}
+document.addEventListener('scroll', syncNavTheme, { passive: true });
+syncNavTheme();
+
+/* aanpak steps entrance */
+if (!reduced) {
+  gsap.utils.toArray('.step').forEach((s, i) => {
+    gsap.from(s, {
+      opacity: 0, y: 40, duration: .8, ease: 'power2.out', delay: i * .12,
+      scrollTrigger: { trigger: '.approach', start: 'top 70%' },
+    });
+  });
+}
+</script>
+</body>
+</html>
