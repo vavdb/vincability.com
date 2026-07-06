@@ -22,7 +22,8 @@
   --ink-3:        #5A6A61;
   --green:        #00843D;
   --green-deep:   #00602C;
-  --red:          #D93025;
+  --orange:       #B45309;
+  --purple:       #6D28D9;
   --green-neon:   #00E676;
   --paper-2:      #EFF4F1;
   --line-soft:    #D8E0DB;
@@ -187,7 +188,7 @@ a{ color: inherit; }
   display:inline-block; flex: none;
 }
 
-/* red hand-drawn underline on key phrases */
+/* orange hand-drawn underline on key phrases */
 .mark{ position: relative; white-space: nowrap; }
 .mark svg{
   position:absolute; left:-2%; bottom:-.14em;
@@ -195,7 +196,7 @@ a{ color: inherit; }
   overflow: visible; pointer-events:none;
 }
 .mark svg path{
-  fill:none; stroke: var(--red); stroke-width: 2.4;
+  fill:none; stroke: var(--orange); stroke-width: 2.4;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
 }
@@ -337,8 +338,8 @@ a{ color: inherit; }
   letter-spacing:.04em; color: var(--green-deep);
   justify-self: end; text-align: right;
 }
-.svc--risk .svc__num b{ color: var(--red); }
-.svc--risk::before{ background: var(--red); }
+.svc--risk .svc__num b{ color: var(--orange); }
+.svc--risk::before{ background: var(--orange); }
 @media (max-width: 980px){
   .svc{ grid-template-columns: 1fr; gap: 14px; padding: 24px 8px; }
   .svc__num{ display:flex; gap: 10px; align-items: baseline; }
@@ -403,7 +404,7 @@ a{ color: inherit; }
   margin-bottom: 16px;
 }
 .caption p{ font-size: 16.5px; line-height: 1.65; color: var(--ink-2); }
-.caption .bad{ color: var(--red); font-weight: 500; }
+.caption .bad{ color: var(--orange); font-weight: 500; }
 .caption .good{ color: var(--green-deep); font-weight: 500; }
 .caption__idx{
   font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em;
@@ -417,19 +418,19 @@ a{ color: inherit; }
 .stage__graphwrap svg{ width: 100%; height: auto; max-height: calc(100vh - 190px); display: block; }
 
 .edge{ fill: none; stroke: #A9BCB1; stroke-width: 1.4; stroke-linecap: round; }
-.edge--risk{ stroke: var(--red); stroke-width: 1.8; }
+.edge--risk{ stroke: var(--orange); stroke-width: 1.8; }
 .edge--ghost{ stroke: #B4C5BA; stroke-width: 1.1; }
 .gnode rect{
   fill: var(--paper-hi);
   stroke: #7E938A; stroke-width: 1.2;
   filter: drop-shadow(0 2px 5px rgba(20,32,26,.10));
 }
-.gnode--risk rect{ stroke: var(--red); stroke-width: 1.6; }
+.gnode--risk rect{ stroke: var(--orange); stroke-width: 1.6; }
 .gnode text{
   font-family: var(--font-mono); font-size: 11.5px; font-weight: 500;
   fill: var(--ink); text-anchor: middle; dominant-baseline: middle;
 }
-.gnode--risk text{ fill: var(--red); }
+.gnode--risk text{ fill: var(--orange); }
 .layerband{ opacity: 0; }
 .layerband rect{ fill: rgba(0,132,61,.045); stroke: rgba(0,132,61,.14); stroke-dasharray: 3 5; }
 .layerband text{
@@ -537,7 +538,7 @@ a{ color: inherit; }
   font-size: clamp(34px, 4.4vw, 68px); line-height: 1;
   display:block; margin-bottom: 8px;
 }
-.proof b .accent{ color: var(--green); }
+.proof b .accent{ color: var(--purple); }
 .proof span{
   font-family: var(--font-mono); font-size: 11.5px; letter-spacing:.06em;
   color: var(--ink-3);
@@ -676,7 +677,7 @@ a{ color: inherit; }
       <div class="rv">
         <p class="hero__sub">
           Je schakelt mij in als je niet meer zeker weet of
-          <span class="mark" data-mark>het systeem klopt</span>, of hoe je verder moet.
+          het systeem klopt, of hoe je verder moet.
           Ik zoek uit wat er werkelijk aan de hand is en vertel je precies waar je staat.
           Daarna kun je weer beslissen op basis van feiten in plaats van onderbuik.
         </p>
@@ -724,7 +725,7 @@ a{ color: inherit; }
         <a class="svc rv" href="#contact">
           <span class="svc__num"><b>02</b>AUDIT</span>
           <span>
-            <span class="svc__title">“Klopt het wat hier <span class="mark" data-mark>gebouwd</span> is?”</span>
+            <span class="svc__title">“Klopt het wat hier gebouwd is?”</span>
             <span class="svc__desc">
               Een legacy-overdracht, een overname onder due diligence, of AI-gegenereerde code waar
               je niet volledig voor kunt instaan. Ik lees de code zelf en vertel je wat kritiek is en wat
@@ -737,7 +738,7 @@ a{ color: inherit; }
         <a class="svc rv" href="#contact">
           <span class="svc__num"><b>03</b>AI-FLOW</span>
           <span>
-            <span class="svc__title">“AI heeft ons sneller gemaakt. En <span class="mark" data-mark>rommeliger</span>.”</span>
+            <span class="svc__title">“AI heeft ons sneller gemaakt. En rommeliger.”</span>
             <span class="svc__desc">
               AI is een integratievraagstuk, geen magie. Samen met je team stem ik agent-workflows,
               review-grenzen en codebase-conventies af, tot de output onderhoudbaar blijft nadat de
@@ -750,7 +751,7 @@ a{ color: inherit; }
         <a class="svc rv" href="#contact">
           <span class="svc__num"><b>04</b>VALIDATIE</span>
           <span>
-            <span class="svc__title">“Ons externe team levert. Maar is het <span class="mark" data-mark>het juiste</span>?”</span>
+            <span class="svc__title">“Ons externe team levert. Maar is het het juiste?”</span>
             <span class="svc__desc">
               Een onafhankelijke blik op de vraag of uitbesteed werk doet wat de business nodig heeft,
               niet alleen of de code compileert. Vaak zit het probleem in de vertaling tussen opdracht
@@ -891,7 +892,7 @@ a{ color: inherit; }
       <h2 class="rv">Klaar om te zien wat er <span class="green">werkelijk</span> speelt?</h2>
       <div class="cta__grid">
         <p class="rv">
-          Stuur de <span class="mark" data-mark>rommelige versie</span>. Een alinea over de codebase,
+          Stuur de rommelige versie. Een alinea over de codebase,
           het team of het AI-initiatief is genoeg om te beginnen. Vertrouwelijk en zonder verplichtingen.
           Je krijgt een eerlijk antwoord, ook als dat is dat je mij niet nodig hebt.
         </p>
@@ -1113,7 +1114,7 @@ void main(){
     });
   }
 
-  /* ---------- red hand-drawn underlines (SVG injected per .mark) ---------- */
+  /* ---------- orange hand-drawn underlines (SVG injected per .mark) ---------- */
   document.querySelectorAll('[data-mark]').forEach(function(el){
     var ns = 'http://www.w3.org/2000/svg';
     var svg = document.createElementNS(ns, 'svg');
@@ -1156,7 +1157,7 @@ void main(){
     }
   }
 
-  /* prep red underlines for draw-in */
+  /* prep orange underlines for draw-in */
   document.querySelectorAll('[data-mark] path').forEach(function(path){
     var len = path.getTotalLength();
     path.style.strokeDasharray = len;
