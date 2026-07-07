@@ -180,7 +180,7 @@ a{ color: inherit; }
 .kicker{
   font-family: var(--font-mono);
   font-size: 12px; letter-spacing: .12em;
-  color: var(--green);
+  color: var(--ink-2);
   display:flex; align-items:center; gap:14px;
 }
 .kicker::before{
@@ -321,7 +321,7 @@ a{ color: inherit; }
   display:block;
   font-family: var(--font-display); font-weight: 400;
   font-size: 34px; line-height: 1;
-  color: var(--green);
+  color: var(--purple);
   margin-bottom: 4px;
 }
 .svc__title{
@@ -335,7 +335,7 @@ a{ color: inherit; }
 .svc__desc{ display:block; font-size: 15px; line-height: 1.6; color: var(--ink-2); max-width: 560px; }
 .svc__tag{
   font-family: var(--font-mono); font-size: 11.5px; line-height: 1.9;
-  letter-spacing:.04em; color: var(--green-deep);
+  letter-spacing:.04em; color: var(--ink-2);
   justify-self: end; text-align: right;
 }
 .svc--risk .svc__num b{ color: var(--orange); }
@@ -365,7 +365,7 @@ a{ color: inherit; }
   position:absolute; left:-.55em; top:-.06em;
   color: var(--green); font-size: 1.15em;
 }
-.pull .green{ color: var(--green); }
+.pull .green{ color: var(--purple); }
 .pull cite{
   display:block; margin-top: 26px; margin-left: clamp(0px, 8vw, 140px);
   font-style: normal;
@@ -390,7 +390,7 @@ a{ color: inherit; }
 .stage__copy{ position: relative; }
 .stage__kicker{
   font-family: var(--font-mono); font-size: 11.5px; font-weight: 600;
-  letter-spacing: .16em; color: var(--green);
+  letter-spacing: .16em; color: var(--ink-2);
   margin-bottom: 14px; display: block;
 }
 .caption{
@@ -506,11 +506,11 @@ a{ color: inherit; }
   font-family: var(--font-display);
   font-size: clamp(54px, 6.5vw, 104px);
   line-height: .9;
-  color: var(--green);
+  color: var(--purple);
   display:block; margin-bottom: 20px;
 }
 .step:nth-child(2) .step__num{ color: var(--ink); }
-.step:nth-child(3) .step__num{ color: transparent; -webkit-text-stroke: 1.5px var(--green); }
+.step:nth-child(3) .step__num{ color: transparent; -webkit-text-stroke: 1.5px var(--purple); }
 .step h3{
   font-family: var(--font-mono); font-weight: 700;
   font-size: 15px; letter-spacing: .08em; text-transform: uppercase;
@@ -566,7 +566,7 @@ a{ color: inherit; }
   line-height: .98; text-transform: uppercase;
   margin-bottom: clamp(26px, 5vh, 48px);
 }
-.cta h2 .green{ color: var(--green); }
+.cta h2 .green{ color: var(--purple); }
 .cta__grid{
   display:grid; grid-template-columns: minmax(0,7fr) minmax(0,5fr);
   gap: clamp(24px, 4vw, 72px); align-items: start;
@@ -578,6 +578,22 @@ a{ color: inherit; }
   font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-3);
   margin-top: 10px;
 }
+.cta__form{ display:flex; flex-direction:column; gap: 12px; }
+.cta__form .form-row{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cta__form input, .cta__form textarea{
+  font-family: var(--font-mono); font-size: 13.5px;
+  padding: 12px 14px; color: var(--ink); width: 100%;
+  background: rgba(255,255,255,.65); border: 1.5px solid var(--rule);
+  border-radius: 0;
+}
+.cta__form input::placeholder, .cta__form textarea::placeholder{ color: var(--ink-3); }
+.cta__form input:focus-visible, .cta__form textarea:focus-visible{
+  outline: none; border-color: var(--green-deep);
+}
+.cta__form textarea{ resize: vertical; min-height: 96px; }
+.cta__form button.btn{ border: none; font: inherit; cursor: pointer; }
+.cta__trap{ position: absolute; left: -9999px; }
+@media (max-width: 560px){ .cta__form .form-row{ grid-template-columns: 1fr; } }
 @media (max-width: 900px){ .cta__grid{ grid-template-columns: 1fr; } }
 
 /* --- narrow widths: stacked section heads + tighter pacing --- */
@@ -661,7 +677,7 @@ a{ color: inherit; }
       <li><a href="#contact">Contact</a></li>
     </ul>
     <button class="nav__burger" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Menu openen">MENU</button>
-    <a class="nav__cta" href="#contact">Plan een gesprek</a>
+    <a class="nav__cta" href="#contact">Neem contact op</a>
   </nav>
 
   <!-- HERO -->
@@ -669,7 +685,7 @@ a{ color: inherit; }
     <div class="hero__status rv"><b>●</b>&nbsp;BESCHIKBAAR VOOR NIEUWE OPDRACHTEN</div>
 
     <h1 id="hero-h" aria-label="Zien wat anderen missen. Bouwen wat er echt toe doet.">
-      <span class="line"><span>Zien wat anderen <em class="green" style="font-style:normal;">missen</em>.</span></span>
+      <span class="line"><span>Zien wat anderen <em style="font-style:normal; color:var(--purple);">missen</em>.</span></span>
       <span class="line"><span class="thin">Bouwen wat er <em style="font-style:normal; color:var(--ink);">echt toe doet</em>.</span></span>
     </h1>
 
@@ -682,7 +698,7 @@ a{ color: inherit; }
           Daarna kun je weer beslissen op basis van feiten in plaats van onderbuik.
         </p>
         <div class="hero__ctas">
-          <a class="btn btn--ink" href="#contact">Plan een gesprek</a>
+          <a class="btn btn--ink" href="#contact">Neem contact op</a>
           <a class="btn btn--ghost" href="#aanpak">Hoe ik werk</a>
         </div>
       </div>
@@ -896,10 +912,22 @@ a{ color: inherit; }
           het team of het AI-initiatief is genoeg om te beginnen. Vertrouwelijk en zonder verplichtingen.
           Je krijgt een eerlijk antwoord, ook als dat is dat je mij niet nodig hebt.
         </p>
-        <div class="cta__actions rv">
-          <a class="btn btn--ink" href="https://www.linkedin.com/in/vincent-van-den-braken/" target="_blank" rel="noopener noreferrer">Plan een gesprek via LinkedIn</a>
+        <form class="cta__form rv" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" aria-label="Contactformulier">
+          <p class="cta__trap" aria-hidden="true">
+            <label>Laat dit veld leeg <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+          </p>
+          <input type="hidden" name="form-name" value="contact">
+          <div class="form-row">
+            <input type="text" name="name" placeholder="Je naam" autocomplete="name" required aria-label="Je naam">
+            <input type="email" name="email" placeholder="naam@bedrijf.nl" autocomplete="email" required aria-label="Je e-mailadres">
+          </div>
+          <textarea name="message" rows="3" placeholder="Wat speelt er?" required aria-label="Je bericht"></textarea>
+          <div class="cta__actions">
+            <button type="submit" class="btn btn--ink">Neem contact op</button>
+            <a class="btn btn--ghost" href="https://www.linkedin.com/in/vincent-van-den-braken/" target="_blank" rel="noopener noreferrer">Connect via LinkedIn</a>
+          </div>
           <p class="cta__meta">// vertrouwelijk · ik reageer doorgaans binnen 2 werkdagen.</p>
-        </div>
+        </form>
       </div>
     </section>
 
