@@ -821,10 +821,22 @@ a{ color: inherit; }
       </div>
     </section>
 
-    <!-- PULL-QUOTE -->
-    <section class="pull" aria-label="Citaat">
-      <blockquote class="rv">De winst zit niet in snelheid, maar in <span class="green">iteratie&shy;dichtheid</span>.</blockquote>
-      <cite class="rv">— UIT DE DEEP-DIVE · ÉÉN PROJECT, 20 WEKEN, HETZELFDE TEAM</cite>
+    <!-- DATA — quote + hex-kaart -->
+    <section class="datapull" aria-label="Data is code">
+      <div class="datapull__grid">
+        <div class="datapull__copy rv">
+          <blockquote>Data is code. <span class="green">Code is data.</span></blockquote>
+          <p>
+            Je belt voor een code-audit en het grootste risico blijkt het datamodel.
+            Of je belt voor een dashboard en eindigt met een vaste pipeline.
+            Ik maak dat onderscheid niet: het is hetzelfde werk.
+          </p>
+        </div>
+        <figure class="datapull__map rv" aria-hidden="true">
+          <svg id="hexmap" viewBox="0 0 320 350"></svg>
+          <figcaption>// CBS PC6 → BUURT → KAART</figcaption>
+        </figure>
+      </div>
     </section>
 
     <!-- SCAN — de audit als röntgenfoto -->
@@ -877,22 +889,10 @@ a{ color: inherit; }
       </div>
     </section>
 
-    <!-- DATA — quote + hex-kaart -->
-    <section class="datapull" aria-label="Data is code">
-      <div class="datapull__grid">
-        <div class="datapull__copy rv">
-          <blockquote>Data is code. <span class="green">Code is data.</span></blockquote>
-          <p>
-            Je belt voor een code-audit en het grootste risico blijkt het datamodel.
-            Of je belt voor een dashboard en eindigt met een vaste pipeline.
-            Ik maak dat onderscheid niet: het is hetzelfde werk.
-          </p>
-        </div>
-        <figure class="datapull__map rv" aria-hidden="true">
-          <svg id="hexmap" viewBox="0 0 300 340"></svg>
-          <figcaption>// VAN RUWE DATA NAAR KAART</figcaption>
-        </figure>
-      </div>
+    <!-- PULL-QUOTE -->
+    <section class="pull" aria-label="Citaat">
+      <blockquote class="rv">De winst zit niet in snelheid, maar in <span class="green">iteratie&shy;dichtheid</span>.</blockquote>
+      <cite class="rv">— UIT DE DEEP-DIVE · ÉÉN PROJECT, 20 WEKEN, HETZELFDE TEAM</cite>
     </section>
 
     <!-- §02 AANPAK -->
@@ -1517,25 +1517,39 @@ void main(){
   var SVGNS = 'http://www.w3.org/2000/svg';
   /* NL-silhouet als hex-grid bitmask, rij voor rij (noord naar zuid) */
   var ROWS = [
-    '...1111.....',
-    '..111111....',
-    '.1111111....',
-    '.1111111....',
-    '11111111....',
-    '111111111...',
-    '.11111111...',
-    '.11111111...',
-    '111111111...',
-    '11111111....',
-    '.1111111....',
-    '11111111....',
-    '11..11111...',
-    '......111...',
-    '.......11...',
-    '.......11...'
+    '......11..1111..........',
+    '.....1111111111.1.......',
+    '....111111111111........',
+    '....1111111111111.......',
+    '...11111111111111.......',
+    '..111111111111111.......',
+    '..111111111111111.......',
+    '..11111111111111111.....',
+    '..1111.111111111111.....',
+    '..111...11111111111.....',
+    '..111..111111111111.....',
+    '..111..1111111111111....',
+    '..1111111111111111111...',
+    '.11111111111111111111...',
+    '.111111111111111111.....',
+    '111111111111111111......',
+    '111111111111111111......',
+    '.11111111111111111......',
+    '11.111111111111111......',
+    '11.11111111111111.......',
+    '1..1111111111111111.....',
+    '....111111111111111.....',
+    '.....11111111111111.....',
+    '............11111.......',
+    '.............1111.......',
+    '.............1111.......',
+    '.............111........',
+    '.............1111.......',
+    '..............111.......',
+    '..............11........'
   ];
   var COLORS = ['#CBE8D6', '#7FCBA0', '#00843D', '#B9A7F0', '#6D28D9'];
-  var R = 12.5;
+  var R = 7;
   var W = R * Math.sqrt(3), H = R * 1.5;
   function prand(i){ var x = Math.sin(i * 91.7 + 47.3) * 24634.6345; return x - Math.floor(x); }
   function hexPoints(cx, cy){
@@ -1551,8 +1565,8 @@ void main(){
   ROWS.forEach(function(row, r){
     for(var c = 0; c < row.length; c++){
       if(row[c] !== '1') continue;
-      var cx = 24 + (c + (r % 2) * 0.5) * W;
-      var cy = 24 + r * H;
+      var cx = 14 + (c + (r % 2) * 0.5) * W;
+      var cy = 16 + r * H;
       var p = document.createElementNS(SVGNS, 'polygon');
       p.setAttribute('points', hexPoints(cx, cy));
       p.setAttribute('class', 'hex');
