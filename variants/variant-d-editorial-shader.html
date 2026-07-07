@@ -426,6 +426,8 @@ a{ color: inherit; }
   filter: drop-shadow(0 2px 5px rgba(20,32,26,.10));
 }
 .gnode--risk rect{ stroke: var(--orange); stroke-width: 1.6; }
+.gnode--data rect{ stroke: var(--purple); stroke-width: 1.4; }
+.gnode--data text{ fill: var(--purple); }
 .gnode text{
   font-family: var(--font-mono); font-size: 11.5px; font-weight: 500;
   fill: var(--ink); text-anchor: middle; dominant-baseline: middle;
@@ -520,6 +522,32 @@ a{ color: inherit; }
 @media (max-width: 900px){
   .steps{ grid-template-columns: 1fr; border-left:none; }
   .step{ border-right:none; border-bottom:1px solid var(--hairline); transform:none !important; }
+}
+
+/* --- data pull: quote + hex-kaart NL --- */
+.datapull{ padding: var(--sec-pad) 0; border-top: 1px solid var(--hairline); }
+.datapull__grid{
+  display:grid; grid-template-columns: 1.25fr 1fr;
+  gap: clamp(28px, 4vw, 72px); align-items: center;
+}
+.datapull blockquote{
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(30px, 3.6vw, 54px); line-height: 1.12;
+  margin: 0 0 18px;
+}
+.datapull .green{ color: var(--purple); }
+.datapull p{ max-width: var(--measure); color: var(--ink-2); }
+.datapull__map{ margin: 0; max-width: 340px; justify-self: end; width: 100%; }
+.datapull__map svg{ width: 100%; height: auto; display: block; }
+.datapull__map figcaption{
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .16em;
+  color: var(--ink-3); margin-top: 10px; text-align: right;
+}
+.hex{ stroke: var(--paper); stroke-width: 1; opacity: 0; transition: opacity .45s ease; }
+.hex.is-on{ opacity: 1; }
+@media (max-width: 900px){
+  .datapull__grid{ grid-template-columns: 1fr; }
+  .datapull__map{ justify-self: start; max-width: 300px; }
 }
 
 /* --- proof strip --- */
@@ -714,12 +742,12 @@ a{ color: inherit; }
       <div class="sec__head">
         <span class="sec__num rv" aria-hidden="true">01</span>
         <div>
-          <span class="kicker rv">VIER REDENEN OM TE BELLEN</span>
+          <span class="kicker rv">VIJF REDENEN OM TE BELLEN</span>
           <h2 class="sec__title rv">Welke hiervan klinkt als jouw maandagochtend?</h2>
           <p class="sec__desc rv">
-            Vier verschillende situaties, dezelfde kern: je wilt een onafhankelijke senior blik
-            op wat er speelt, en een plan dat ik samen met je team maak. Zodat het team het
-            zelf kan uitvoeren.
+            Vijf ingangen, één werkwijze: ik volg het spoor van code naar data naar team,
+            tot het klopt. Waar je binnenkomt maakt niet uit. Het plan maak ik samen met
+            je mensen, zodat het team er zelf mee verder kan.
           </p>
         </div>
       </div>
@@ -776,6 +804,20 @@ a{ color: inherit; }
           </span>
           <span class="svc__tag">Onafhankelijke Validatie<br>Actieve Bijsturing<br>Domein-eigenaarschap</span>
         </a>
+
+        <a class="svc rv" href="#contact">
+          <span class="svc__num"><b>05</b>DATA</span>
+          <span>
+            <span class="svc__title">“We hebben data. Maar geen inzicht, en geen plan.”</span>
+            <span class="svc__desc">
+              Ergens ligt data: exports, een API, een oud systeem. Niemand kijkt ernaar en
+              beslissingen lopen op onderbuik. Ik ontsluit die data en maak er iets van waar je
+              team dagelijks op stuurt. Met dezelfde grondigheid als een code-audit, want het
+              datamodel is vaak waar het echte risico zit.
+            </span>
+          </span>
+          <span class="svc__tag">Van ruwe export naar dashboard<br>Data-kwaliteit<br>Reproduceerbare pipeline</span>
+        </a>
       </div>
     </section>
 
@@ -812,7 +854,7 @@ a{ color: inherit; }
 
             <div class="caption" data-cap="3">
               <span class="caption__idx">04 / 04 — DE KAART</span>
-              <h3>Dezelfde codebase. Vier lagen.</h3>
+              <h3>Code én data. Eén kaart.</h3>
               <p>Elke pijl heeft nu een reden of een vervaldatum. <span class="good">Hier kun je met je team en je management over praten.</span></p>
             </div>
           </div>
@@ -832,6 +874,24 @@ a{ color: inherit; }
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- DATA — quote + hex-kaart -->
+    <section class="datapull" aria-label="Data is code">
+      <div class="datapull__grid">
+        <div class="datapull__copy rv">
+          <blockquote>Data is code. <span class="green">Code is data.</span></blockquote>
+          <p>
+            Je belt voor een code-audit en het grootste risico blijkt het datamodel.
+            Of je belt voor een dashboard en eindigt met een vaste pipeline.
+            Ik maak dat onderscheid niet: het is hetzelfde werk.
+          </p>
+        </div>
+        <figure class="datapull__map rv" aria-hidden="true">
+          <svg id="hexmap" viewBox="0 0 300 340"></svg>
+          <figcaption>// VAN RUWE DATA NAAR KAART</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -856,8 +916,8 @@ a{ color: inherit; }
           <h3>Deep Scan</h3>
           <p>
             Ik lees de code, maar ik spreek vooral je mensen: stakeholders, product owners,
-            de developers zelf. De codebase en CI/CD vertellen de helft van het verhaal.
-            Wat schuurt in de samenwerking vertelt de rest.
+            de developers zelf. De data-laag lees ik net zo mee: pipelines, datamodel, en wat
+            er werkelijk in de dashboards belandt. Wat schuurt in de samenwerking vertelt de rest.
           </p>
         </article>
         <article class="step rv">
@@ -866,7 +926,8 @@ a{ color: inherit; }
           <p>
             Wat ik vind leg ik naast wat je team zelf al voelde. Het plan maak ik niet vóór
             maar mét het team: risicokaart, trade-offs, volgorde, en wat je moet stóppen.
-            Geen rapport van 80 pagina's, maar beslissingen waar het team zelf achter staat.
+            De kaart gaat niet over code, data of team apart. Het is één beeld: waar de
+            risico's liggen en waar ze elkaar versterken.
           </p>
         </article>
         <article class="step rv">
@@ -1319,7 +1380,7 @@ void main(){
 
   g.nodes.forEach(function(n){
     var grp = document.createElementNS(SVGNS, 'g');
-    grp.setAttribute('class', 'gnode' + (n.risk ? ' gnode--risk' : ''));
+    grp.setAttribute('class', 'gnode' + (n.risk ? ' gnode--risk' : '') + (n.layer === 'data' ? ' gnode--data' : ''));
     var r = document.createElementNS(SVGNS, 'rect');
     r.setAttribute('width', NODE_W); r.setAttribute('height', NODE_H);
     r.setAttribute('x', -NODE_W/2); r.setAttribute('y', -NODE_H/2);
@@ -1446,6 +1507,79 @@ void main(){
   tl.to('#scan .edge:not(.edge--risk):not(.edge--ghost)', { opacity: .8, duration: .7 }, untangleStart + 1.4);
   tl.to('#scan .edge--risk', { opacity: .28, strokeWidth: 1.5, duration: .6 }, untangleStart + 2.1);
   tl.to({}, { duration: .3 }, untangleStart + 2.4);
+})();
+</script>
+<script>
+/* hex-kaart NL — vult op scroll */
+(function(){
+  var svg = document.getElementById('hexmap');
+  if(!svg) return;
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  /* NL-silhouet als hex-grid bitmask, rij voor rij (noord naar zuid) */
+  var ROWS = [
+    '...1111.....',
+    '..111111....',
+    '.1111111....',
+    '.1111111....',
+    '11111111....',
+    '111111111...',
+    '.11111111...',
+    '.11111111...',
+    '111111111...',
+    '11111111....',
+    '.1111111....',
+    '11111111....',
+    '11..11111...',
+    '......111...',
+    '.......11...',
+    '.......11...'
+  ];
+  var COLORS = ['#CBE8D6', '#7FCBA0', '#00843D', '#B9A7F0', '#6D28D9'];
+  var R = 12.5;
+  var W = R * Math.sqrt(3), H = R * 1.5;
+  function prand(i){ var x = Math.sin(i * 91.7 + 47.3) * 24634.6345; return x - Math.floor(x); }
+  function hexPoints(cx, cy){
+    var pts = [];
+    for(var k = 0; k < 6; k++){
+      var a = Math.PI / 180 * (60 * k - 30);
+      pts.push((cx + R * Math.cos(a)).toFixed(1) + ',' + (cy + R * Math.sin(a)).toFixed(1));
+    }
+    return pts.join(' ');
+  }
+  var hexes = [];
+  var idx = 0;
+  ROWS.forEach(function(row, r){
+    for(var c = 0; c < row.length; c++){
+      if(row[c] !== '1') continue;
+      var cx = 24 + (c + (r % 2) * 0.5) * W;
+      var cy = 24 + r * H;
+      var p = document.createElementNS(SVGNS, 'polygon');
+      p.setAttribute('points', hexPoints(cx, cy));
+      p.setAttribute('class', 'hex');
+      p.setAttribute('fill', COLORS[Math.floor(prand(idx * 3 + 1) * COLORS.length)]);
+      svg.appendChild(p);
+      hexes.push({ el: p, t: prand(idx) });
+      idx++;
+    }
+  });
+  function setProgress(pr){
+    hexes.forEach(function(h){ h.el.classList.toggle('is-on', h.t <= pr); });
+  }
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced){ setProgress(1); return; }
+  if(typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined'){
+    var st = { p: 0 };
+    gsap.to(st, {
+      p: 1, ease: 'none',
+      scrollTrigger: { trigger: '.datapull', start: 'top 88%', end: 'center 45%', scrub: true },
+      onUpdate: function(){ setProgress(st.p); }
+    });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ setProgress(1); io.disconnect(); } });
+    }, { threshold: .3 });
+    io.observe(svg);
+  }
 })();
 </script>
 </body>
