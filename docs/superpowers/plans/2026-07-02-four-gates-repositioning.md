@@ -1,5 +1,25 @@
 # Four-Gates Repositioning Implementation Plan
 
+---
+
+## STATUS (2026-07-07): ingehaald door variant D
+
+**Ingehaald door variant D (`variants/variant-d-editorial-shader.html`). Vier poorten zijn vijf poorten geworden (05 DATA erbij). Onderstaande taken zijn in gewijzigde vorm uitgevoerd in variant D of vervallen.** De site is bovendien Nederlands geworden (besluit Vincent 2026-07-02); de "Language: site stays English"-constraint hieronder is daarmee achterhaald. Leidend strategisch document is `docs/plans/zzp.md`. Dit bestand blijft staan als archief.
+
+Status per taak:
+
+- **Task 0 (baseline commit):** UITGEVOERD IN VARIANT D. De repo heeft inmiddels een commit-historie via het variantenwerk.
+- **Task 1 (hero + meta):** UITGEVOERD IN VARIANT D. Nieuwe Nederlandse hero zonder AI als hoofdboodschap; meta van index.htm volgt bij promotie van variant D.
+- **Task 2 (vier-poorten-sectie):** UITGEVOERD IN VARIANT D, in gewijzigde vorm. Vijf poorten in een genummerde ledger (05 DATA erbij), geen 2x2 grid en geen blauw accent; kleursysteem is groen, paars en oranje.
+- **Task 3 (copy poorten 1-3):** UITGEVOERD IN VARIANT D. Copy volledig herschreven in het Nederlands, toonregels toegepast.
+- **Task 3b (poort 4, geblokkeerd op Vincent):** UITGEVOERD IN VARIANT D. Poort 04 VALIDATIE staat live in het afgesproken niet-vijandige frame; eindcheck door Vincent bij promotie naar index.
+- **Task 4 (CTA's):** VERVALLEN. Het "Request a Clarity Session"-label is bewust geschrapt als jargon; variant D gebruikt overal "Neem contact op". "Stuur de rommelige versie" is gebleven.
+- **Task 5 (consistency sweep index.htm/how.html):** NOG OPEN. index.htm en how.html dragen nog de oude Engelse copy; relevant zodra variant D tot index promoveert.
+- **Task 6 (light scheme met toggle):** VERVALLEN. Variant D is al licht van zichzelf; er komt geen dark/light-toggle.
+- **Task 7 (eindverificatie):** NOG OPEN. Uitvoeren bij promotie van variant D naar index, met greps aangepast op Nederlands en vijf poorten.
+
+---
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 > **Execution mode (updated by Vincent, 2026-07-02): ECC toolchain.** Originally subagent-driven via superpowers; Vincent decided to switch to ECC (https://github.com/affaan-m/ECC) before any task ran. **Execution status: nothing executed** — no baseline commit, no branch, ledger empty, `index.htm` still carries pre-plan uncommitted changes. Whichever framework executes: the tasks, global constraints, and per-task commits below remain the contract. Task 3b stays blocked until Vincent approves the gate-4 frame.
