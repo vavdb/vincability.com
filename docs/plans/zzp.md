@@ -145,7 +145,9 @@ mensen gemaakt, zodat het team er zelf mee verder kan.
   - Zuyd Hogeschool: Osiris/Summit-data via een R-pipeline naar
     Power BI.
   - Meerkring: CBS pc6-naar-buurt-data per gemeente.
-  - KNVB: ledendata naar dashboards.
+  - KNVB: ledendata naar dashboards. NIET publiek noemen: data viel
+    onder een NDA binnen Leydi's masteropdracht. Alleen anoniem
+    beschrijven ("landelijke sportbond") als het ooit nodig is.
   - Deportes: .NET/Blazor/CosmosDB.
 - "Every feature needs a named domain owner" als principe (op de site
   vertaald als domein-eigenaarschap).
