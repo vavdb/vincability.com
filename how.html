@@ -11,211 +11,383 @@
   <meta property="og:title" content="De Multiplier-methode — Vincability">
   <meta property="og:description" content="Eén project. 20 weken. Hetzelfde team. Een 4–20x output-multiplier. Parallelle uitvoering, iteratiedichtheid en AI-rendement dat zich opstapelt.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://vincability.com">
+  <meta property="og:url" content="https://vincability.com/how.html">
   <meta property="og:locale" content="nl_NL">
-  <link rel="canonical" href="https://vincability.com">
+  <link rel="canonical" href="https://vincability.com/how.html">
 
-  <!-- Google Fonts: Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- JetBrains Mono -->
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Geist -->
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
-  <!-- Asimovian (display titles) -->
-  <link href="https://fonts.googleapis.com/css2?family=Asimovian&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Theme resolution before first paint: localStorage override, else light -->
-  <script>
-    (function () {
-      var t = localStorage.getItem('theme');
-      if (t !== 'light' && t !== 'dark') {
-        t = 'light';
-      }
-      document.documentElement.setAttribute('data-theme', t);
-    })();
-  </script>
-
-  <link rel="stylesheet" href="style.css">
-
   <style>
-    .how__hero {
-      padding: 160px 120px 80px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    .how__title {
-      font-family: var(--font-primary);
-      font-size: 56px;
-      font-weight: 700;
-      letter-spacing: -1px;
-      line-height: 1.15;
-      color: var(--v-text-primary);
-      margin-bottom: 24px;
-    }
-    .how__subtitle {
-      font-family: var(--font-secondary);
-      font-size: 24px;
-      color: var(--v-text-secondary);
-      line-height: 1.6;
-    }
-    .how__section {
-      padding: 80px 120px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    .how__section-title {
-      font-family: var(--font-primary);
-      font-size: 32px;
-      font-weight: 700;
-      color: var(--v-text-primary);
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .how__section-title i {
-      color: var(--v-green-primary);
-    }
-    .how__text {
-      font-family: var(--font-secondary);
-      font-size: 18px;
-      color: var(--v-text-secondary);
-      line-height: 1.7;
-      margin-bottom: 24px;
-    }
-    .how__text strong {
-      color: var(--v-text-primary);
-      font-weight: 600;
-    }
-    .how__card {
-      background-color: var(--v-bg-surface);
-      border: 1px solid var(--v-border);
-      border-radius: 12px;
-      padding: 32px;
-      margin-bottom: 32px;
-      position: relative;
-      overflow: hidden;
-    }
-    .how__card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-      background: var(--v-green-primary);
-    }
-    .how__card--orange::before { background: var(--v-orange); }
-    .how__card--purple::before { background: var(--v-purple); }
+  /* ============================================================
+     TOKENS — paper edition (matches index.html)
+     ============================================================ */
+  :root{
+    --paper:        #F7F9F8;
+    --paper-hi:     #FFFFFF;
+    --paper-2:      #EFF4F1;
+    --ink:          #14201A;
+    --ink-2:        #46564D;
+    --ink-3:        #5A6A61;
+    --green:        #00843D;
+    --green-deep:   #00602C;
+    --orange:       #B45309;
+    --purple:       #6D28D9;
+    --line-soft:    #D8E0DB;
+    --rule:         #14201A;
+    --hairline:     rgba(20,32,26,.16);
+    --grid-line-1:  rgba(0, 132, 61, 0.08);
+    --grid-line-2:  rgba(0, 132, 61, 0.045);
 
-    .how__card-title {
-      font-family: var(--font-primary);
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--v-text-primary);
-      margin-bottom: 16px;
-    }
-    .how__grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-      margin-top: 32px;
-      margin-bottom: 32px;
-    }
-    .how__stat-box {
-      background-color: var(--v-bg-elevated);
-      border: 1px solid var(--v-border);
-      border-radius: 8px;
-      padding: 24px;
-      text-align: center;
-    }
-    .how__stat-number {
-      font-family: var(--font-primary);
-      font-size: 40px;
-      font-weight: 700;
-      color: var(--v-green-primary);
-      line-height: 1;
-      margin-bottom: 8px;
-    }
-    .how__stat-label {
-      font-family: var(--font-secondary);
-      font-size: 14px;
-      color: var(--v-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .how__quote {
-      font-family: var(--font-secondary);
-      font-size: 22px;
-      font-style: italic;
-      color: var(--v-text-primary);
-      border-left: 4px solid var(--v-purple);
-      padding-left: 24px;
-      margin: 40px 0;
-      line-height: 1.6;
-    }
+    --font-display: 'Asimovian', 'JetBrains Mono', monospace;
+    --font-body:    'Geist', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
 
-    @media (max-width: 1024px) {
-      .how__hero, .how__section { padding: 80px 32px; }
-      .how__title { font-size: 40px; }
-    }
-    @media (max-width: 768px) {
-      .how__hero, .how__section { padding: 60px 16px; }
-      .how__title { font-size: 32px; }
-      .how__subtitle { font-size: 18px; }
-      .how__grid { grid-template-columns: 1fr; }
-    }
+    /* aliases voor het bestaande SVG-diagram (oude --v-* tokens → paper) */
+    --v-bg-surface:    var(--paper-2);
+    --v-bg-elevated:   var(--paper-hi);
+    --v-border:        var(--line-soft);
+    --v-text-primary:  var(--ink);
+    --v-text-secondary:var(--ink-2);
+    --v-text-muted:    var(--ink-3);
+    --v-green-primary: var(--green);
+    --v-orange:        var(--orange);
+    --v-purple:        var(--purple);
+    --font-primary:    var(--font-mono);
+    --font-secondary:  var(--font-body);
+
+    --measure: 34em;
+    --gutter: clamp(20px, 5vw, 96px);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; overflow-x:clip; }
+  body{
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.65;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection{ background: var(--green); color:#fff; }
+  a{ color: inherit; }
+
+  /* ============================================================
+     GRAIN + GRIDLINES — same atmosphere as the homepage
+     ============================================================ */
+  .grain{
+    position: fixed; inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    opacity: .055;
+    mix-blend-mode: multiply;
+    animation: grainShift 1.1s steps(3) infinite;
+  }
+  @keyframes grainShift{
+    0%{ background-position: 0 0; }
+    33%{ background-position: -6px 3px; }
+    66%{ background-position: 3px -6px; }
+    100%{ background-position: 0 0; }
+  }
+  .gridlines{
+    position: fixed; inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--grid-line-1) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line-1) 1px, transparent 1px),
+      linear-gradient(var(--grid-line-2) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line-2) 1px, transparent 1px);
+    background-size: 20px 20px, 20px 20px, 80px 80px, 80px 80px;
+  }
+  .page{ position: relative; z-index: 1; }
+
+  /* ============================================================
+     NAV — masthead
+     ============================================================ */
+  .nav{
+    position: fixed; top:0; left:0; right:0; z-index: 40;
+    display:flex; align-items:center; justify-content:space-between; gap: 14px;
+    padding: 18px var(--gutter);
+    border-bottom: 1px solid var(--hairline);
+    background: color-mix(in srgb, var(--paper) 78%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .nav__logo{
+    font-family: var(--font-display);
+    font-size: 19px; letter-spacing: .14em;
+    text-decoration: none;
+    display:flex; align-items:center; gap:10px;
+  }
+  .nav__logo i{
+    width:9px; height:9px; border-radius:50%;
+    background: var(--green); display:inline-block;
+    box-shadow: 0 0 0 3px rgba(0,132,61,.15);
+  }
+  .nav__back{
+    font-family: var(--font-mono);
+    font-size: 12px; letter-spacing: .08em;
+    text-decoration:none; color: var(--ink-2);
+    display:inline-flex; align-items:center; gap: 6px;
+    position: relative; padding: 4px 0;
+    margin-right: auto; margin-left: clamp(14px, 3vw, 40px);
+  }
+  .nav__back::after{
+    content:""; position:absolute; left:0; bottom:0;
+    width:100%; height:1.5px; background: var(--green);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .35s cubic-bezier(.16,1,.3,1);
+  }
+  .nav__back:hover::after,
+  .nav__back:focus-visible::after{ transform: scaleX(1); }
+  .nav__back svg{ width: 15px; height: 15px; stroke: currentColor; }
+  .nav__cta{
+    font-family: var(--font-mono); font-size:12px; letter-spacing:.06em;
+    text-decoration:none; color:#fff; background: var(--ink);
+    padding: 9px 18px; white-space: nowrap;
+    transition: background .25s ease, transform .25s cubic-bezier(.16,1,.3,1);
+  }
+  .nav__cta:hover, .nav__cta:focus-visible{ background: var(--green-deep); transform: translateY(-1px); }
+  @media (max-width: 560px){
+    .nav{ padding: 14px 20px; }
+    .nav__back span{ display:none; }
+    .nav__cta{ padding: 8px 12px; font-size: 11px; }
+  }
+
+  /* ============================================================
+     SHELL
+     ============================================================ */
+  .sheet{ max-width: 1000px; margin: 0 auto; padding: 0 var(--gutter); }
+
+  .kicker{
+    font-family: var(--font-mono);
+    font-size: 11.5px; font-weight: 600; letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    display:flex; align-items:center; gap:14px;
+  }
+  .kicker::before{
+    content:""; width: 42px; height:1.5px; background: var(--green);
+    display:inline-block; flex: none;
+  }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .how__hero{ padding: clamp(140px, 20vh, 200px) 0 clamp(40px, 7vh, 72px); }
+  .how__hero .kicker{ margin-bottom: 26px; }
+  .how__title{
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(38px, 6.4vw, 84px);
+    line-height: 1.04; letter-spacing: .01em;
+    text-transform: uppercase;
+    margin-bottom: clamp(20px, 3.5vh, 32px);
+  }
+  .how__subtitle{
+    font-size: clamp(17px, 1.6vw, 21px);
+    color: var(--ink-2);
+    line-height: 1.6;
+    max-width: 38em;
+    border-top: 1px solid var(--rule);
+    padding-top: clamp(18px, 3vh, 28px);
+  }
+
+  /* ============================================================
+     SECTIONS — printed report
+     ============================================================ */
+  .how__section{ padding: clamp(52px, 8vh, 88px) 0; }
+  .how__section + .how__section,
+  .how__hero + .how__section{ border-top: 1px solid var(--hairline); }
+
+  .how__section-title{
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(24px, 3vw, 38px);
+    line-height: 1.1; text-transform: uppercase;
+    margin-bottom: 26px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .how__section-title i, .how__section-title svg{
+    color: var(--green); stroke: var(--green);
+    width: 26px; height: 26px; flex: none;
+  }
+  .how__text{
+    font-size: 17px;
+    color: var(--ink-2);
+    line-height: 1.7;
+    max-width: 42em;
+    margin-bottom: 22px;
+  }
+  .how__text strong{ color: var(--ink); font-weight: 600; }
+  .how__list{ list-style-type: disc; padding-left: 24px; margin-bottom: 24px; }
+  .how__list li{ margin-bottom: 6px; }
+
+  /* --- plates (voorheen cards): rule bovenlangs, accentbalk links --- */
+  .how__card{
+    background: color-mix(in srgb, var(--paper-hi) 42%, transparent);
+    border-top: 1.5px solid var(--rule);
+    border-bottom: 1px solid var(--hairline);
+    padding: 26px 28px 28px 31px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .how__card::before{
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--green);
+  }
+  .how__card--deep::before{ background: var(--green-deep); }
+  .how__card--purple::before{ background: var(--purple); }
+  .how__card--ink::before{ background: var(--ink); }
+  .how__card-title{
+    font-family: var(--font-mono); font-weight: 700;
+    font-size: 14px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .how__card .how__text{ margin-bottom: 0; }
+
+  /* --- iteratie-sectie: plate op paper-2 --- */
+  .how__section--plate{
+    background: var(--paper-2);
+    border-top: 1.5px solid var(--rule);
+    border-bottom: 1px solid var(--hairline);
+    padding: clamp(44px, 7vh, 64px) clamp(20px, 4vw, 48px);
+    margin: clamp(52px, 8vh, 88px) 0;
+    text-align: center;
+  }
+  .how__section--plate .how__section-title{ justify-content: center; }
+  .how__section--plate .how__text{ max-width: 640px; margin-left: auto; margin-right: auto; }
+  .how__diagram{ display: flex; justify-content: center; margin: 40px 0; }
+  .how__scales{ display: flex; gap: 16px; margin-top: 8px; text-align: left; }
+  .how__scales .how__card{ flex: 1; margin-bottom: 0; }
+  .how__scales .how__card-title{ font-size: 13px; }
+  .how__scales .how__text{ font-size: 14.5px; margin-left: 0; margin-right: 0; }
+  @media (max-width: 760px){
+    .how__scales{ flex-direction: column; }
+  }
+
+  /* --- pull-quote --- */
+  .how__quote{
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.3;
+    color: var(--ink);
+    border-left: 3px solid var(--green);
+    padding-left: 24px;
+    margin: 40px 0 8px;
+    max-width: 30em;
+  }
+
+  /* --- CTA button --- */
+  .how__cta{ text-align: center; margin-top: 48px; }
+  .btn{
+    font-family: var(--font-mono); font-size: 13px; letter-spacing:.04em;
+    text-decoration:none; padding: 14px 28px; display:inline-block;
+    background: var(--ink); color:#fff;
+    transition: transform .3s cubic-bezier(.16,1,.3,1), background .25s, box-shadow .3s;
+  }
+  .btn:hover, .btn:focus-visible{
+    background: var(--green-deep); transform: translateY(-2px);
+    box-shadow: 0 10px 24px -12px rgba(0,96,44,.55);
+  }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  .footer{
+    border-top: 1px solid var(--hairline);
+    margin-top: clamp(40px, 7vh, 72px);
+    padding: 44px 0 40px;
+  }
+  .footer__main{
+    display:flex; justify-content:space-between; gap: 40px; flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .footer__logo{
+    font-family: var(--font-display);
+    font-size: 16px; letter-spacing: .14em;
+    text-decoration: none;
+    display:inline-flex; align-items:center; gap:10px;
+  }
+  .footer__logo-dot{
+    width:8px; height:8px; border-radius:50%;
+    background: var(--green); display:inline-block;
+  }
+  .footer__tagline{
+    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .06em;
+    color: var(--ink-3); margin-top: 12px; line-height: 1.9;
+  }
+  .footer__nav{ display:flex; gap: clamp(32px, 6vw, 80px); }
+  .footer__nav-col{ display:flex; flex-direction:column; gap: 8px; }
+  .footer__nav-heading{
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--ink); margin-bottom: 6px;
+  }
+  .footer__nav-link{
+    font-family: var(--font-mono); font-size: 12px; letter-spacing:.04em;
+    color: var(--ink-2); text-decoration:none;
+  }
+  .footer__nav-link:hover{ color: var(--green-deep); }
+  .footer__bottom{
+    border-top: 1px solid var(--hairline);
+    padding-top: 18px;
+    display:flex; justify-content:space-between; gap: 12px; flex-wrap: wrap;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em;
+    color: var(--ink-3);
+  }
+
+  /* ============================================================
+     REDUCED MOTION + PRINT
+     ============================================================ */
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .grain{ animation: none; }
+    .how__diagram .orbit{ display: none; }
+  }
+  @media print{
+    .grain, .gridlines, .nav{ display:none !important; }
+    body{ background:#fff; }
+    .how__hero{ padding-top: 40px; }
+  }
   </style>
 </head>
 
 <body>
-  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="gridlines" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="page">
 
   <!-- ============================================================
        NAVIGATION
        ============================================================ -->
   <nav class="nav" aria-label="Hoofdnavigatie">
-    <div class="nav__inner">
-      <a href="#" class="nav__logo" aria-label="Vincability home">
-        <span class="nav__logo-dot" aria-hidden="true"></span>
-        <span class="nav__logo-text">VINCABILITY</span>
-      </a>
-
-      <ul class="nav__links" role="list">
-        <li><a href="index.html" class="nav__link" aria-label="Terug naar home"><i data-lucide="arrow-left" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;"></i>Terug naar home</a></li>
-
-
-
-
-      </ul>
-
-      <div class="nav__actions">
-        <a href="index.html#contact" class="btn btn--primary">Plan een Clarity Sessie</a>
-        <button class="theme-toggle" type="button" aria-label="Wissel kleurenschema">
-          <i data-lucide="sun-moon" aria-hidden="true"></i>
-        </button>
-      </div>
-    </div>
+    <a href="index.html" class="nav__logo" aria-label="Vincability home"><i aria-hidden="true"></i>VINCABILITY</a>
+    <a href="index.html" class="nav__back" aria-label="Terug naar home"><i data-lucide="arrow-left" aria-hidden="true"></i><span>Terug naar home</span></a>
+    <a href="index.html#contact" class="nav__cta">Plan een Clarity Sessie</a>
   </nav>
-  <main>
-    <section class="how__hero" data-animate="hero-content">
-      <div class="hero__badge" style="margin-bottom: 24px;">
-        <span class="hero__badge-dot" aria-hidden="true"></span>
-        Case study
-      </div>
+
+  <main class="sheet">
+    <section class="how__hero" aria-label="Introductie">
+      <span class="kicker">Case study</span>
       <h1 class="how__title">De Multiplier-methode</h1>
       <p class="how__subtitle">
         Eén project. 20 weken. Hetzelfde team. Een 4–20x output-multiplier — afhankelijk van de workflow. Dit is de methode, en waarom het effect zich opstapelt.
       </p>
     </section>
 
-    <div class="circuit-divider" aria-hidden="true" data-animate="divider" style="transform: scaleX(1);"></div>
-
-    <section class="how__section" data-animate="stagger-card">
+    <section class="how__section">
       <h2 class="how__section-title"><i data-lucide="zap"></i> Parallelle uitvoering</h2>
       <p class="how__text">
         De meeste teams werken lineair: één developer, één taak, één branch, één probleem tegelijk. De methode draait dat om — <strong>parallelle tracks die gelijktijdig lopen</strong>, met meerdere AI-sessies naast elkaar over worktrees, en direct context-switchen zodra iets blokkeert.
@@ -228,14 +400,14 @@
       </p>
     </section>
 
-    <section class="how__section" data-animate="stagger-card" style="background: var(--v-bg-surface); border: 1px solid var(--v-border); border-radius: 16px; padding: 64px 48px; text-align: center;">
-      <h2 class="how__section-title" style="justify-content: center;"><i data-lucide="repeat"></i> Iteratie op drie schalen</h2>
-      <p class="how__text" style="max-width: 640px; margin: 0 auto 24px;">
+    <section class="how__section how__section--plate">
+      <h2 class="how__section-title"><i data-lucide="repeat"></i> Iteratie op drie schalen</h2>
+      <p class="how__text">
         Agile zonder het ceremonieel. De winst zit niet in snelheid, maar in iteratiedichtheid.
       </p>
 
       <!-- Loop diagram -->
-      <div style="display: flex; justify-content: center; margin: 40px 0;">
+      <div class="how__diagram">
         <svg viewBox="0 0 420 420" width="320" height="320" style="max-width: 100%;" aria-label="Cyclusdiagram: Build, Evaluate, Tighten, Repeat">
           <!-- Full circle uses stroke-dasharray + stroke-dashoffset to color each quadrant.
                Circumference = 2π·150 ≈ 942.48. Each quadrant ≈ 235.62.
@@ -247,7 +419,7 @@
           <circle cx="210" cy="210" r="150" fill="none" stroke="var(--v-border)" stroke-width="1" />
 
           <!-- Animated dashed orbit -->
-          <circle cx="210" cy="210" r="150" fill="none" stroke="var(--v-green-primary)" stroke-width="1.5" stroke-dasharray="8 12" opacity="0.3">
+          <circle class="orbit" cx="210" cy="210" r="150" fill="none" stroke="var(--v-green-primary)" stroke-width="1.5" stroke-dasharray="8 12" opacity="0.3">
             <animateTransform attributeName="transform" type="rotate" from="0 210 210" to="360 210 210" dur="20s" repeatCount="indefinite" />
           </circle>
 
@@ -314,29 +486,29 @@
       </div>
 
       <!-- Scale cards — horizontal strip -->
-      <div style="display: flex; gap: 16px; margin-top: 8px; text-align: left;">
-        <div class="how__card how__card--green" style="flex: 1; margin-bottom: 0;">
-          <h3 class="how__card-title" style="font-size: 16px;">Uren</h3>
-          <p class="how__text" style="font-size: 14px; margin-bottom: 0;">
+      <div class="how__scales">
+        <div class="how__card">
+          <h3 class="how__card-title">Uren</h3>
+          <p class="how__text">
             Bouw 7 varianten, vergelijk ze live. 15+ polish-commits in minuten. Ontwerpen door te bouwen, niet door te speccen.
           </p>
         </div>
-        <div class="how__card how__card--orange" style="flex: 1; margin-bottom: 0;">
-          <h3 class="how__card-title" style="font-size: 16px;">Dagen</h3>
-          <p class="how__text" style="font-size: 14px; margin-bottom: 0;">
+        <div class="how__card how__card--deep">
+          <h3 class="how__card-title">Dagen</h3>
+          <p class="how__text">
             Implementeren, ontdekken dat het niet klopt, weggooien, beter herbouwen. Twee implementaties verslaan één lange planningssessie.
           </p>
         </div>
-        <div class="how__card how__card--purple" style="flex: 1; margin-bottom: 0;">
-          <h3 class="how__card-title" style="font-size: 16px;">Weken</h3>
-          <p class="how__text" style="font-size: 14px; margin-bottom: 0;">
+        <div class="how__card how__card--ink">
+          <h3 class="how__card-title">Weken</h3>
+          <p class="how__text">
             Fases die elkaar informeren. Wat er mis is zie je pas als het werkt. Archiveren, herstructureren, opnieuw leveren.
           </p>
         </div>
       </div>
     </section>
 
-    <section class="how__section" data-animate="stagger-card">
+    <section class="how__section">
       <h2 class="how__section-title"><i data-lucide="layers"></i> Schone code stapelt op</h2>
       <p class="how__text">
         In 20 weken verwijderde deze methode <strong>319.000 regels code</strong>. Regels code zijn op zichzelf een betekenisloze metriek — maar de schaal laat zien wat er gebeurt wanneer het opruimen van technische schuld niet langer concurreert met feature-werk, maar ernaast plaatsvindt.
@@ -349,7 +521,7 @@
       </div>
     </section>
 
-    <section class="how__section" data-animate="stagger-card">
+    <section class="how__section">
       <h2 class="how__section-title"><i data-lucide="bot"></i> AI schrijft werkende code, geen onderhoudbare code</h2>
       <p class="how__text">
         Het kerninzicht: AI levert uitstekende MVP's en eenmalig werk. Maar AI optimaliseert voor de huidige check. De mens optimaliseert voor alle toekomstige checks.
@@ -362,12 +534,12 @@
       </p>
     </section>
 
-    <section class="how__section" data-animate="stagger-card">
+    <section class="how__section">
       <h2 class="how__section-title"><i data-lucide="unlock"></i> De storage-doorbraak</h2>
       <p class="how__text">
         Een nieuwe implementatie liep vast: bestanden waren niet soepel beschikbaar voor een externe service door interne encryptie die niet langer nodig of gewenst was. Om dat op te lossen, losten we drie problemen op die elk al maanden stillagen:
       </p>
-      <ul style="list-style-type: disc; padding-left: 24px; margin-bottom: 24px;" class="how__text">
+      <ul class="how__text how__list">
         <li>Testen was te lastig omdat documenten opgesloten zaten achter versleutelde blob storage.</li>
         <li>Blob storage was ontoegankelijk voor nieuwe services omdat alles handmatig versleuteld was.</li>
         <li>De storage-migratie lag stil omdat het "te veel werk" was.</li>
@@ -380,40 +552,39 @@
       </p>
     </section>
 
-    <section class="how__section" data-animate="stagger-card">
+    <section class="how__section">
       <h2 class="how__section-title"><i data-lucide="users"></i> Overdragen, niet alleen voordoen</h2>
       <p class="how__text">
         De methode is overdraagbaar. Maar je kunt mensen niet simpelweg de tools geven. Het gat dichten tussen 1,3x en de volledige multiplier vraagt drie dingen tegelijk:
       </p>
-      <div class="how__card how__card--green">
+      <div class="how__card">
         <h3 class="how__card-title">Laat de code voor zichzelf spreken</h3>
-        <p class="how__text" style="font-size: 16px; margin-bottom: 0;">
+        <p class="how__text">
           Elke strongly-typed response en elke enum die een string vervangt, haalt een inschattingsmoment weg. De agent kán geen inconsistente output leveren als het consistente patroon de enige optie is.
         </p>
       </div>
-      <div class="how__card how__card--orange">
+      <div class="how__card how__card--purple">
         <h3 class="how__card-title">Haal het uit de hoofden</h3>
-        <p class="how__text" style="font-size: 16px; margin-bottom: 0;">
+        <p class="how__text">
           Stories worden levende documenten. AI-leesbare projectconfiguratie legt kennis vast die anders in één hoofd leeft.
         </p>
       </div>
-      <div class="how__card how__card--purple">
+      <div class="how__card how__card--ink">
         <h3 class="how__card-title">Voordoen, niet vertellen</h3>
-        <p class="how__text" style="font-size: 16px; margin-bottom: 0;">
+        <p class="how__text">
           Live pairing-sessies waarin het team de parallelle workflow in actie ziet. Documentatie vertelt <em>wat</em>. Live meekijken laat zien <em>wanneer</em> en <em>waarom</em>.
         </p>
       </div>
-      <div style="text-align: center; margin-top: 48px;">
-        <a href="index.html#contact" class="btn btn--primary" style="font-size: 16px; padding: 14px 32px;">Bespreek wat dit voor jouw team kan doen</a>
+      <div class="how__cta">
+        <a href="index.html#contact" class="btn">Bespreek wat dit voor jouw team kan doen</a>
       </div>
     </section>
-  </main>
-<footer class="footer" aria-label="Site footer">
-    <div class="footer__inner">
+
+    <footer class="footer" aria-label="Site footer">
       <div class="footer__main">
         <!-- Left: logo + tagline -->
         <div class="footer__logo-wrap">
-          <a href="#" class="footer__logo" aria-label="Vincability home">
+          <a href="index.html" class="footer__logo" aria-label="Vincability home">
             <span class="footer__logo-dot" aria-hidden="true"></span>
             <span class="footer__logo-text">VINCABILITY</span>
           </a>
@@ -456,26 +627,14 @@
         <span class="footer__bottom-text">© 2026 Vincability. Alle rechten voorbehouden.</span>
         <span class="footer__bottom-text">Nederland</span>
       </div>
-    </div>
-  </footer>
+    </footer>
+  </main>
+  </div>
 
   <!-- ============================================================
        SCRIPTS
        ============================================================ -->
   <script>lucide.createIcons();</script>
-  <script>
-    document.querySelectorAll('.theme-toggle').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-      });
-    });
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
-  <script src="animations.js"></script>
 
 </body>
 </html>
