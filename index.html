@@ -365,7 +365,7 @@ a{ color: inherit; }
   position:absolute; left:-.55em; top:-.06em;
   color: var(--green); font-size: 1.15em;
 }
-.pull .green{ color: var(--purple); }
+.pull .green{ color: var(--green-deep); }
 .pull cite{
   display:block; margin-top: 26px; margin-left: clamp(0px, 8vw, 140px);
   font-style: normal;
@@ -535,7 +535,7 @@ a{ color: inherit; }
   font-size: clamp(30px, 3.6vw, 54px); line-height: 1.12;
   margin: 0 0 18px;
 }
-.datapull .green{ color: var(--purple); }
+.datapull .green{ color: var(--green-deep); }
 .datapull p{ max-width: var(--measure); color: var(--ink-2); }
 .datapull__refs{
   display: block; margin-top: 16px;
@@ -548,11 +548,47 @@ a{ color: inherit; }
   font-family: var(--font-mono); font-size: 11px; letter-spacing: .16em;
   color: var(--ink-3); margin-top: 10px; text-align: right;
 }
-.hex{ stroke: var(--paper); stroke-width: 1; opacity: 0; transition: opacity .45s ease; }
-.hex.is-on{ opacity: 1; }
+.hex{ fill: #FFFFFF; stroke: #C6D1C9; stroke-width: .5; transition: fill .45s ease; }
+.hex.is-on{ fill: var(--c); stroke: rgba(255,255,255,.7); }
+.hexoutline{ fill: none; stroke: #9FB0A5; stroke-width: 1; stroke-linecap: round; }
+@keyframes hexpulse{ 0%, 100%{ opacity: 1; } 50%{ opacity: .55; } }
+.hex--hub.is-on{ animation: hexpulse 4.5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce){ .hex--hub.is-on{ animation: none; } }
 @media (max-width: 900px){
   .datapull__grid{ grid-template-columns: 1fr; }
   .datapull__map{ justify-self: start; max-width: 300px; }
+}
+
+/* --- cases --- */
+.cases{
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-top: 1.5px solid var(--rule);
+  margin-bottom: 40px;
+}
+.case{
+  padding: 26px 28px 30px;
+  border-bottom: 1px solid var(--hairline);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.case:nth-child(odd){ border-right: 1px solid var(--hairline); }
+.case__tag{
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: .16em; color: var(--ink-3);
+}
+.case h3{
+  margin: 0; font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(20px, 2vw, 26px); line-height: 1.15;
+}
+.case p{ margin: 0; color: var(--ink-2); font-size: 15px; line-height: 1.55; }
+.case__link{
+  margin-top: auto; padding-top: 8px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em;
+  color: var(--green-deep); text-decoration: none;
+}
+.case__link:hover{ color: var(--ink); }
+@media (max-width: 760px){
+  .cases{ grid-template-columns: 1fr; }
+  .case:nth-child(odd){ border-right: 0; }
 }
 
 /* --- proof strip --- */
@@ -560,6 +596,11 @@ a{ color: inherit; }
   display:grid; grid-template-columns: repeat(4,1fr);
   border-top: 1.5px solid var(--rule);
   border-bottom: 1px solid var(--hairline);
+}
+.proof__track{
+  margin: 16px 0 0; text-align: right;
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: .14em; color: var(--ink-3);
 }
 .proof div{
   padding: clamp(22px, 3vh, 38px) clamp(14px, 1.6vw, 28px);
@@ -571,7 +612,7 @@ a{ color: inherit; }
   font-size: clamp(34px, 4.4vw, 68px); line-height: 1;
   display:block; margin-bottom: 8px;
 }
-.proof b .accent{ color: var(--purple); }
+.proof b .accent{ color: var(--green-deep); }
 .proof span{
   font-family: var(--font-mono); font-size: 11.5px; letter-spacing:.06em;
   color: var(--ink-3);
@@ -599,7 +640,7 @@ a{ color: inherit; }
   line-height: .98; text-transform: uppercase;
   margin-bottom: clamp(26px, 5vh, 48px);
 }
-.cta h2 .green{ color: var(--purple); }
+.cta h2 .green{ color: var(--green-deep); }
 .cta__grid{
   display:grid; grid-template-columns: minmax(0,7fr) minmax(0,5fr);
   gap: clamp(24px, 4vw, 72px); align-items: start;
@@ -718,18 +759,27 @@ a{ color: inherit; }
     <div class="hero__status rv"><b>●</b>&nbsp;BESCHIKBAAR VOOR NIEUWE OPDRACHTEN</div>
 
     <h1 id="hero-h" aria-label="Zien wat anderen missen. Bouwen wat er echt toe doet.">
-      <span class="line"><span>Zien wat anderen <em style="font-style:normal; color:var(--purple);">missen</em>.</span></span>
+      <span class="line"><span>Zien wat anderen <em style="font-style:normal; color:var(--green-deep);">missen</em>.</span></span>
       <span class="line"><span class="thin">Bouwen wat er <em style="font-style:normal; color:var(--ink);">echt toe doet</em>.</span></span>
     </h1>
 
     <div class="hero__deck">
       <div class="rv">
-        <p class="hero__sub">
-          Je schakelt mij in als je niet meer zeker weet of
-          het systeem klopt, of hoe je verder moet.
-          Ik zoek uit wat er werkelijk aan de hand is en vertel je precies waar je staat.
-          Daarna kun je weer beslissen op basis van feiten in plaats van onderbuik.
-        </p>
+          <p class="sec__desc rv">
+            Issues stapelen zich op en niemand kan precies zeggen waarom.
+            Dat gevoel is meestal terecht.
+          </p>
+          <p class="sec__desc rv">
+            Ik ga kijken met de mensen die het dagelijks meemaken: developers,
+            product owner, management, soms je klanten. Niet op zoek naar een
+            schuldige, wel naar wat er werkelijk aan de hand is.
+          </p>
+          <p class="sec__desc rv">
+            Dan maak ik, met je team, een beschrijving van wat we kunnen verbeteren,
+            waar de pijnpunten liggen, en hoe we weer komen tot een plek die wel
+            kloppend voelt. Een gevoel dat we dan met feiten kunnen onderbouwen,
+            en niet langer vanuit de onderbuik hoeft te komen.
+          </p>
         <div class="hero__ctas">
           <a class="btn btn--ink" href="#contact">Neem contact op</a>
           <a class="btn btn--ghost" href="#aanpak">Hoe ik werk</a>
@@ -749,11 +799,6 @@ a{ color: inherit; }
         <div>
           <span class="kicker rv">VIJF REDENEN OM TE BELLEN</span>
           <h2 class="sec__title rv">Welke hiervan klinkt als jouw maandagochtend?</h2>
-          <p class="sec__desc rv">
-            Vijf ingangen, één werkwijze: ik volg het spoor van code naar data naar team,
-            tot het klopt. Waar je binnenkomt maakt niet uit. Het plan maak ik samen met
-            je mensen, zodat het team er zelf mee verder kan.
-          </p>
         </div>
       </div>
 
@@ -836,7 +881,15 @@ a{ color: inherit; }
             Of je belt voor een dashboard en eindigt met een vaste pipeline.
             Ik maak dat onderscheid niet: het is hetzelfde werk.
           </p>
-          <span class="datapull__refs">// O.A. ZUYD HOGESCHOOL · MEERKRING · CBS-BUURTDATA</span>
+          <p>
+            De kaart hiernaast is zelf zo'n datapull: open CBS-cijfers, door een
+            reproduceerbare pipeline, naar een beeld waar je op kunt wijzen.
+            En zo voelt elk dataproject dat af is. Eerst verschijnt de structuur,
+            het silhouet. Dan de betekenis: waar het zich concentreert, waar het
+            stil blijft. Van ruwe export tot dit punt is het geen magie, maar
+            hetzelfde spoor dat ik door code volg.
+          </p>
+          <span class="datapull__refs">// O.A. STUDENTDATA → DASHBOARDS (HOGESCHOOL) · CBS PC6 → BUURT (ONDERWIJSSTICHTING) · LEDENVERLOOP VOETBALCLUBS × SOCIALE SAMENSTELLING (CBS)</span>
         </div>
         <figure class="datapull__map rv" aria-hidden="true">
           <svg id="hexmap" viewBox="0 0 320 350"></svg>
@@ -956,10 +1009,53 @@ a{ color: inherit; }
           <span class="kicker rv">HET BEWIJS</span>
           <h2 class="sec__title rv">Één project. 20 weken. Hetzelfde team.</h2>
           <p class="sec__desc rv">
-            Een recent voorbeeld van wat er gebeurt als je AI-workflow en codekwaliteit
-            tegelijk serieus neemt.
+            Vier voorbeelden uit de praktijk, anoniem maar echt.
+            De cijfers onderaan komen uit het eerste.
           </p>
         </div>
+      </div>
+
+      <div class="cases">
+        <article class="case rv">
+          <span class="case__tag">CASE — AI-WORKFLOW × CODEKWALITEIT</span>
+          <h3>Zelfde team, vier keer de doorvoer</h3>
+          <p>
+            Geen extra mensen en geen reorganisatie. De werkwijze ging om:
+            AI-workflow en codekwaliteit tegelijk serieus nemen, met review-gates
+            die meegroeien. De cijfers hieronder komen uit dit traject.
+          </p>
+          <a class="case__link" href="how.html">// LEES DE VOLLEDIGE DEEP-DIVE →</a>
+        </article>
+        <article class="case rv">
+          <span class="case__tag">CASE — DE HERBOUWREFLEX</span>
+          <h3>"Herbouw het even, ernaast"</h3>
+          <p>
+            Een werkende pipeline, het moeilijkste deel opgelost en in gebruik.
+            Toch werd de kern in vijf weken overgetikt naar een tweede stack ernaast,
+            terwijl het echte gat een halve dag werk was op de stack die er al stond.
+            De herbouwreflex herkennen is goedkoper dan hem uitvoeren.
+          </p>
+        </article>
+        <article class="case rv">
+          <span class="case__tag">CASE — BETALEN VOOR WAT JE HEBT</span>
+          <h3>MFA kopen terwijl het al gebouwd was</h3>
+          <p>
+            Compliance vroeg om MFA. Het voorstel: een betaald vendor-plan om het
+            aan te kunnen zetten. Wat bleek: passkeys en authenticator-login zaten
+            gratis in het framework en waren al voor 90% ingebouwd.
+            Het was configuratie, geen inkoop.
+          </p>
+        </article>
+        <article class="case rv">
+          <span class="case__tag">CASE — TWEE BESTANDEN, ZELFDE STACK</span>
+          <h3>De één veroudert, de ander verrot</h3>
+          <p>
+            Twee schermen van ruim duizend regels. Zelfde stack, zelfde jaar,
+            zelfde soort werk. De één wordt een saaie beheerpagina, de ander het
+            bestand dat niemand meer durft aan te raken. Het verschil zit niet in
+            de tools maar in de hand erachter. Precies wat een scan zichtbaar maakt.
+          </p>
+        </article>
       </div>
 
       <div class="proof rv">
@@ -968,6 +1064,7 @@ a{ color: inherit; }
         <div><b><span data-count="0">0</span></b><span>EXTRA MENSEN<br>ZELFDE TEAM, ZELFDE MENSEN</span></div>
         <div><b><span class="accent" data-count="8">8</span> <small style="font-size:.34em; font-family:var(--font-mono); letter-spacing:.06em;">DAGEN</small></b><span>LEVERTIJD<br>VOOR 6–8 WEKEN AAN SCOPE</span></div>
       </div>
+      <p class="proof__track rv">// 29 JAAR IN PRODUCTIE · O.A. RIJKSOVERHEID &amp; BANCAIRE SECTOR · ENTERPRISE TOT MKB</p>
     </section>
 
     <!-- CTA -->
@@ -1062,8 +1159,9 @@ void main(){
   float md = length(p - m);
   float mfall = exp(-md * 2.4);
 
-  /* presence grows once the reader leaves the hero */
-  float ps = smoothstep(0.02, 0.28, u_scroll);
+  /* presence grows once the reader leaves the hero, then eases off near the end */
+  float ps = smoothstep(0.0, 0.30, u_scroll);
+  ps *= 1.0 - 0.45 * smoothstep(0.55, 1.0, u_scroll);
 
   /* domain-warped flow, drifting upward like smoke; scroll pushes the field */
   vec2 drift = vec2(0.0, -t * 0.55) + vec2(u_scroll * 0.8, u_scroll * 1.9);
@@ -1081,13 +1179,13 @@ void main(){
   vec3 inkDeep = vec3(0.000, 0.518, 0.239);  /* #00843D           */
 
   float band = smoothstep(0.26, 0.80, f);
-  vec3 col = mix(paper, wash, band * (0.80 + 0.20 * ps));
+  vec3 col = mix(paper, wash, band * (0.97 + 0.03 * ps));
 
   float vein = smoothstep(0.52, 0.70, f) * (1.0 - smoothstep(0.70, 0.90, f));
-  col = mix(col, ink, vein * (0.48 + 0.22 * ps));
+  col = mix(col, ink, vein * (0.70 + 0.05 * ps));
 
   float edge = smoothstep(0.660, 0.685, f) * (1.0 - smoothstep(0.685, 0.710, f));
-  col = mix(col, inkDeep, edge * (0.60 + 0.25 * ps));
+  col = mix(col, inkDeep, edge * (0.80 + 0.06 * ps));
 
   /* contour lines — audit-map feel, ink darkens as the report deepens */
   float contour = abs(fract(f * 14.0) - 0.5);
@@ -1095,8 +1193,8 @@ void main(){
   col = mix(col, inkDeep, cl * (0.06 + 0.08 * ps));
 
   /* keep top-left reading zone airy in the hero, release it further down */
-  float airy = smoothstep(1.25, 0.30, distance(uv, vec2(0.26, 0.62)));
-  col = mix(col, paper, airy * 0.30 * (1.0 - 0.75 * ps));
+  float airy = smoothstep(0.80, 0.22, distance(uv, vec2(0.26, 0.62)));
+  col = mix(col, paper, airy * 0.24 * (1.0 - 0.75 * ps));
 
   gl_FragColor = vec4(col, 1.0);
 }
@@ -1183,7 +1281,17 @@ void main(){
       frame(12000); /* one static, composed frame */
       addEventListener('resize', function(){ frame(12000); });
     } else {
-      (function loop(now){ frame(now); requestAnimationFrame(loop); })(0);
+      var rafId = 0, running = false;
+      var loop = function(now){ frame(now); rafId = requestAnimationFrame(loop); };
+      var setRunning = function(on){
+        if(on === running) return;
+        running = on;
+        if(on){ rafId = requestAnimationFrame(loop); } else { cancelAnimationFrame(rafId); }
+      };
+      setRunning(true);
+      document.addEventListener('visibilitychange', function(){ setRunning(!document.hidden); });
+      addEventListener('blur', function(){ setRunning(false); });
+      addEventListener('focus', function(){ if(!document.hidden) setRunning(true); });
     }
   } else {
     canvas.style.background =
@@ -1523,39 +1631,77 @@ void main(){
   var SVGNS = 'http://www.w3.org/2000/svg';
   /* NL-silhouet als hex-grid bitmask, rij voor rij (noord naar zuid) */
   var ROWS = [
-    '......11..1111..........',
-    '.....1111111111.1.......',
-    '....111111111111........',
-    '....1111111111111.......',
-    '...11111111111111.......',
-    '..111111111111111.......',
-    '..111111111111111.......',
-    '..11111111111111111.....',
-    '..1111.111111111111.....',
-    '..111...11111111111.....',
-    '..111..111111111111.....',
-    '..111..1111111111111....',
-    '..1111111111111111111...',
-    '.11111111111111111111...',
-    '.111111111111111111.....',
-    '111111111111111111......',
-    '111111111111111111......',
-    '.11111111111111111......',
-    '11.111111111111111......',
-    '11.11111111111111.......',
-    '1..1111111111111111.....',
-    '....111111111111111.....',
-    '.....11111111111111.....',
-    '............11111.......',
-    '.............1111.......',
-    '.............1111.......',
-    '.............111........',
-    '.............1111.......',
-    '..............111.......',
-    '..............11........'
+    '......................11.1......',
+    '..................111...........',
+    '.............1111.....11111.....',
+    '..........11......11111111111...',
+    '................1111111111111...',
+    '..........11....111111111111....',
+    '.................11111111111111.',
+    '...........11....111111111111111',
+    '..........1111......111111111111',
+    '..........1111......111111111111',
+    '..........1111......111111111111',
+    '.........11111......111111111111',
+    '.........11111....1111111111111.',
+    '.........11111...11111111111111.',
+    '.........11111..1111111111111...',
+    '..........1111.11111111111111...',
+    '..........11111111111111111111..',
+    '.........1111111111111111111111.',
+    '.........1111111111111111111111.',
+    '........1111111111111111111111..',
+    '........111111111111111111111...',
+    '.......1111111111111111111111...',
+    '......111111111111111111111111..',
+    '.....111111111111111111111111...',
+    '....1111111111111111111111......',
+    '..1111..111111111111111.........',
+    '.111111111111111111111..........',
+    '.111111111111111111111..........',
+    '....1..1111111111111111.........',
+    '....1..11111111111111111........',
+    '.111111..1111111111111111.......',
+    '.1111111...11111111111111.......',
+    '.............11111.111111.......',
+    '...................111111.......',
+    '...................11111........',
+    '...................11111........',
+    '..................11111.........',
+    '..................11111.........',
+    '..................11111.........',
+    '...................1111.........'
   ];
-  var COLORS = ['#CBE8D6', '#7FCBA0', '#00843D', '#B9A7F0', '#6D28D9'];
-  var R = 7;
+  var NEUTRAL = ['#DFEFE5', '#CBE8D6', '#D5EBDD', '#E6F1EA'];
+  var PALS = {
+    purple: ['#5B21B6', '#6D28D9', '#8B5CF6', '#B9A7F0', '#DCD2F5'],
+    green:  ['#00602C', '#00843D', '#3FA56C', '#7FCBA0', '#CBE8D6'],
+    orange: ['#92400E', '#B45309', '#D97706', '#E8B278', '#F3DCC0']
+  };
+  /* kleur-clusters met gradient-verval (px, radius, palet) */
+  var HUBS = [
+    { x: 132, y: 148, r: 40, p: 'purple' },  /* Amsterdam */
+    { x:  94, y: 192, r: 42, p: 'purple' },  /* Den Haag / Rotterdam */
+    { x: 151, y: 164, r: 34, p: 'purple' },  /* Utrecht */
+    { x: 176, y: 257, r: 28, p: 'purple' },  /* Eindhoven */
+    { x: 261, y:  49, r: 28, p: 'green'  },  /* Groningen */
+    { x: 205, y: 324, r: 30, p: 'orange' },  /* Maastricht / Heerlen */
+    { x: 206, y: 202, r: 26, p: 'orange' },  /* Arnhem / Nijmegen */
+    { x: 224, y: 132, r: 24, p: 'green'  },  /* Zwolle */
+    { x: 286, y: 165, r: 24, p: 'purple' },  /* Enschede */
+    { x: 135, y: 242, r: 26, p: 'green'  },  /* Breda / Tilburg */
+    { x: 201, y:  51, r: 22, p: 'orange' }   /* Leeuwarden */
+  ];
+  function heat(x, y){
+    var best = { h: 0, p: null };
+    for(var i = 0; i < HUBS.length; i++){
+      var d = Math.hypot(x - HUBS[i].x, y - HUBS[i].y);
+      var h = 1 - d / HUBS[i].r;
+      if(h > best.h){ best.h = h; best.p = HUBS[i].p; }
+    }
+    return best;
+  }
+  var R = 5.6;
   var W = R * Math.sqrt(3), H = R * 1.5;
   function prand(i){ var x = Math.sin(i * 91.7 + 47.3) * 24634.6345; return x - Math.floor(x); }
   function hexPoints(cx, cy){
@@ -1566,40 +1712,95 @@ void main(){
     }
     return pts.join(' ');
   }
+  var land = {};
+  ROWS.forEach(function(row, r){
+    for(var c = 0; c < row.length; c++){ if(row[c] === '1') land[c + ',' + r] = 1; }
+  });
   var hexes = [];
   var idx = 0;
   ROWS.forEach(function(row, r){
     for(var c = 0; c < row.length; c++){
       if(row[c] !== '1') continue;
-      var cx = 14 + (c + (r % 2) * 0.5) * W;
-      var cy = 16 + r * H;
+      var cx = 9 + (c + (r % 2) * 0.5) * W;
+      var cy = 10 + r * H;
       var p = document.createElementNS(SVGNS, 'polygon');
       p.setAttribute('points', hexPoints(cx, cy));
       p.setAttribute('class', 'hex');
-      p.setAttribute('fill', COLORS[Math.floor(prand(idx * 3 + 1) * COLORS.length)]);
+      var ht = heat(cx, cy);
+      var col;
+      if(ht.h <= 0.02){
+        col = NEUTRAL[Math.floor(prand(idx * 3 + 1) * NEUTRAL.length)];
+      } else {
+        var shades = PALS[ht.p];
+        var si = Math.floor((1 - ht.h) * shades.length + (prand(idx * 7 + 2) - .5) * 1.4);
+        si = Math.max(0, Math.min(shades.length - 1, si));
+        col = shades[si];
+        if(ht.h > .35){
+          p.classList.add('hex--hub');
+          p.style.animationDelay = '-' + (prand(idx * 11 + 3) * 4.5).toFixed(2) + 's';
+        }
+      }
+      p.style.setProperty('--c', col);
       svg.appendChild(p);
       hexes.push({ el: p, t: prand(idx) });
       idx++;
     }
   });
+  /* kustlijn: elke hex-zijde zonder land-buur wordt een randsegment */
+  var DIRS = [
+    function(c, r){ return [c + 1, r]; },
+    function(c, r){ return [r % 2 ? c + 1 : c, r + 1]; },
+    function(c, r){ return [r % 2 ? c : c - 1, r + 1]; },
+    function(c, r){ return [c - 1, r]; },
+    function(c, r){ return [r % 2 ? c : c - 1, r - 1]; },
+    function(c, r){ return [r % 2 ? c + 1 : c, r - 1]; }
+  ];
+  var od = '';
+  ROWS.forEach(function(row, r){
+    for(var c = 0; c < row.length; c++){
+      if(row[c] !== '1') continue;
+      var ocx = 9 + (c + (r % 2) * 0.5) * W;
+      var ocy = 10 + r * H;
+      for(var k = 0; k < 6; k++){
+        var nb = DIRS[k](c, r);
+        if(land[nb[0] + ',' + nb[1]]) continue;
+        var a1 = Math.PI / 180 * (60 * k - 30);
+        var a2 = Math.PI / 180 * (60 * (k + 1) - 30);
+        od += 'M' + (ocx + R * Math.cos(a1)).toFixed(1) + ' ' + (ocy + R * Math.sin(a1)).toFixed(1)
+            + 'L' + (ocx + R * Math.cos(a2)).toFixed(1) + ' ' + (ocy + R * Math.sin(a2)).toFixed(1);
+      }
+    }
+  });
+  var outline = document.createElementNS(SVGNS, 'path');
+  outline.setAttribute('d', od);
+  outline.setAttribute('class', 'hexoutline');
+  svg.appendChild(outline);
   function setProgress(pr){
     hexes.forEach(function(h){ h.el.classList.toggle('is-on', h.t <= pr); });
   }
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(reduced){ setProgress(1); return; }
-  if(typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined'){
-    var st = { p: 0 };
-    gsap.to(st, {
-      p: 1, ease: 'none',
-      scrollTrigger: { trigger: '.datapull', start: 'top 88%', end: 'center 45%', scrub: true },
-      onUpdate: function(){ setProgress(st.p); }
+  /* vul-animatie speelt altijd af zodra de kaart in beeld komt,
+     ongeacht hoe ver of hoe snel er gescrold is */
+  var played = false;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting || played) return;
+      played = true;
+      io.disconnect();
+      var start = null;
+      var DUR = 2400;
+      function step(ts){
+        if(start === null) start = ts;
+        var k = Math.min((ts - start) / DUR, 1);
+        var e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+        setProgress(e);
+        if(k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
     });
-  } else {
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){ if(en.isIntersecting){ setProgress(1); io.disconnect(); } });
-    }, { threshold: .3 });
-    io.observe(svg);
-  }
+  }, { threshold: .35 });
+  io.observe(svg);
 })();
 </script>
 </body>

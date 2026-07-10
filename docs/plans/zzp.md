@@ -140,14 +140,23 @@ mensen gemaakt, zodat het team er zelf mee verder kan.
 - 3-stappen framework: Deep Scan, Strategic Map, Accelerate. In de
   huidige site-uitwerking leest elke stap ook de data-laag mee en
   wordt het plan mét het team gemaakt, niet ervoor.
+- GUARDRAIL naamgeving: op vincability noemen we het WERK, niet voor
+  wie. Geen klant- of werkgeversnamen op de publieke site. Redenen
+  verschillen per geval maar de regel is uniform:
+  - KNVB: naam NIET noemen, data viel onder een NDA binnen Leydi's
+    masteropdracht. Inhoud anoniem beschrijven: "ledenverloop
+    voetbalclubs x sociale samenstelling (CBS)".
+  - Zuyd Hogeschool en Meerkring: opdrachten stonden op Leydi's naam,
+    Vincent deed het werk als meewerkend partner. Werk beschrijven
+    mag ("studentdata naar dashboards, hogeschool" / "CBS pc6 naar
+    buurt, onderwijsstichting"), naam alleen met akkoord.
+  - In interne docs (zoals dit bestand) mogen namen wel staan.
 - Echt data-werk als bewijs (alleen noemen zoals aangeleverd, niets
   bij verzinnen):
   - Zuyd Hogeschool: Osiris/Summit-data via een R-pipeline naar
     Power BI.
   - Meerkring: CBS pc6-naar-buurt-data per gemeente.
-  - KNVB: ledendata naar dashboards. NIET publiek noemen: data viel
-    onder een NDA binnen Leydi's masteropdracht. Alleen anoniem
-    beschrijven ("landelijke sportbond") als het ooit nodig is.
+  - KNVB: ledendata naar dashboards (zie guardrail).
   - Deportes: .NET/Blazor/CosmosDB.
 - "Every feature needs a named domain owner" als principe (op de site
   vertaald als domein-eigenaarschap).
