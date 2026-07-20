@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vindicator — Wake up. The gates are dark. Fold anyway.</title>
+  <meta name="description" content="Vindicator: explore, fight, and fold through a dying star system. A cognitive overlay, not a HUD." />
+  <meta property="og:title" content="Vindicator" />
+  <meta property="og:description" content="Wake up. The gates are dark. Fold anyway." />
+  <meta property="og:image" content="/vindicator/images/hero-blackhole.png" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="vindicator.css" />
+</head>
+<body>
+
+  <header class="site-nav">
+    <a class="site-nav__brand" href="index.html">VINDICATOR</a>
+    <nav class="site-nav__links" aria-label="Section">
+      <a href="index.html" class="is-active">Home</a>
+      <a href="codex/index.html">Codex</a>
+      <a href="design/index.html">Design</a>
+      <a href="#devlog">Devlog</a>
+    </nav>
+    <a class="site-nav__ext" href="../index.html">Vincability</a>
+  </header>
+
+  <section class="hero">
+    <img class="hero__bg" src="images/hero-blackhole.png" alt="Gargantua black hole with nebula inflow" />
+    <div class="hero__scrim"></div>
+    <div class="hero__scanlines"></div>
+
+    <span class="chip">SYS // VINDICATOR</span>
+    <h1 class="hero__title">VINDICATOR</h1>
+    <p class="hero__pitch">Wake up. The gates are dark. Fold anyway.</p>
+    <div class="hero__actions">
+      <!-- TODO: real wishlist/store link -->
+      <a class="btn btn-primary chamfer-sm" href="#" data-todo="store-link">Play / Wishlist</a>
+      <a class="btn btn-glass chamfer-sm" href="codex/index.html">Codex</a>
+      <a class="btn btn-glass chamfer-sm" href="#devlog">Devlog</a>
+    </div>
+  </section>
+
+  <section class="section" id="what-is-it">
+    <span class="chip">What is it</span>
+    <div class="panel-grid">
+      <article class="panel-grid__item">
+        <img src="images/panel-modules.png" alt="Modular skin and arena configuration" loading="lazy" />
+        <h3>Explore / Fold</h3>
+        <p>Jump gate to gate through a system that's collapsing behind you.</p>
+      </article>
+      <article class="panel-grid__item">
+        <img src="images/panel-weapons.png" alt="Weapon identity close-up" loading="lazy" />
+        <h3>Fight / Modules</h3>
+        <p>Build your ship module by module — every weapon has its own signature.</p>
+      </article>
+      <article class="panel-grid__item">
+        <img src="images/panel-economy.png" alt="Economy tracker interface" loading="lazy" />
+        <h3>Economy</h3>
+        <p>Every fold has a price — track the cost live.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="manual">
+    <span class="chip">Manual &amp; notes</span>
+    <div class="panel-grid">
+      <article class="panel-grid__item">
+        <h3>Codex</h3>
+        <p>The player-facing in-game manual — what the systems are, written for the pilot in the seat.</p>
+        <p style="margin-top:12px"><a class="btn btn-glass chamfer-sm" href="codex/index.html">Open codex</a></p>
+      </article>
+      <article class="panel-grid__item">
+        <h3>Design notes</h3>
+        <p>Curated systems design docs — the WHY behind economy, fleet, combat, and production art language. Story spoilers stay offline.</p>
+        <p style="margin-top:12px"><a class="btn btn-glass chamfer-sm" href="design/index.html">Open design</a></p>
+      </article>
+      <article class="panel-grid__item">
+        <h3>Living sources</h3>
+        <p>Codex ships in the game PCK. Design notes are curated from the repo; regenerate the site pages when those files move.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="devlog">
+    <span class="chip">Devlog</span>
+    <ul class="devlog-list">
+      <li><time datetime="2026-07-19">2026-07-19</time><span>Heavy Railgun readability pass — fading tracer afterimage, fixed an interpolation glitch that read as a mid-screen explosion.</span></li>
+      <li><time datetime="2026-07-19">2026-07-19</time><span>Crew &amp; Officers layer: a slot ladder and three officer types with real effects, visible in the dock's FLEET screen.</span></li>
+      <li><time datetime="2026-07-19">2026-07-19</time><span>Fleet recruit &amp; roles: recruit crew and assign hauler or trader roles — they work the routes themselves.</span></li>
+      <li><time datetime="2026-07-19">2026-07-19</time><span>Trade-data tiers: remote market data now gated behind subscription tiers.</span></li>
+      <li><time datetime="2026-07-19">2026-07-19</time><span>Shared energy pool: every energy weapon now draws from one capacitor, by weapon family.</span></li>
+      <li><time datetime="2026-07-19">2026-07-19</time><span>Overcharged Heavy Railgun joins the family as a harder-hitting second variant.</span></li>
+      <li><time datetime="2026-07-19">2026-07-19</time><span>Codex unlock-gating: articles now unlock through discovery instead of from the start.</span></li>
+      <li><time datetime="2026-07-19">2026-07-19</time><span>Mineral-ladder rule: danger now maps to richness across every asteroid belt.</span></li>
+      <li><time datetime="2026-07-17">2026-07-17</time><span>Black hole rebuilt with gravitational lensing, doppler shading, and slow motion near the horizon.</span></li>
+      <li><time datetime="2026-07-17">2026-07-17</time><span>Fold visual reworked to read as suction instead of a whirlpool.</span></li>
+      <li><time datetime="2026-07-17">2026-07-17</time><span>Weapon SFX overhaul: synthesized sounds replaced with sourced samples.</span></li>
+      <li><time datetime="2026-07-16">2026-07-16</time><span>Mounted weapon art added, plus two new retro tracker music tracks.</span></li>
+    </ul>
+  </section>
+
+  <footer class="footer">
+    <span><!-- TODO: version from the same source as the in-game menu --> v0.0.0</span>
+    <span><a href="codex/credits.html">Credits</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
+    <span>© Vincability</span>
+  </footer>
+
+</body>
+</html>

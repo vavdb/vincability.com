@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Refining — Vindicator</title>
+  <meta name="description" content="Refineries turn raw ore into more valuable components before you sell your haul." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../vindicator.css" />
+</head>
+<body class="doc-body">
+
+  <header class="site-nav">
+    <a class="site-nav__brand" href="../index.html">VINDICATOR</a>
+    <nav class="site-nav__links" aria-label="Section">
+      <a href="../index.html">Home</a>
+      <a href="../codex/index.html" class="is-active">Codex</a>
+      <a href="../design/index.html">Design</a>
+      <a href="../index.html#devlog">Devlog</a>
+    </nav>
+    <a class="site-nav__ext" href="../../index.html">Vincability</a>
+  </header>
+  <main class="doc-main">
+
+    <article class="doc-article">
+      <header class="doc-article__head">
+        <a class="doc-back" href="index.html">← Codex</a>
+        <span class="chip">Economy</span>
+        <h1>Refining</h1>
+        <p class="doc-article__summary">Refineries turn raw ore into more valuable components before you sell your haul.</p>
+        
+      </header>
+      <div class="prose">
+<p>Raw ore is worth credits, but not its full share — not until it&rsquo;s been
+through a refinery. That&rsquo;s the last leg of the mine → haul → sell chain,
+and the reason a hold full of ore is worth escorting.</p>
+<h2 id="ore-in-components-out">Ore in, components out</h2>
+<p>Dock at a Refinery station and the shop slot grows a second section:
+REFINERY, one row per ore you&rsquo;re carrying that has a recipe. Every ladder
+mineral refines into a matching component:</p>
+<table>
+<thead>
+<tr>
+<th>Ore</th>
+<th>Refines into</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ferrite</td>
+<td>Alloy Plate</td>
+</tr>
+<tr>
+<td>Silica</td>
+<td>Circuit Board</td>
+</tr>
+<tr>
+<td>Ice</td>
+<td>Fuel Cell</td>
+</tr>
+<tr>
+<td>Titanium</td>
+<td>Armor Plating</td>
+</tr>
+<tr>
+<td>Iridium</td>
+<td>Weapon Core</td>
+</tr>
+<tr>
+<td>Voidite</td>
+<td>Fold Capacitor</td>
+</tr>
+</tbody>
+</table>
+<p>Gem and every salvage commodity have no recipe — they&rsquo;re rarity procs and
+scrap, not feedstock, and never show up in the REFINERY section.</p>
+<h2 id="the-ratio">The ratio</h2>
+<p>Refining runs 2 ore in for every 1 component out — whole batches only. Hit
+REFINE and a stack converts in full-batch chunks; anything below the ratio
+stays behind unrefined, waiting for the next haul to top it off. REFINE
+ALL runs every eligible stack in the hold at once.</p>
+<h2 id="why-bother">Why bother</h2>
+<p>A component sells for more per unit than the ore it came from, so the
+haul out to a refinery is what turns a middling ore run into a real
+payday. It&rsquo;s also why mine and refinery rarely sit in the same spot — the
+value only banks once it&rsquo;s been processed, so until you dock and refine,
+what&rsquo;s in your hold is still just vulnerable ore.</p>
+      </div>
+      <nav class="doc-pager" aria-label="Adjacent articles">
+        <a class="doc-pager__link" href="cargo.html">← Cargo &amp; Commodities</a>
+        <a class="doc-pager__link" href="trading.html">Trading →</a>
+      </nav>
+    </article>
+
+  </main>
+  <footer class="footer">
+    <span>Built 2026-07-20 from game sources</span>
+    <span><a href="../index.html">Home</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
+    <span>© Vincability</span>
+  </footer>
+</body>
+</html>

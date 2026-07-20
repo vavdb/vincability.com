@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trading — Vindicator</title>
+  <meta name="description" content="Dock at a buyer to turn the commodities in your hold into credits." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../vindicator.css" />
+</head>
+<body class="doc-body">
+
+  <header class="site-nav">
+    <a class="site-nav__brand" href="../index.html">VINDICATOR</a>
+    <nav class="site-nav__links" aria-label="Section">
+      <a href="../index.html">Home</a>
+      <a href="../codex/index.html" class="is-active">Codex</a>
+      <a href="../design/index.html">Design</a>
+      <a href="../index.html#devlog">Devlog</a>
+    </nav>
+    <a class="site-nav__ext" href="../../index.html">Vincability</a>
+  </header>
+  <main class="doc-main">
+
+    <article class="doc-article">
+      <header class="doc-article__head">
+        <a class="doc-back" href="index.html">← Codex</a>
+        <span class="chip">Economy</span>
+        <h1>Trading</h1>
+        <p class="doc-article__summary">Dock at a buyer to turn the commodities in your hold into credits.</p>
+        
+      </header>
+      <div class="prose">
+<p>A full hold is worth nothing until you&rsquo;re docked and someone&rsquo;s buying.
+Selling is the last step of every mine and every salvage run — the moment
+the risk you carried actually turns into credits.</p>
+<h2 id="selling-at-a-station">Selling at a station</h2>
+<p>Dock, open the shop slot, and every commodity you&rsquo;re carrying shows up as
+its own row: name, quantity, and the credits it&rsquo;s worth right here, right
+now. Sell one stack at a time or hit SELL ALL to empty the hold in one
+pass. Either way the credits land in your wallet immediately and the
+cargo&rsquo;s gone — there&rsquo;s no partial haggling, no waiting for a buyer.</p>
+<h2 id="why-the-same-cargo-pays-differently-everywhere">Why the same cargo pays differently everywhere</h2>
+<p>Every commodity has a base worth, but no two stations pay it out the same.
+Two things skew the price:</p>
+<ul>
+<li><strong>How dangerous the system is.</strong> Selling in a system pirates actually
+  patrol pays better than selling in a system that&rsquo;s never seen a raid —
+  the extra credits are what made hauling it here worth the risk in the
+  first place. Safe systems pay baseline; frontier systems pay more;
+  the deadliest systems pay the most.</li>
+<li><strong>What the station already has.</strong> Some stations run a standing markup
+  or markdown on top of the danger skew, station by station — the same
+  hold of Ferrite is never worth chasing the same price twice.</li>
+</ul>
+<p>Stack a dangerous system and a hungry station and the same cargo that
+barely covered fuel back home suddenly pays for the whole run.</p>
+<h2 id="the-math-if-you-want-it">The math, if you want it</h2>
+<p>Selling one commodity pays <code>base worth x quantity x station skew</code>, where
+the station skew is the danger multiplier times whatever local markup
+that station is running. Sell everything at once and it&rsquo;s just that sum
+across your whole hold — there&rsquo;s no bonus or penalty for bulk, only for
+where you chose to sell it.</p>
+      </div>
+      <nav class="doc-pager" aria-label="Adjacent articles">
+        <a class="doc-pager__link" href="refining.html">← Refining</a>
+        <a class="doc-pager__link" href="trade-data.html">Trade Data →</a>
+      </nav>
+    </article>
+
+  </main>
+  <footer class="footer">
+    <span>Built 2026-07-20 from game sources</span>
+    <span><a href="../index.html">Home</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
+    <span>© Vincability</span>
+  </footer>
+</body>
+</html>

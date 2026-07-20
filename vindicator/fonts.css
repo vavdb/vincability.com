@@ -1,0 +1,58 @@
+/* ==========================================================================
+   TODO: woff2-bestanden nog niet gedownload/self-hosted.
+   Plaats hier in /vindicator/fonts/:
+     asimovian-regular.woff2   (Asimovian, OFL — Google Fonts)
+     geist-regular.woff2 / geist-medium.woff2  (Geist, OFL — Vercel)
+     jetbrainsmono-regular.woff2 / -medium.woff2  (JetBrains Mono, OFL)
+     doto-*.woff2 (variable of static weights, OFL — Google Fonts)
+   Zolang deze ontbreken vallen de font-stacks in vindicator.css terug op
+   system-fonts (zie --font-* variabelen) — de site blijft bruikbaar.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Asimovian";
+  src: url("fonts/asimovian-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("fonts/geist-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("fonts/geist-medium.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("fonts/jetbrainsmono-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("fonts/jetbrainsmono-medium.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Doto";
+  src: url("fonts/doto-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
