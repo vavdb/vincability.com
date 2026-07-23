@@ -18,6 +18,7 @@
       <a href="../index.html">Home</a>
       <a href="../codex/index.html">Codex</a>
       <a href="../design/index.html" class="is-active">Design</a>
+      <a href="../design-language.html">UI language</a>
       <a href="../index.html#devlog">Devlog</a>
     </nav>
     <a class="site-nav__ext" href="../../index.html">Vincability</a>
@@ -155,7 +156,7 @@ the decisions.md entry of the same date.</p>
 <p><strong>SHIPPED 2026-07-13</strong> — <code>LanePath</code> replaces the straight chord with one
   deterministic, bounded directional current shared by the chart, its gate&rsquo;s
   departure filaments, and <code>SystemHost</code>&rsquo;s real flight. The reciprocal gate has
-  a close-running return current between its separate sender/receiver throats;
+  a close-running return current between its separate sender/receiver apertures;
   the ship continuously faces the local tangent while the existing
   accel/cruise/decel timing, collision lock, camera pull-back, explicit catcher
   trigger, and exact touchdown remain.
@@ -168,27 +169,37 @@ the decisions.md entry of the same date.</p>
   leaving the inner throat clears dwell immediately. Gate, departure-wisp,
   and hull-rush shaders stay continuous and unquantized while their carrier
   geometry fades before every edge.
-- <strong>Warp gate VISUAL (owner spec, 2026-07-10)</strong>: a circular techno
-  structure shaped as a DOUBLE FUNNEL — think \/\ in profile. The
-  launcher side is a wide ring narrowing along the lane axis: it grabs
-  the ship, squeezes it down the taper, and FLINGS it. The far gate&rsquo;s
-  catcher side is the mirror: wide mouth toward the incoming lane,
-  narrowing against travel to bleed speed until the ship pops out at
-  cruise. Both functions live on each gate (a gate launches one way and
-  catches the other). While flung, the ship wears a &ldquo;whoa, I&rsquo;m going
-  fast&rdquo; effect — compressed speed-line streaks / bow-shock shimmer
-  around the hull. Build direction: custom shader-composite (rotating
-  ring segments from Foozle capital parts + a cel vortex disc matching
-  the celestial style), dormant/active endpoint states baked in. No CC0
-  pack exists for this (hunted twice) — we own it.</p>
-<p><strong>SHIPPED 2026-07-11</strong> — procedural <code>StarlaneGate._Draw()</code> double funnel
-  (collar rings shrinking to a waist along the lane axis, rotating
-  plating blocks, spinning cel vortex <code>gate_vortex.gdshader</code> in the
-  throat) instead of Foozle parts — owning the geometry beat compositing
-  pack sprites; endpoint states drive spin/vortex/tint and the charge
-  refusal (pure <code>GateVisual</code>), with DORMANT/OFFLINE/&rdquo;FAR ENDPOINT
-  DORMANT&rdquo; hints; <code>LaneRushEffect</code> carries the bow-shock shimmer. Codex:
-  <code>travel-starlanes.md</code>; see the decisions.md entry of the same date.
+- <strong>Warp gate VISUAL (current owner spec, 2026-07-20)</strong>: a free-floating,
+  station-scale <strong>ring-on-ring</strong> assembly with no ground, foot, or support
+  pedestal. The large sender ring and smaller receiver ring are independent
+  structures that overlap in screen space. The receiver sits at the
+  lower-right; its centre lands on the middle of the sender&rsquo;s structural band,
+  not on the band&rsquo;s outer edge and not inside the sender aperture. Each ring uses
+  complete-ring atlas phases with identical physical structure. Active phases
+  add surface energy, but power never adds/removes physical pieces or substitutes
+  damaged geometry.</p>
+<p>The gate is also the reference Ancient monumental-infrastructure asset:
+  thick segmented gunmetal/slate bands, deep charcoal recesses, restrained warm
+  ceramic faces, exactly eight disciplined radial anchors per ring, and medium-low detail
+  density. Large engineered modules must read before seams or inset channels.
+  No ground support, connector spine, mystical filigree, decorative glyph belt,
+  gold trim, spikes, disconnected ornaments, or random greeble fog.</p>
+<p>Sender and receiver power are independent, so the gate must read in all four
+  combinations: <strong>on/on, on/off, off/on, off/off</strong>. “On” advances that ring&rsquo;s
+  complete-ring energy atlas and enables its separate aperture shader; “off” uses
+  the dormant atlas phase and a dark aperture while preserving the same structure.
+  Both energy fields share one deep-space cyan language rather than green and
+  violet endpoint colours. Sender energy streams inward from its eight emitters
+  into the aperture; receiver energy streams outward from its aperture toward its
+  eight emitters. The metal sender and receiver rings slowly counter-rotate while
+  their aperture fields remain stationary. The lane wisp and <code>LaneRushEffect</code>
+  retain the fast-travel motion language around the moving ring assembly.</p>
+<p>Dormant and Broken endpoints remain physically intact because both are
+  repairable power/system states. They go dark and still and use the existing
+  DORMANT/OFFLINE/&rdquo;FAR ENDPOINT DORMANT&rdquo; hints; cracks, missing segments,
+  permanent rubble, and damage-only shell variants are forbidden as state
+  reads. Endpoint state still drives charge refusal through pure <code>GateVisual</code>.
+  Codex: <code>travel-starlanes.md</code>; see the 2026-07-20 decisions.md entry.
 - <strong>Fold</strong>: a SPIRAL renders from the ship&rsquo;s position toward the
   destination (wormhole mouth), the ship falls INTO the spiral
   (shrink/rotate), pops out of a matching spiral at the destination.
@@ -331,7 +342,9 @@ Instead two tiers:</p>
 <p>Two repair paths, matched to the two kinds of broken gate the fiction
 already distinguishes (docs/design-bible.md:39: &ldquo;Some gates merely need
 an AI handshake recalibrated — a fork can run the sub-process. Some need
-physical repair materials.&rdquo;). The good news: the data model already
+physical repair materials.&rdquo;). Both states keep the same intact exterior;
+their difference is internal work and power behavior, not visible structural
+destruction. The good news: the data model already
 splits this way. <code>LaneState</code> (<code>common/Taxonomy.cs</code>) has three values, and
 two of them are exactly the two repair tiers:</p>
 <ul>
@@ -340,9 +353,9 @@ two of them are exactly the two repair tiers:</p>
   (dwell + interact) flips a dormant endpoint to <code>Operational</code> — that&rsquo;s
   the Eos↔Veil tutorial beat, fictionally &ldquo;Vann runs the calibration
   himself&rdquo; because no fork exists yet at that point in the story.</li>
-<li><strong><code>Broken</code></strong> — physically damaged. <code>StarlaneGate.Damaged</code> already drives
-  a distinct visual (damaged sprite row, twitch/spark motion,
-  <code>GateVisual.AcceptsCharge</code> refuses the charge dwell entirely) but there
+<li><strong><code>Broken</code></strong> — materially failed internals behind an intact shell. Its
+  energy layer is dark and still, and <code>GateVisual.AcceptsCharge</code> refuses the
+  charge dwell entirely, but there
   is <strong>no repair verb wired to it at all</strong> yet — a broken gate is
   currently a dead end. This is the <strong>materials-based</strong> path.</li>
 </ul>
@@ -725,7 +738,7 @@ the correct entity node even after a full scene rebuild.</p>
 
   </main>
   <footer class="footer">
-    <span>Built 2026-07-20 from game sources</span>
+    <span>Built 2026-07-23 from game sources</span>
     <span><a href="../index.html">Home</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
     <span>© Vincability</span>
   </footer>
