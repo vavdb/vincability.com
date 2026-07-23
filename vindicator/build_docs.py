@@ -233,6 +233,7 @@ def shell(
       <a href="{root}index.html"{' class="is-active"' if active == 'home' else ''}>Home</a>
       <a href="{root}codex/index.html"{' class="is-active"' if active == 'codex' else ''}>Codex</a>
       <a href="{root}design/index.html"{' class="is-active"' if active == 'design' else ''}>Design</a>
+      <a href="{root}design-language.html">UI language</a>
       <a href="{root}index.html#devlog">Devlog</a>
     </nav>
     <a class="site-nav__ext" href="{prefix}../index.html">Vincability</a>

@@ -26,6 +26,10 @@
   --text-dim: #7C93A5;        /* raised vs. the game's dim tone — pure NavInk@50% fails WCAG AA at small sizes */
 
   --rail: rgba(131, 195, 255, 0.55); /* Rail = Signal @ 55% — the 1px outline used everywhere */
+  --steel-rail: #B5CBE0;             /* SteelRail = Mix(NavInk, Signal, 0.35) — resting button rail, so Signal hover reads as a step up */
+  --grid-major: rgba(131, 195, 255, 0.11); /* GridMajor = Signal @ 11% — 64px grid lines */
+  --grid-minor: rgba(131, 195, 255, 0.05); /* GridMinor = Signal @ 5% — 16px grid lines */
+  --muted-ink: rgba(208, 208, 208, 0.5);   /* MutedInk = NavInk @ 50% — decorative only; use --text-dim for readable copy */
 
   /* Typography */
   --font-display: "Asimovian", "Orbitron", sans-serif;
@@ -199,28 +203,71 @@ a {
   transition: filter 0.15s ease, transform 0.15s ease;
 }
 
-.btn:hover {
-  filter: brightness(1.15);
-}
-
-.btn:active {
-  transform: translateY(1px);
-}
-
 .btn-primary {
   background: var(--online);
   color: var(--bg-deep);
   font-weight: 600;
 }
 
-.btn-glass {
-  background: rgba(14, 24, 38, 0.95);
-  color: var(--signal);
-  border: var(--rail-width) solid var(--rail);
+.btn-primary:hover {
+  filter: brightness(1.15);
 }
 
-.btn-glass:hover {
-  border-color: var(--signal);
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+/* .btn-glass mirrors the game's OverlayButton 3-state model
+   (UiThemeTokens.StyleButton): rail + label + glass fill per state.
+   Fills are Mix(Background, railColor, w) with the top stop Lightened(0.06). */
+
+.btn-glass {
+  /* rest: SteelRail rail, fill w=0.10 @ 80%, NavInk label */
+  position: relative;
+  color: var(--nav-ink);
+  border: var(--rail-width) solid rgba(181, 203, 224, 0.9);
+  background: linear-gradient(
+    180deg,
+    rgba(38, 44, 52, 0.80) 0%,
+    rgba(24, 30, 39, 0.80) 100%
+  );
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-glass::after {
+  /* button scanlines — ChamferStyleBox draws these at 3% on OverlayButton */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(131, 195, 255, 0.03) 0 1px,
+    transparent 1px 3px
+  );
+  pointer-events: none;
+}
+
+.btn-glass:hover,
+.btn-glass:focus-visible {
+  /* hover/focus: Signal rail + Signal label, fill w=0.18 @ 85% */
+  color: var(--signal);
+  border-color: rgba(131, 195, 255, 0.9);
+  background: linear-gradient(
+    180deg,
+    rgba(43, 57, 73, 0.85) 0%,
+    rgba(29, 44, 61, 0.85) 100%
+  );
+}
+
+.btn-glass:active {
+  /* pressed: Online rail, label back to NavInk, fill w=0.24 @ 92% */
+  color: var(--nav-ink);
+  border-color: rgba(0, 230, 118, 0.9);
+  background: linear-gradient(
+    180deg,
+    rgba(20, 75, 55, 0.92) 0%,
+    rgba(5, 64, 42, 0.92) 100%
+  );
 }
 
 /* --------------------------------------------------------------------
