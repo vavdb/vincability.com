@@ -237,7 +237,7 @@
         <div class="chamfer-demo" style="--c: var(--chamfer-chip-sm)">CHIP 6px</div>
       </div>
       <div class="prose">
-        <p>Around every cut runs a 1px rail (<code>--rail</code>, signal @ 55%). Below 900px viewport the panel chamfer drops to 8px.</p>
+        <p>Around every cut runs a 1px rail (<code>--rail</code>, signal @ 55%) — with one deliberate split: <strong>panels, tooltips and chips close the octagon</strong> (the rail follows the diagonals), while <strong>buttons leave the corners open</strong> (the rail skips the four 45° segments). In CSS that falls out of <code>border</code> + <code>clip-path</code> for free; in-game <code>ChamferStyleBox.OpenCorners</code> does the same. Below 900px viewport the panel chamfer drops to 8px.</p>
       </div>
     </section>
 
