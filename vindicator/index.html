@@ -87,20 +87,119 @@
 
   <section class="section" id="devlog">
     <span class="chip">Devlog</span>
-    <ul class="devlog-list">
-      <li><time datetime="2026-07-19">2026-07-19</time><span>Heavy Railgun readability pass — fading tracer afterimage, fixed an interpolation glitch that read as a mid-screen explosion.</span></li>
-      <li><time datetime="2026-07-19">2026-07-19</time><span>Crew &amp; Officers layer: a slot ladder and three officer types with real effects, visible in the dock's FLEET screen.</span></li>
-      <li><time datetime="2026-07-19">2026-07-19</time><span>Fleet recruit &amp; roles: recruit crew and assign hauler or trader roles — they work the routes themselves.</span></li>
-      <li><time datetime="2026-07-19">2026-07-19</time><span>Trade-data tiers: remote market data now gated behind subscription tiers.</span></li>
-      <li><time datetime="2026-07-19">2026-07-19</time><span>Shared energy pool: every energy weapon now draws from one capacitor, by weapon family.</span></li>
-      <li><time datetime="2026-07-19">2026-07-19</time><span>Overcharged Heavy Railgun joins the family as a harder-hitting second variant.</span></li>
-      <li><time datetime="2026-07-19">2026-07-19</time><span>Codex unlock-gating: articles now unlock through discovery instead of from the start.</span></li>
-      <li><time datetime="2026-07-19">2026-07-19</time><span>Mineral-ladder rule: danger now maps to richness across every asteroid belt.</span></li>
-      <li><time datetime="2026-07-17">2026-07-17</time><span>Black hole rebuilt with gravitational lensing, doppler shading, and slow motion near the horizon.</span></li>
-      <li><time datetime="2026-07-17">2026-07-17</time><span>Fold visual reworked to read as suction instead of a whirlpool.</span></li>
-      <li><time datetime="2026-07-17">2026-07-17</time><span>Weapon SFX overhaul: synthesized sounds replaced with sourced samples.</span></li>
-      <li><time datetime="2026-07-16">2026-07-16</time><span>Mounted weapon art added, plus two new retro tracker music tracks.</span></li>
-    </ul>
+    <p class="devlog-intro">What landed <time datetime="2026-07-16">2026-07-16</time> → <time datetime="2026-07-25">2026-07-25</time>, by area.</p>
+
+    <div class="devlog-group">
+      <div class="devlog-group__head">
+        <h3>Art &amp; Worldbuilding</h3>
+        <span class="devlog-group__range">07-17 → 07-25</span>
+      </div>
+      <ul class="devlog-list">
+        <li><span>Nine races, one visual language each — hulls, stations, and cities settled in a full taste pass.</span></li>
+        <li><span>First complete ship-and-station catalog rendered for every race; the Kithar picked their hull from a four-way sheet — the scarab won.</span></li>
+        <li><span>Homeworlds now read from orbit: per-race terrain shaders with coast-following pinpoint city lights.</span></li>
+        <li><span>Black hole rebuilt with gravitational lensing and doppler shading; the fold reads as suction instead of a whirlpool.</span></li>
+      </ul>
+      <div class="devlog-figures">
+        <figure class="devlog-figure">
+          <img src="images/devlog/teralith-capital.webp" alt="Teralith capital city: black stepped ziggurats flanking a gold processional boulevard" width="388" height="386" loading="lazy" />
+          <figcaption>Teralith capital — ziggurats on a gold processional</figcaption>
+        </figure>
+        <figure class="devlog-figure">
+          <img src="images/devlog/kithar-scarab.webp" alt="Kithar scarab hull: iridescent green-gold beetle carapace with a single glowing eye" width="804" height="385" loading="lazy" />
+          <figcaption>Kithar hull — the winning scarab carapace</figcaption>
+        </figure>
+      </div>
+      <div class="devlog-tiles">
+        <figure class="devlog-figure">
+          <img src="images/devlog/city-gorrath.webp" alt="Gorrath city: shingled stilt halls over dark fodder pits" width="388" height="380" loading="lazy" />
+          <figcaption>Gorrath — stilt halls</figcaption>
+        </figure>
+        <figure class="devlog-figure">
+          <img src="images/devlog/city-teralith.webp" alt="Teralith city: dark pyramid masses along a gold avenue" width="388" height="380" loading="lazy" />
+          <figcaption>Teralith — processional city</figcaption>
+        </figure>
+        <figure class="devlog-figure">
+          <img src="images/devlog/city-trine.webp" alt="Trine city: pale nacre bubble domes on a dark sea, lit coral from within" width="388" height="392" loading="lazy" />
+          <figcaption>Trine — nacre domes on the sea</figcaption>
+        </figure>
+      </div>
+      <figure class="devlog-figure devlog-strip">
+        <div class="devlog-strip__scroll">
+          <img src="images/devlog/catalog-trine.webp" alt="Trine ship and station catalog: white machined rings around coral-lit water cores" width="2048" height="291" loading="lazy" />
+        </div>
+        <figcaption>Trine catalog — nacre rings, coral-lit water cores · scroll →</figcaption>
+      </figure>
+      <figure class="devlog-figure devlog-strip">
+        <div class="devlog-strip__scroll">
+          <img src="images/devlog/catalog-teralith.webp" alt="Teralith ship and station catalog: navy faceted plate with matte gold chevrons" width="2048" height="291" loading="lazy" />
+        </div>
+        <figcaption>Teralith catalog — navy plate, matte gold chevrons</figcaption>
+      </figure>
+      <figure class="devlog-figure devlog-strip">
+        <div class="devlog-strip__scroll">
+          <img src="images/devlog/catalog-ancient.webp" alt="Ancient ship and station catalog: slate wedge hulls with a cyan centreline, including the Vindicator" width="2048" height="388" loading="lazy" />
+        </div>
+        <figcaption>Ancient catalog — including the Vindicator itself</figcaption>
+      </figure>
+    </div>
+
+    <div class="devlog-group">
+      <div class="devlog-group__head">
+        <h3>Combat</h3>
+        <span class="devlog-group__range">07-19 → 07-22</span>
+      </div>
+      <ul class="devlog-list">
+        <li><span>Heavy Railgun readability: the tracer wake now drags behind the round; an Overcharged variant joins the family.</span></li>
+        <li><span>Energy weapons share one capacitor per weapon family, and a weapon can be authored to wind up before it fires.</span></li>
+        <li><span>A closing doctrine can boost into reach of a retreating gun.</span></li>
+      </ul>
+    </div>
+
+    <div class="devlog-group">
+      <div class="devlog-group__head">
+        <h3>Economy &amp; Stations</h3>
+        <span class="devlog-group__range">07-19 → 07-25</span>
+      </div>
+      <ul class="devlog-list">
+        <li><span>Mining stations you own: place one on a belt, it fills a hold with ore — haul it to market and watch the economy move.</span></li>
+        <li><span>Stations burn Power Cells to stay lit, and can be emptied but never destroyed.</span></li>
+        <li><span>Danger maps to richness in every belt; remote market data sits behind subscription tiers; haulers keep their cargo through gates.</span></li>
+      </ul>
+    </div>
+
+    <div class="devlog-group">
+      <div class="devlog-group__head">
+        <h3>Fleet &amp; Command</h3>
+        <span class="devlog-group__range">07-19 → 07-25</span>
+      </div>
+      <ul class="devlog-list">
+        <li><span>Crew &amp; officers: a slot ladder and three officer types with real effects, run from the dock's FLEET screen — recruits fly hauler and trader routes themselves.</span></li>
+        <li><span>Shift+click and Tab select flights; dock and hail collapse into one interact verb; F9 opens a perfect-scanner inspector.</span></li>
+      </ul>
+    </div>
+
+    <div class="devlog-group">
+      <div class="devlog-group__head">
+        <h3>Universe &amp; Travel</h3>
+        <span class="devlog-group__range">07-21 → 07-25</span>
+      </div>
+      <ul class="devlog-list">
+        <li><span>Every race got an authored home system — starting with Ennead, the Trine ocean home — and the territory-holders now field their own factions.</span></li>
+        <li><span>Six new planet types, survey designations for unnamed bodies, and The Verge: a frontier system built around the mining loop.</span></li>
+      </ul>
+    </div>
+
+    <div class="devlog-group">
+      <div class="devlog-group__head">
+        <h3>Interface &amp; Sound</h3>
+        <span class="devlog-group__range">07-16 → 07-22</span>
+      </div>
+      <ul class="devlog-list">
+        <li><span>Map selection panel and pause menu rebuilt as proper scenes; codex articles now unlock through discovery.</span></li>
+        <li><span>Weapon SFX rebuilt from sourced samples, plus two new retro tracker tracks.</span></li>
+      </ul>
+    </div>
   </section>
 
   <footer class="footer">
