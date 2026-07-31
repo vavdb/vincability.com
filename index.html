@@ -15,35 +15,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
 
 <style>
 /* ============================================================
-   TOKENS — paper edition of the Vincability palette
+   TOKENS — shared palette lives in tokens.css; page-local only here
    ============================================================ */
 :root{
-  --paper:        #F7F9F8;
-  --paper-hi:     #FFFFFF;
-  --ink:          #14201A;
-  --ink-2:        #46564D;
-  --ink-3:        #5A6A61;
-  --green:        #00843D;
-  --green-deep:   #00602C;
-  --orange:       #B45309;
-  --purple:       #6D28D9;
-  --green-neon:   #00E676;
-  --paper-2:      #EFF4F1;
-  --line-soft:    #D8E0DB;
-  --rule:         #14201A;
-  --hairline:     rgba(20,32,26,.16);
-  --grid-line-1:  rgba(0, 132, 61, 0.08);
-  --grid-line-2:  rgba(0, 132, 61, 0.045);
-
-  --font-display: 'Asimovian', 'JetBrains Mono', monospace;
-  --font-body:    'Geist', sans-serif;
-  --font-mono:    'JetBrains Mono', monospace;
-
-  --measure: 34em;
-  --gutter: clamp(20px, 5vw, 96px);
   --sec-pad: clamp(56px, 9vh, 110px);
 }
 
@@ -132,6 +110,7 @@ a{ color: inherit; }
   font-size: 12px; letter-spacing: .08em;
   text-decoration:none; color: var(--ink-2);
   position: relative; padding: 4px 0;
+  white-space: nowrap;
 }
 .nav__links a::after{
   content:""; position:absolute; left:0; bottom:0;
@@ -144,7 +123,7 @@ a{ color: inherit; }
 .nav__cta{
   font-family: var(--font-mono); font-size:12px; letter-spacing:.06em;
   text-decoration:none; color:#fff; background: var(--ink);
-  padding: 9px 18px;
+  padding: 9px 18px; white-space: nowrap;
   transition: background .25s ease, transform .25s cubic-bezier(.16,1,.3,1);
 }
 .nav__cta:hover, .nav__cta:focus-visible{ background: var(--green-deep); transform: translateY(-1px); }
@@ -155,7 +134,7 @@ a{ color: inherit; }
   padding: 8px 12px; cursor: pointer;
 }
 .nav__burger[aria-expanded="true"]{ background: var(--ink); color: #fff; }
-@media (max-width: 760px){
+@media (max-width: 1020px){
   .nav{ padding: 14px 20px; justify-content: flex-start; gap: 10px; }
   .nav__logo{ margin-right: auto; }
   .nav__burger{ display: inline-block; }
@@ -180,18 +159,6 @@ a{ color: inherit; }
   max-width: 1360px;
   margin: 0 auto;
   padding: 0 var(--gutter);
-}
-
-/* mono kicker */
-.kicker{
-  font-family: var(--font-mono);
-  font-size: 12px; letter-spacing: .12em;
-  color: var(--ink-2);
-  display:flex; align-items:center; gap:14px;
-}
-.kicker::before{
-  content:""; width: 42px; height:1.5px; background: var(--green);
-  display:inline-block; flex: none;
 }
 
 /* orange hand-drawn underline on key phrases */
@@ -236,6 +203,9 @@ a{ color: inherit; }
 .hero h1 .line > span{ display:inline-block; will-change: transform; }
 .hero h1 .thin{ color: var(--ink-3); }
 .hero h1 .green{ color: var(--green); }
+.hero h1 em{ font-style: normal; }
+.hero h1 .accent-deep{ color: var(--green-deep); }
+.hero h1 .accent-ink{ color: var(--ink); }
 
 .hero__deck{
   display:grid;
@@ -278,26 +248,24 @@ a{ color: inherit; }
 .sec{ padding: var(--sec-pad) 0; position: relative; }
 .sec + .sec{ border-top: 1px solid var(--hairline); }
 
+/* chapter plate: ordinal stacked above its heading, one column (no hanging header) */
 .sec__head{
-  display:grid;
-  grid-template-columns: minmax(0,3fr) minmax(0,9fr);
-  gap: clamp(20px, 3vw, 56px);
   margin-bottom: clamp(28px, 5vh, 56px);
-  align-items: start;
 }
 .sec__num{
   font-family: var(--font-display);
-  font-size: clamp(88px, 13vw, 200px);
+  font-size: clamp(72px, 10vw, 150px);
   line-height: .8;
   color: transparent;
   -webkit-text-stroke: 1.5px rgba(20,32,26,.32);
   user-select: none;
+  display: block;
 }
 .sec__title{
   font-family: var(--font-display); font-weight: 400;
   font-size: clamp(30px, 4.4vw, 62px);
   line-height: 1.04; text-transform: uppercase;
-  margin: 14px 0 18px;
+  margin: 12px 0 18px;
 }
 .sec__desc{ max-width: var(--measure); color: var(--ink-2); }
 
@@ -423,12 +391,12 @@ a{ color: inherit; }
 }
 .stage__graphwrap svg{ width: 100%; height: auto; max-height: calc(100vh - 190px); display: block; }
 
-.edge{ fill: none; stroke: #A9BCB1; stroke-width: 1.4; stroke-linecap: round; }
+.edge{ fill: none; stroke: var(--graph-edge); stroke-width: 1.4; stroke-linecap: round; }
 .edge--risk{ stroke: var(--orange); stroke-width: 1.8; }
-.edge--ghost{ stroke: #B4C5BA; stroke-width: 1.1; }
+.edge--ghost{ stroke: var(--graph-edge-ghost); stroke-width: 1.1; }
 .gnode rect{
   fill: var(--paper-hi);
-  stroke: #7E938A; stroke-width: 1.2;
+  stroke: var(--graph-node-stroke); stroke-width: 1.2;
   filter: drop-shadow(0 2px 5px rgba(20,32,26,.10));
 }
 .gnode--risk rect{ stroke: var(--orange); stroke-width: 1.6; }
@@ -554,9 +522,9 @@ a{ color: inherit; }
   font-family: var(--font-mono); font-size: 11px; letter-spacing: .16em;
   color: var(--ink-3); margin-top: 10px; text-align: right;
 }
-.hex{ fill: #FFFFFF; stroke: #C6D1C9; stroke-width: .5; transition: fill .45s ease; }
+.hex{ fill: var(--paper-hi); stroke: var(--hex-stroke); stroke-width: .5; transition: fill .45s ease; }
 .hex.is-on{ fill: var(--c); stroke: rgba(255,255,255,.7); }
-.hexoutline{ fill: none; stroke: #9FB0A5; stroke-width: 1; stroke-linecap: round; }
+.hexoutline{ fill: none; stroke: var(--hex-outline); stroke-width: 1; stroke-linecap: round; }
 @keyframes hexpulse{ 0%, 100%{ opacity: 1; } 50%{ opacity: .55; } }
 .hex--hub.is-on{ animation: hexpulse 4.5s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce){ .hex--hub.is-on{ animation: none; } }
@@ -627,6 +595,7 @@ a{ color: inherit; }
   font-family: inherit; font-size: inherit;
   letter-spacing: 0; color: inherit;
 }
+.proof__unit{ font-size:.34em; font-family:var(--font-mono); letter-spacing:.06em; }
 @media (max-width: 760px){
   .proof{ grid-template-columns: 1fr 1fr; }
   .proof div:nth-child(2){ border-right:none; }
@@ -679,11 +648,7 @@ a{ color: inherit; }
 /* --- narrow widths: stacked section heads + tighter pacing --- */
 @media (max-width: 760px){
   :root{ --sec-pad: clamp(52px, 8vh, 84px); }
-  .sec__head{
-    grid-template-columns: 1fr;
-    gap: 6px;
-    margin-bottom: 36px;
-  }
+  .sec__head{ margin-bottom: 36px; }
   .sec__num{ font-size: 64px; line-height: .9; }
   .pull{ padding: 56px 0; }
   .pull blockquote{ margin-left: 0; padding-left: .55em; }
@@ -754,38 +719,38 @@ a{ color: inherit; }
   display:inline-flex; align-items:center; gap:8px;
   font-family: var(--font-mono); font-size:12px; letter-spacing:1.5px;
   text-transform:uppercase;
-  text-decoration:none; color:#D0D0D0;
+  text-decoration:none; color:var(--vind-ink);
   padding: 9px 14px;
   transition: color .15s ease;
 }
 .nav__vind::before{
   content:""; position:absolute; inset:0; z-index:-1;
-  border:1px solid rgba(181,203,224,.9);              /* steel rail */
+  border:1px solid color-mix(in srgb, var(--vind-steel) 90%, transparent);
   background:
-    repeating-linear-gradient(0deg, rgba(131,195,255,.03) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--vind-signal) 3%, transparent) 0 1px, transparent 1px 3px),
     linear-gradient(180deg, rgba(38,44,52,.92) 0%, rgba(24,30,39,.92) 100%);
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   transition: border-color .15s ease;
 }
-.nav__vind:hover, .nav__vind:focus-visible{ color:#83C3FF; }
+.nav__vind:hover, .nav__vind:focus-visible{ color:var(--vind-signal); }
 .nav__vind:hover::before, .nav__vind:focus-visible::before{
-  border-color: rgba(131,195,255,.9);
+  border-color: color-mix(in srgb, var(--vind-signal) 90%, transparent);
   background:
-    repeating-linear-gradient(0deg, rgba(131,195,255,.03) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--vind-signal) 3%, transparent) 0 1px, transparent 1px 3px),
     linear-gradient(180deg, rgba(43,57,73,.92) 0%, rgba(29,44,61,.92) 100%);
 }
-.nav__vind:active{ color:#D0D0D0; }
+.nav__vind:active{ color:var(--vind-ink); }
 .nav__vind:active::before{
-  border-color: rgba(0,230,118,.9);
+  border-color: color-mix(in srgb, var(--vind-online) 90%, transparent);
   background:
-    repeating-linear-gradient(0deg, rgba(131,195,255,.03) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--vind-signal) 3%, transparent) 0 1px, transparent 1px 3px),
     linear-gradient(180deg, rgba(20,75,55,.92) 0%, rgba(5,64,42,.92) 100%);
 }
-.nav__vind-dot{ width:7px; height:7px; border-radius:50%; background:#00E676; box-shadow:0 0 8px #00E676; }
+.nav__vind-dot{ width:7px; height:7px; border-radius:50%; background:var(--vind-online); box-shadow:0 0 8px var(--vind-online); }
 /* gate ring that pulses as the shuttle folds in */
 .nav__vind::after{
   content:""; position:absolute; inset:-5px;
-  border:2px solid #83C3FF; opacity:0; z-index:-1; pointer-events:none;
+  border:2px solid var(--vind-signal); opacity:0; z-index:-1; pointer-events:none;
   clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
   animation: vindGate 2.8s ease-out .7s;
 }
@@ -808,13 +773,13 @@ a{ color: inherit; }
 }
 .vind-shuttle__ship{
   width:100%; height:100%; display:block;
-  filter: drop-shadow(0 0 6px rgba(43,212,255,.85));
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--vind-cyan) 85%, transparent));
   animation: vindFold 2.8s ease-in .7s forwards;
 }
 @keyframes vindFly{ from{ offset-distance:0%; } to{ offset-distance:100%; } }
 @keyframes vindFold{
   0%,86%{ transform: scale(1); opacity:1; }
-  93%{ transform: scale(1.15); opacity:1; filter: drop-shadow(0 0 14px #2BD4FF) brightness(1.6); }
+  93%{ transform: scale(1.15); opacity:1; filter: drop-shadow(0 0 14px var(--vind-cyan)) brightness(1.6); }
   100%{ transform: scale(0); opacity:0; }
 }
 @keyframes vindGate{
@@ -854,9 +819,9 @@ a{ color: inherit; }
   <nav class="nav" aria-label="Hoofdnavigatie">
     <a class="nav__logo" href="#"><i aria-hidden="true"></i>VINCABILITY</a>
     <ul class="nav__links" id="nav-links">
-      <li><a href="#diensten">Diensten</a></li>
-      <li><a href="#aanpak">Aanpak</a></li>
-      <li><a href="#bewijs">Bewijs</a></li>
+      <li><a href="#diensten">§01 · Diensten</a></li>
+      <li><a href="#aanpak">§02 · Aanpak</a></li>
+      <li><a href="#bewijs">§03 · Bewijs</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <button class="nav__burger" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Menu openen">MENU</button>
@@ -873,8 +838,8 @@ a{ color: inherit; }
     <div class="hero__status rv"><b>●</b>&nbsp;BESCHIKBAAR VOOR NIEUWE OPDRACHTEN</div>
 
     <h1 id="hero-h" aria-label="Zien wat anderen missen. Bouwen wat er echt toe doet.">
-      <span class="line"><span>Zien wat anderen <em style="font-style:normal; color:var(--green-deep);">missen</em>.</span></span>
-      <span class="line"><span class="thin">Bouwen wat er <em style="font-style:normal; color:var(--ink);">echt toe doet</em>.</span></span>
+      <span class="line"><span>Zien wat anderen <em class="accent-deep">missen</em>.</span></span>
+      <span class="line"><span class="thin">Bouwen wat er <em class="accent-ink">echt toe doet</em>.</span></span>
     </h1>
 
     <div class="hero__deck">
@@ -911,7 +876,6 @@ a{ color: inherit; }
       <div class="sec__head">
         <span class="sec__num rv" aria-hidden="true">01</span>
         <div>
-          <span class="kicker rv">VIJF REDENEN OM TE BELLEN</span>
           <h2 class="sec__title rv">Welke hiervan klinkt als jouw maandagochtend?</h2>
         </div>
       </div>
@@ -1073,7 +1037,6 @@ a{ color: inherit; }
       <div class="sec__head">
         <span class="sec__num rv" aria-hidden="true">02</span>
         <div>
-          <span class="kicker rv">HOE IK WERK</span>
           <h2 class="sec__title rv">Het Vincability-proces</h2>
           <p class="sec__desc rv">
             Dag één tot drie: ik lees de code en spreek je mensen. Eind week één ligt er een
@@ -1120,7 +1083,6 @@ a{ color: inherit; }
       <div class="sec__head">
         <span class="sec__num rv" aria-hidden="true">03</span>
         <div>
-          <span class="kicker rv">HET BEWIJS</span>
           <h2 class="sec__title rv">Één project. 20 weken. Hetzelfde team.</h2>
           <p class="sec__desc rv">
             Vier voorbeelden uit de praktijk, anoniem maar echt.
@@ -1142,7 +1104,7 @@ a{ color: inherit; }
         </article>
         <article class="case rv">
           <span class="case__tag">CASE — DE HERBOUWREFLEX</span>
-          <h3>"Herbouw het even, ernaast"</h3>
+          <h3>“Herbouw het even, ernaast”</h3>
           <p>
             Een werkende pipeline, het moeilijkste deel opgelost en in gebruik.
             Toch werd de kern in vijf weken overgetikt naar een tweede stack ernaast,
@@ -1176,7 +1138,7 @@ a{ color: inherit; }
         <div><b><span class="accent" data-count="11" data-suffix="×">11×</span></b><span>OUTPUT-MULTIPLIER<br>COMMIT-VOLUME JAAR-OP-JAAR</span></div>
         <div><b><span data-count="4">4</span></b><span>PARALLELLE TRACKS<br>VOORHEEN 1</span></div>
         <div><b><span data-count="0">0</span></b><span>EXTRA MENSEN<br>ZELFDE TEAM, ZELFDE MENSEN</span></div>
-        <div><b><span class="accent" data-count="8">8</span> <small style="font-size:.34em; font-family:var(--font-mono); letter-spacing:.06em;">DAGEN</small></b><span>LEVERTIJD<br>VOOR 6–8 WEKEN AAN SCOPE</span></div>
+        <div><b><span class="accent" data-count="8">8</span> <small class="proof__unit">DAGEN</small></b><span>LEVERTIJD<br>VOOR 6–8 WEKEN AAN SCOPE</span></div>
       </div>
       <p class="proof__track rv">// 29 JAAR IN PRODUCTIE · O.A. RIJKSOVERHEID &amp; BANCAIRE SECTOR · ENTERPRISE TOT MKB</p>
     </section>

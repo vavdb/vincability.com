@@ -1,0 +1,46 @@
+/* ============================================================
+   VINCABILITY — shared paper tokens
+   Single source of truth for index.html + how.html.
+   Page-local tokens (e.g. --sec-pad, the --v-* diagram aliases)
+   stay in their own page's <style> block.
+   ============================================================ */
+:root{
+  --paper:        #F7F9F8;
+  --paper-hi:     #FDFEFD;
+  --paper-2:      #EFF4F1;
+  --ink:          #14201A;
+  --ink-2:        #46564D;
+  --ink-3:        #5A6A61;
+  --green:        #00843D;
+  --green-deep:   #00602C;
+  --orange:       #B45309;
+  --purple:       #6D28D9;
+  --green-neon:   #00E676;
+  --line-soft:    #D8E0DB;
+  --rule:         #14201A;
+  --hairline:     rgba(20,32,26,.16);
+  --grid-line-1:  rgba(0, 132, 61, 0.08);
+  --grid-line-2:  rgba(0, 132, 61, 0.045);
+
+  /* scrolly graph + hex-map plates (index) */
+  --graph-edge:        #A9BCB1;
+  --graph-edge-ghost:  #B4C5BA;
+  --graph-node-stroke: #7E938A;
+  --hex-stroke:        #C6D1C9;
+  --hex-outline:       #9FB0A5;
+
+  /* Vindicator game palette — mirror of vindicator/vindicator.css,
+     used only by the nav pill + shuttle fly-in on index */
+  --vind-signal: #83C3FF;
+  --vind-online: #00E676;
+  --vind-cyan:   #2BD4FF;
+  --vind-ink:    #D0D0D0;
+  --vind-steel:  #B5CBE0;
+
+  --font-display: 'Asimovian', 'JetBrains Mono', monospace;
+  --font-body:    'Geist', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  --measure: 34em;
+  --gutter: clamp(20px, 5vw, 96px);
+}

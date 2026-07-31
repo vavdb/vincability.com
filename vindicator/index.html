@@ -13,6 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="vindicator.css" />
+  <link rel="preload" as="image" href="images/hero-teralith-capital.webp" fetchpriority="high" />
 </head>
 <body>
 
@@ -29,7 +30,7 @@
   </header>
 
   <section class="hero">
-    <img class="hero__bg" src="images/hero-teralith-capital.webp" alt="Teralith capital city: black ziggurats flanking a gold processional boulevard, seen from orbit height" />
+    <img class="hero__bg" src="images/hero-teralith-capital.webp" fetchpriority="high" alt="Teralith capital city: black ziggurats flanking a gold processional boulevard, seen from orbit height" />
     <div class="hero__scrim"></div>
     <div class="hero__scanlines"></div>
 
@@ -37,10 +38,10 @@
     <h1 class="hero__title">VINDICATOR</h1>
     <p class="hero__pitch">Wake up. The gates are dark. Fold anyway.</p>
     <div class="hero__actions">
-      <!-- TODO: real wishlist/store link -->
-      <a class="btn btn-primary chamfer-sm" href="#" data-todo="store-link">Play / Wishlist</a>
+      <!-- TODO: swap the primary for the real wishlist/store link once it exists -->
+      <a class="btn btn-primary chamfer-sm" href="#devlog">Follow development</a>
       <a class="btn btn-glass chamfer-sm" href="codex/index.html">Codex</a>
-      <a class="btn btn-glass chamfer-sm" href="#devlog">Devlog</a>
+      <a class="btn btn-glass chamfer-sm" href="design/index.html">Design notes</a>
     </div>
   </section>
 
@@ -67,22 +68,19 @@
 
   <section class="section" id="manual">
     <span class="chip">Manual &amp; notes</span>
-    <div class="panel-grid">
-      <article class="panel-grid__item">
+    <div class="manual-split">
+      <article class="panel-grid__item manual-split__main">
         <h3>Codex</h3>
-        <p>The player-facing in-game manual — what the systems are, written for the pilot in the seat.</p>
-        <p style="margin-top:12px"><a class="btn btn-glass chamfer-sm" href="codex/index.html">Open codex</a></p>
+        <p>The player-facing in-game manual — what the systems are, written for the pilot in the seat. Articles unlock through discovery; the site mirror is always fully open.</p>
+        <p class="manual-split__action"><a class="btn btn-glass chamfer-sm" href="codex/index.html">Open codex</a></p>
       </article>
       <article class="panel-grid__item">
         <h3>Design notes</h3>
         <p>Curated systems design docs — the WHY behind economy, fleet, combat, and production art language. Story spoilers stay offline.</p>
-        <p style="margin-top:12px"><a class="btn btn-glass chamfer-sm" href="design/index.html">Open design</a></p>
-      </article>
-      <article class="panel-grid__item">
-        <h3>Living sources</h3>
-        <p>Codex ships in the game PCK. Design notes are curated from the repo; regenerate the site pages when those files move.</p>
+        <p class="manual-split__action"><a class="btn btn-glass chamfer-sm" href="design/index.html">Open design</a></p>
       </article>
     </div>
+    <p class="manual-note">Living sources — the codex ships in the game PCK; design notes are curated from the repo. Site pages regenerate when those files move.</p>
   </section>
 
   <section class="section" id="devlog">
@@ -203,7 +201,7 @@
   </section>
 
   <footer class="footer">
-    <span><!-- TODO: version from the same source as the in-game menu --> v0.0.0</span>
+    <span><!-- TODO: show version from the same source as the in-game menu once wired -->in development</span>
     <span><a href="codex/credits.html">Credits</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
     <span>© Vincability</span>
   </footer>

@@ -19,34 +19,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="tokens.css">
+
+  <!-- Lucide Icons — pinned + deferred; createIcons runs on DOMContentLoaded -->
+  <script defer src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
 
   <style>
   /* ============================================================
-     TOKENS — paper edition (matches index.html)
+     TOKENS — shared palette lives in tokens.css; page-local only here
      ============================================================ */
   :root{
-    --paper:        #F7F9F8;
-    --paper-hi:     #FFFFFF;
-    --paper-2:      #EFF4F1;
-    --ink:          #14201A;
-    --ink-2:        #46564D;
-    --ink-3:        #5A6A61;
-    --green:        #00843D;
-    --green-deep:   #00602C;
-    --orange:       #B45309;
-    --purple:       #6D28D9;
-    --line-soft:    #D8E0DB;
-    --rule:         #14201A;
-    --hairline:     rgba(20,32,26,.16);
-    --grid-line-1:  rgba(0, 132, 61, 0.08);
-    --grid-line-2:  rgba(0, 132, 61, 0.045);
-
-    --font-display: 'Asimovian', 'JetBrains Mono', monospace;
-    --font-body:    'Geist', sans-serif;
-    --font-mono:    'JetBrains Mono', monospace;
-
     /* aliases voor het bestaande SVG-diagram (oude --v-* tokens → paper) */
     --v-bg-surface:    var(--paper-2);
     --v-bg-elevated:   var(--paper-hi);
@@ -59,9 +41,6 @@
     --v-purple:        var(--purple);
     --font-primary:    var(--font-mono);
     --font-secondary:  var(--font-body);
-
-    --measure: 34em;
-    --gutter: clamp(20px, 5vw, 96px);
   }
 
   *{ margin:0; padding:0; box-sizing:border-box; }
@@ -230,24 +209,15 @@
   .how__list{ list-style-type: disc; padding-left: 24px; margin-bottom: 24px; }
   .how__list li{ margin-bottom: 6px; }
 
-  /* --- plates (voorheen cards): rule bovenlangs, accentbalk links --- */
+  /* --- plates (voorheen cards): rule bovenlangs --- */
   .how__card{
     background: color-mix(in srgb, var(--paper-hi) 42%, transparent);
     border-top: 1.5px solid var(--rule);
     border-bottom: 1px solid var(--hairline);
-    padding: 26px 28px 28px 31px;
+    padding: 26px 28px 28px;
     margin-bottom: 28px;
     position: relative;
   }
-  .how__card::before{
-    content: '';
-    position: absolute; top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: var(--green);
-  }
-  .how__card--deep::before{ background: var(--green-deep); }
-  .how__card--purple::before{ background: var(--purple); }
-  .how__card--ink::before{ background: var(--ink); }
   .how__card-title{
     font-family: var(--font-mono); font-weight: 700;
     font-size: 14px; letter-spacing: .08em; text-transform: uppercase;
@@ -375,7 +345,7 @@
   <nav class="nav" aria-label="Hoofdnavigatie">
     <a href="index.html" class="nav__logo" aria-label="Vincability home"><i aria-hidden="true"></i>VINCABILITY</a>
     <a href="index.html" class="nav__back" aria-label="Terug naar home"><i data-lucide="arrow-left" aria-hidden="true"></i><span>Terug naar home</span></a>
-    <a href="index.html#contact" class="nav__cta">Plan een Clarity Sessie</a>
+    <a href="index.html#contact" class="nav__cta">Neem contact op</a>
   </nav>
 
   <main class="sheet">
@@ -493,13 +463,13 @@
             Bouw 7 varianten, vergelijk ze live. 15+ polish-commits in minuten. Ontwerpen door te bouwen, niet door te speccen.
           </p>
         </div>
-        <div class="how__card how__card--deep">
+        <div class="how__card">
           <h3 class="how__card-title">Dagen</h3>
           <p class="how__text">
             Implementeren, ontdekken dat het niet klopt, weggooien, beter herbouwen. Twee implementaties verslaan één lange planningssessie.
           </p>
         </div>
-        <div class="how__card how__card--ink">
+        <div class="how__card">
           <h3 class="how__card-title">Weken</h3>
           <p class="how__text">
             Fases die elkaar informeren. Wat er mis is zie je pas als het werkt. Archiveren, herstructureren, opnieuw leveren.
@@ -542,7 +512,7 @@
       <ul class="how__text how__list">
         <li>Testen was te lastig omdat documenten opgesloten zaten achter versleutelde blob storage.</li>
         <li>Blob storage was ontoegankelijk voor nieuwe services omdat alles handmatig versleuteld was.</li>
-        <li>De storage-migratie lag stil omdat het "te veel werk" was.</li>
+        <li>De storage-migratie lag stil omdat het “te veel werk” was.</li>
       </ul>
       <p class="how__text">
         De nieuwe story dwong versnelling af. Door ze naar dezelfde root cause te herleiden, kwamen alle drie los: de oude decrypt-storage-story reanimeren, een fallback-patroon bouwen zodat versleuteld en onversleuteld naast elkaar bestaan — wat de testomgeving read-only blob-toegang geeft én directe levering naar productie mogelijk maakt. De download-decrypt-upload-taak wordt in een aparte unit of work gevalideerd. Drie blockers opgelost in één dag.
@@ -563,13 +533,13 @@
           Elke strongly-typed response en elke enum die een string vervangt, haalt een inschattingsmoment weg. De agent kán geen inconsistente output leveren als het consistente patroon de enige optie is.
         </p>
       </div>
-      <div class="how__card how__card--purple">
+      <div class="how__card">
         <h3 class="how__card-title">Haal het uit de hoofden</h3>
         <p class="how__text">
           Stories worden levende documenten. AI-leesbare projectconfiguratie legt kennis vast die anders in één hoofd leeft.
         </p>
       </div>
-      <div class="how__card how__card--ink">
+      <div class="how__card">
         <h3 class="how__card-title">Voordoen, niet vertellen</h3>
         <p class="how__text">
           Live pairing-sessies waarin het team de parallelle workflow in actie ziet. Documentatie vertelt <em>wat</em>. Live meekijken laat zien <em>wanneer</em> en <em>waarom</em>.
@@ -599,8 +569,9 @@
             <span class="footer__nav-heading">Diensten</span>
             <a href="index.html#diensten" class="footer__nav-link">Triage &amp; Stabilisatie</a>
             <a href="index.html#diensten" class="footer__nav-link">Audit &amp; Risicokaart</a>
-            <a href="index.html#diensten" class="footer__nav-link">Agent-orkestratie</a>
+            <a href="index.html#diensten" class="footer__nav-link">AI-flow &amp; conventies</a>
             <a href="index.html#diensten" class="footer__nav-link">Validatie &amp; Bijsturing</a>
+            <a href="index.html#diensten" class="footer__nav-link">Data &amp; Dashboards</a>
           </div>
 
           <div class="footer__nav-col">
@@ -611,7 +582,7 @@
               rel="noopener noreferrer"
               class="footer__nav-link"
             >LinkedIn</a>
-            <a href="#" data-obf="mail" class="footer__nav-link">E-mail</a>
+            <a href="mailto:contact@vincability.com" class="footer__nav-link">E-mail</a>
             <a
               href="https://github.com/vincability"
               target="_blank"
@@ -634,7 +605,12 @@
   <!-- ============================================================
        SCRIPTS
        ============================================================ -->
-  <script>lucide.createIcons();</script>
+  <script>
+    // lucide loads deferred; deferred scripts finish before DOMContentLoaded fires
+    document.addEventListener('DOMContentLoaded', function(){
+      if(window.lucide) lucide.createIcons();
+    });
+  </script>
 
 </body>
 </html>

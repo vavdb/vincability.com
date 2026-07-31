@@ -364,9 +364,29 @@ a {
 
 .panel-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-4);
   margin-top: var(--space-5);
+}
+
+/* manual & notes: asymmetric two-up (codex leads) + colophon note */
+.manual-split {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.manual-split__action {
+  margin: var(--space-3) 0 0;
+}
+
+.manual-note {
+  margin: var(--space-3) 0 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
 }
 
 .panel-grid__item img {
@@ -470,14 +490,14 @@ a {
 
 .devlog-figures {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
   gap: var(--space-3);
   margin-top: var(--space-4);
 }
 
 .devlog-tiles {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-3);
   margin-top: var(--space-3);
 }
@@ -914,7 +934,8 @@ a {
     --chamfer-panel: 8px;
   }
 
-  .panel-grid {
+  .panel-grid,
+  .manual-split {
     grid-template-columns: 1fr;
   }
 
