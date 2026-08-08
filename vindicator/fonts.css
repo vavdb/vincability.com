@@ -1,17 +1,41 @@
 /* ==========================================================================
-   TODO: woff2-bestanden nog niet gedownload/self-hosted.
-   Plaats hier in /vindicator/fonts/:
-     asimovian-regular.woff2   (Asimovian, OFL — Google Fonts)
-     geist-regular.woff2 / geist-medium.woff2  (Geist, OFL — Vercel)
-     jetbrainsmono-regular.woff2 / -medium.woff2  (JetBrains Mono, OFL)
-     doto-*.woff2 (variable of static weights, OFL — Google Fonts)
-   Zolang deze ontbreken vallen de font-stacks in vindicator.css terug op
-   system-fonts (zie --font-* variabelen) — de site blijft bruikbaar.
+   Self-hosted fonts — vendored 2026-08-09 from the game repo's
+   assets/fonts/ (single source: P:\Vindicator). TTF, not woff2: identical
+   files across game, this site, and the state server keeps the three
+   surfaces byte-honest; woff2 conversion is an optimization for later.
+   Licenses: OFL for every family — texts beside the files in /fonts/.
+   Type stack (quiet-pass ruling): Asimovian display >=15px, Titillium Web
+   chrome/body, Maple Mono NF data. Geist/JetBrains/Doto remain for legacy
+   page styles until those migrate.
    ========================================================================== */
 
 @font-face {
   font-family: "Asimovian";
-  src: url("fonts/asimovian-regular.woff2") format("woff2");
+  src: url("fonts/Asimovian-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Titillium Web";
+  src: url("fonts/TitilliumWeb-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Titillium Web";
+  src: url("fonts/TitilliumWeb-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Maple Mono NF";
+  src: url("fonts/MapleMono-NF-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -19,40 +43,24 @@
 
 @font-face {
   font-family: "Geist";
-  src: url("fonts/geist-regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Geist";
-  src: url("fonts/geist-medium.woff2") format("woff2");
-  font-weight: 600;
+  src: url("fonts/Geist-Variable.ttf") format("truetype");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: "JetBrains Mono";
-  src: url("fonts/jetbrainsmono-regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "JetBrains Mono";
-  src: url("fonts/jetbrainsmono-medium.woff2") format("woff2");
-  font-weight: 600;
+  src: url("fonts/JetBrainsMono-Variable.ttf") format("truetype");
+  font-weight: 100 800;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: "Doto";
-  src: url("fonts/doto-bold.woff2") format("woff2");
-  font-weight: 700;
+  src: url("fonts/Doto-Variable.ttf") format("truetype");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
