@@ -5,13 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fleet, crew, and role AI — design capture — Vindicator</title>
   <meta name="description" content="Captured 2026-07-10 from the owner&#x27;s spec (Star Valor inspiration). Not yet scheduled; depends on the economy foundation. This closes the loop on the original vision: the ship-clas…" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../vindicator.css" />
 </head>
 <body class="doc-body">
-
   <header class="site-nav">
     <a class="site-nav__brand" href="../index.html">VINDICATOR</a>
     <nav class="site-nav__links" aria-label="Section">
@@ -24,7 +20,6 @@
     <a class="site-nav__ext" href="../../index.html">Vincability</a>
   </header>
   <main class="doc-main">
-
     <article class="doc-article">
       <header class="doc-article__head">
         <a class="doc-back" href="index.html">← Design</a>
@@ -60,12 +55,12 @@ RIGHT side of the screen, grouped by role:</p>
 <li><strong>[Fighters]</strong> — escort the player (follow + engage hostiles near the player)</li>
 <li><strong>[Miners]</strong> — mine asteroids in the current system, return ore</li>
 <li><strong>[Salvagers]</strong> — salvage ship wrecks (requires: destroyed ships leave
-  wrecks instead of vanishing — wreck entities also feed the pixel-destruction
-  idea)</li>
+wrecks instead of vanishing — wreck entities also feed the pixel-destruction
+idea)</li>
 <li><strong>[Haulers]</strong> — keep player-station stock at set levels (requires player
-  stations + commodities)</li>
+stations + commodities)</li>
 <li><strong>[Traders]</strong> — buy/sell from/to player stations for profit (requires
-  trading economy + price differentials)</li>
+trading economy + price differentials)</li>
 </ul>
 <p>Role AI = compositions of existing brain behaviors (ShipBrain combat,
 TrafficBrain travel/dock patterns). Escort is buildable first; the rest
@@ -77,12 +72,12 @@ radius; do NOT write it three times:</p>
 <ul>
 <li><strong>Player-fleet fighter</strong>: anchor = the player, medium leash.</li>
 <li><strong>Drone</strong> (any role): anchor = its carrier, TIGHT leash (launch, act
-  locally, return). Drones ARE escorts with a small leash — same code.</li>
+locally, return). Drones ARE escorts with a small leash — same code.</li>
 <li><strong>Raider pack</strong>: a spawned group elects a LEADER (e.g. the toughest/first
-  hull, or the marauder if present); the rest escort the leader. The pack
-  moves and fights as a unit instead of a scatter of loners, and killing the
-  leader breaks it. This is emergent from the same escort primitive — the
-  anchor is just another ship, not the player.</li>
+hull, or the marauder if present); the rest escort the leader. The pack
+moves and fights as a unit instead of a scatter of loners, and killing the
+leader breaks it. This is emergent from the same escort primitive — the
+anchor is just another ship, not the player.</li>
 </ul>
 <p>So the build order is: escort(anchor, leash) first, then it powers fleet
 fighters, drones, and pirate packs alike. A miner/salvager drone is escort +
@@ -115,11 +110,11 @@ weapon-slot item (WeaponType.Drone reserved since the taxonomy was created).</p>
 <h2 id="dependency-order">Dependency order</h2>
 <ol>
 <li>Economy foundation: commodities, station trading, cargo holds, mineable
-   asteroids, wrecks-on-death</li>
+asteroids, wrecks-on-death</li>
 <li>Player stations (buildable orbital platforms — see
-   docs/design-stations.md)</li>
+docs/design-stations.md)</li>
 <li>Fleet: recruit/assign UI (right-side panel), escort AI first, then
-   miner/salvager/hauler/trader roles as their economy hooks exist</li>
+miner/salvager/hauler/trader roles as their economy hooks exist</li>
 <li>Crew officers layer</li>
 <li>Drones inherit roles</li>
 </ol>
@@ -129,10 +124,9 @@ weapon-slot item (WeaponType.Drone reserved since the taxonomy was created).</p>
         <a class="doc-pager__link" href="design-fleets-content.html">Fleet content — runtime IDs, hull ladder, and default loadouts →</a>
       </nav>
     </article>
-
   </main>
   <footer class="footer">
-    <span>Built 2026-07-23 from game sources</span>
+    <span>Built 2026-08-09 from game sources</span>
     <span><a href="../index.html">Home</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
     <span>© Vincability</span>
   </footer>

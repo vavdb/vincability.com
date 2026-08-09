@@ -1,0 +1,7 @@
+# The vendored CSS is emitted by the game (UiThemeTokens.ToCssVariables and
+# VindicatorWebStyle.Components) and must stay byte-identical to what the
+# in-game state server serves at /tokens.css and /components.css. With
+# core.autocrlf on, a normal checkout would rewrite them to CRLF and break
+# that contract, so pin them to LF on disk.
+vindicator/tokens.css      text eol=lf
+vindicator/components.css  text eol=lf

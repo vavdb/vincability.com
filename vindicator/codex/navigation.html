@@ -5,13 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Navigation — Vindicator</title>
   <meta name="description" content="Switch between a close flight view and a free, zoomable navigation chart." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../vindicator.css" />
 </head>
 <body class="doc-body">
-
   <header class="site-nav">
     <a class="site-nav__brand" href="../index.html">VINDICATOR</a>
     <nav class="site-nav__links" aria-label="Section">
@@ -24,7 +20,6 @@
     <a class="site-nav__ext" href="../../index.html">Vincability</a>
   </header>
   <main class="doc-main">
-
     <article class="doc-article">
       <header class="doc-article__head">
         <a class="doc-back" href="index.html">← Codex</a>
@@ -40,34 +35,34 @@ orbit rings, names, lanes, and whole systems laid over the world while it
 keeps moving underneath.</p>
 <ul>
 <li><strong>Zoom</strong> (mouse wheel, or +/-) changes scale inside the view you are using.
-  Flight zoom stays in its close combat band; chart zoom runs from system
-  detail out to the whole known galaxy.</li>
-<li><strong>The map key</strong> (Tab or M) switches views. Press it once to open the chart;
-  press it again to close the chart, discard its pan, restore your flight
-  zoom, and focus the camera on your ship.</li>
+Flight zoom stays in its close combat band; chart zoom runs from system
+detail out to the whole known galaxy.</li>
+<li><strong>The map key</strong> (M) switches views. Press it once to open the chart;
+press it again to close the chart, discard its pan, restore your flight
+zoom, and focus the camera on your ship.</li>
 <li><strong>Hold right mouse and drag</strong> to move the chart camera freely. Let go and
-  the chart remains where you placed it, ready for inspection or selection.</li>
+the chart remains where you placed it, ready for inspection or selection.</li>
 <li><strong>Lane lines</strong> trace the paired, organic currents the gates actually fling
-  ships along—one outward, one home. A lit lane runs both ways; a dulled
-  one means an endpoint is dormant or broken: the lane is charted, not
-  crossable. See <a href="travel-starlanes.html">Starlanes &amp; Stargates</a>.</li>
+ships along—one outward, one home. A lit lane runs both ways; a dulled
+one means an endpoint is dormant or broken: the lane is charted, not
+crossable. See <a href="travel-starlanes.html">Starlanes &amp; Stargates</a>.</li>
 <li><strong>Select, then act.</strong> In the chart, <strong>left-click</strong> a marked planet, station,
-  gate, star, or a whole system — and it lights up as your selection. A right-edge
-  <strong>selection panel</strong> shows who you marked, whether a lane route or fold is
-  available, and an <strong>autopilot ETA</strong> (cruise estimate; multi-hop legs add a
-  rough per-lane budget). The Autopilot and Fold buttons stay on the panel
-  whether or not they apply to the current mark — one that cannot fire is
-  disabled, not hidden, so the door is always visible. You can press the
-  buttons or the bound keys (both live in settings). Economy / scanner
-  intel on that panel is reserved for later hardware. While the chart is open
-  your manual helm and both mouse buttons belong to navigation: held thrust,
-  strafe, brake, boost, and weapons stay neutral, so inspection never flies or
-  fires the ship behind your back. Close it and every held flight control resumes
-  immediately. An engaged autopilot still flies its order while you study the
-  route. Fold charge and readiness remain in the lower flight instrument.
-  Pressing Fold from the chart drops you straight back to flight view — the
-  charge and the wormhole throat happen around your own hull, not hidden under
-  the map. Autopilot leaves the chart open, since watching the route is the point.</li>
+gate, star, or a whole system — and it lights up as your selection. A right-edge
+<strong>selection panel</strong> shows who you marked, whether a lane route or fold is
+available, and an <strong>autopilot ETA</strong> (cruise estimate; multi-hop legs add a
+rough per-lane budget). The Autopilot and Fold buttons stay on the panel
+whether or not they apply to the current mark — one that cannot fire is
+disabled, not hidden, so the door is always visible. You can press the
+buttons or the bound keys (both live in settings). Economy / scanner
+intel on that panel is reserved for later hardware. While the chart is open
+your manual helm and both mouse buttons belong to navigation: held thrust,
+strafe, brake, boost, and weapons stay neutral, so inspection never flies or
+fires the ship behind your back. Close it and every held flight control resumes
+immediately. An engaged autopilot still flies its order while you study the
+route. Fold charge and readiness remain in the lower flight instrument.
+Pressing Fold from the chart drops you straight back to flight view — the
+charge and the wormhole throat happen around your own hull, not hidden under
+the map. Autopilot leaves the chart open, since watching the route is the point.</li>
 </ul>
 <p>Every world, station, and gate flips from its real tiny render to a
 schematic icon at the same moment — one shared zoom band, not a size
@@ -79,6 +74,17 @@ At galaxy range only the systems themselves keep their names. Stars
 never draw an orbit ring of their own — even a binary pair reads as
 two points of light, not a traced path. Hover anything marked for the
 details.</p>
+<p>A system you have never entered shows even less: only its star. The
+light has been crossing the void for years — position, class, whether
+it is one sun or several — but planets, moons, gates and stations do not
+announce themselves across light-years, and the chart refuses to invent
+them. Fly in once and the whole system fills in for good; hover an
+unvisited star and the card says so plainly: <strong>UNVISITED · STAR CHART
+ONLY</strong>. A lane line draws as soon as you have stood at either end of it,
+because your own gate names its destination — but where that lane lands,
+beyond the star itself, stays unwritten until you go. Travel always buys
+you something: the map fills in first, and only then do the rules below
+start deciding what you can currently see of it.</p>
 <p>Systems with none of your ships in them draw as dark silhouettes
 (charted, not watched), and ships or stations beyond your scanner&rsquo;s
 reach are simply not on the plot. The chart shows what your hardware
@@ -194,10 +200,9 @@ Brake to hold the void; let go to ride the orbit.</p>
         <a class="doc-pager__link" href="scanners.html">Scanners →</a>
       </nav>
     </article>
-
   </main>
   <footer class="footer">
-    <span>Built 2026-07-23 from game sources</span>
+    <span>Built 2026-08-09 from game sources</span>
     <span><a href="../index.html">Home</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
     <span>© Vincability</span>
   </footer>

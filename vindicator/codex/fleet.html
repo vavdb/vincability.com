@@ -5,13 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your Fleet — Vindicator</title>
   <meta name="description" content="Hire hulls at a shipyard and assign each a role — escort, miner, salvager, hauler, or trader." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../vindicator.css" />
 </head>
 <body class="doc-body">
-
   <header class="site-nav">
     <a class="site-nav__brand" href="../index.html">VINDICATOR</a>
     <nav class="site-nav__links" aria-label="Section">
@@ -24,7 +20,6 @@
     <a class="site-nav__ext" href="../../index.html">Vincability</a>
   </header>
   <main class="doc-main">
-
     <article class="doc-article">
       <header class="doc-article__head">
         <a class="doc-back" href="index.html">← Codex</a>
@@ -54,19 +49,25 @@ buttons to change it. Switching a role swaps what the ship is <em>doing</em> on
 the spot — the same hull flies any of these:</p>
 <ul>
 <li><strong>Escort</strong> — holds formation on you and engages anything hostile that
-  comes near you, then falls back in. Your wing.</li>
+comes near you, then falls back in. Your wing.</li>
 <li><strong>Miner</strong> — works the ore in the system it&rsquo;s in, fills its hold, and
-  runs it to the nearest friendly station. Assigning this fits the ship a
-  <strong>mining beam</strong> (it can&rsquo;t fight while it&rsquo;s rigged to mine).</li>
+runs it to the nearest friendly station. Assigning this fits the ship a
+<strong>mining beam</strong> (it can&rsquo;t fight while it&rsquo;s rigged to mine).</li>
 <li><strong>Salvager</strong> — the same loop over <strong>wrecks</strong> instead of rocks; assigning
-  it fits a <strong>salvage array</strong>. A miner works rock, a salvager works
-  hulks — never the other way round.</li>
+it fits a <strong>salvage array</strong>. A miner works rock, a salvager works
+hulks — never the other way round.</li>
 <li><strong>Hauler</strong> — shuttles cargo between two stations, over and over. Point
-  it at a run and it just keeps moving the goods.</li>
+it at a run and it just keeps moving the goods.</li>
 <li><strong>Trader</strong> — buys where a commodity is <strong>cheap</strong> and sells where it&rsquo;s
-  <strong>dear</strong>, pocketing the spread into your wallet. It reads the price skew
-  between stations and runs the profitable direction on its own.</li>
+<strong>dear</strong>, pocketing the spread into your wallet. It reads the price skew
+between stations and runs the profitable direction on its own.</li>
 </ul>
+<p>A hauler moves <strong>real</strong> stock. It draws the commodity out of the source
+station&rsquo;s hold, carries it, and puts it into the destination&rsquo;s — and if the
+far hold is too full to take the whole load, it keeps the remainder aboard
+and brings it back rather than dumping it. Nothing you consign to one is
+lost to bookkeeping. Point it at two stations that keep no stock of their
+own and it still runs the loop, but there&rsquo;s nothing real in the hold.</p>
 <p>For now a hauler or trader picks the two nearest friendly stations as its
 run; a proper &ldquo;run this leg&rdquo; picker comes with stations you build
 yourself. And a trader trades on the <strong>price difference</strong> between stations
@@ -87,10 +88,9 @@ lives on; <a href="cargo.html">Cargo &amp; Commodities</a> for what the holds ca
         <a class="doc-pager__link" href="crew.html">Crew &amp; Officers →</a>
       </nav>
     </article>
-
   </main>
   <footer class="footer">
-    <span>Built 2026-07-23 from game sources</span>
+    <span>Built 2026-08-09 from game sources</span>
     <span><a href="../index.html">Home</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
     <span>© Vincability</span>
   </footer>

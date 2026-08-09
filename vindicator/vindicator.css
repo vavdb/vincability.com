@@ -1,57 +1,33 @@
 /* ==========================================================================
-   Vindicator — token system + base components
-   Colors + chamfer model: distilled from the actual game source
-   (P:\Vindicator\common\UiThemeTokens.cs, ChamferStyleBox.cs, Palette.cs)
-   — NOT the earlier vindicator-site-plan.md palette, which was outdated.
-   Fonts not yet self-hosted: @font-face blocks in fonts.css point at files
-   that still need to land in /vindicator/fonts/.
+   Vindicator — page styles over the game's own design tokens.
+
+   tokens.css and components.css are GENERATED, never hand-edited: the game
+   emits both (UiThemeTokens.ToCssVariables + VindicatorWebStyle.Components)
+   and `dotnet run --file build_docs.cs` vendors them here byte-identical to
+   what the in-game state server serves at /tokens.css and /components.css.
+   Colors, rails, grids, meters, chamfer sizes, the spacing ladder and the
+   type stack all live there — this file owns layout and page components
+   only, plus the handful of site-scope tokens below.
+
+   Fonts are self-hosted from /vindicator/fonts/ (fonts.css); nothing on
+   this site fetches a webfont host.
    ========================================================================== */
 
 @import url("fonts.css");
+@import url("tokens.css");
+@import url("components.css");
 
 :root {
-  /* Colors — 1:1 from UiThemeTokens.cs */
-  --bg-deep: #060B12;         /* Background */
-  --panel-base: #0E1826;      /* PanelBase */
-  --signal: #83C3FF;          /* Signal — primary accent (rails, links, headers) */
-  --cassius: #F59A56;         /* Cassius — AI-comms orange */
-  --fold: #91A6FF;            /* Fold — exotic/fold-drive accent */
-  --online: #00E676;          /* Online — success / credits / primary CTA */
-  --hull-red: #E05555;        /* hull meter */
-  --armor-yellow: #E0C060;    /* armor meter */
-  --shield-blue: #7FD6FF;     /* shield meter */
-  --energy-blue: #4FA8E0;     /* energy meter */
-  --nav-ink: #D0D0D0;         /* primary text */
+  /* Site-scope only — deliberately NOT in the emitter, because the game has
+     no equivalent and a token nothing else can honour does not belong in a
+     shared ladder.
+     Reading inks: --muted-ink (NavInk @ 50%) is decorative in the HUD and
+     fails WCAG AA on this site's small copy, so long-form text uses these
+     raised, blue-leaning tones instead. */
   --text-muted: #8FA3B8;
-  --text-dim: #7C93A5;        /* raised vs. the game's dim tone — pure NavInk@50% fails WCAG AA at small sizes */
-
-  --rail: rgba(131, 195, 255, 0.55); /* Rail = Signal @ 55% — the 1px outline used everywhere */
-  --steel-rail: #B5CBE0;             /* SteelRail = Mix(NavInk, Signal, 0.35) — resting button rail, so Signal hover reads as a step up */
-  --grid-major: rgba(131, 195, 255, 0.11); /* GridMajor = Signal @ 11% — 64px grid lines */
-  --grid-minor: rgba(131, 195, 255, 0.05); /* GridMinor = Signal @ 5% — 16px grid lines */
-  --muted-ink: rgba(208, 208, 208, 0.5);   /* MutedInk = NavInk @ 50% — decorative only; use --text-dim for readable copy */
-
-  /* Typography */
-  --font-display: "Asimovian", "Orbitron", sans-serif;
-  --font-body: "Geist", "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", "Courier New", monospace;
-  --font-numeric: "Doto", "JetBrains Mono", monospace; /* marketing-only pairing — Doto ships in-repo but is unused by the game's own HUD */
-
-  /* Shape — chamfer sizes match ChamferStyleBox usage per surface */
-  --chamfer-panel: 14px;   /* OverlayChrome / OverlayPanel */
-  --chamfer-tooltip: 10px; /* TooltipCard / MinimapPanel */
-  --chamfer-button: 8px;   /* OverlayButton / default chips */
-  --chamfer-chip-sm: 6px;  /* small map hint chips */
-  --rail-width: 1px;
-
-  /* Spacing */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 16px;
-  --space-4: 24px;
-  --space-5: 40px;
-  --space-6: 64px;
-  --space-7: 96px;
+  --text-dim: #7C93A5;
+  /* Marketing-only pairing: Doto ships in-repo but no game surface sets it. */
+  --font-numeric: "Doto", "JetBrains Mono", monospace;
 }
 
 *,
@@ -132,7 +108,9 @@ a {
 }
 
 .panel::after {
-  /* static scanlines — ChamferStyleBox draws these on every panel, always on */
+  /* static scanlines — the pre-quiet-pass ChamferStyleBox recipe; the game
+     has since flattened panels to one decorative system (rail + flat glass),
+     so whether the marketing page follows is a look decision, not a token */
   content: "";
   position: absolute;
   inset: 0;
@@ -235,7 +213,7 @@ a {
 }
 
 .btn-glass::after {
-  /* button scanlines — ChamferStyleBox draws these at 3% on OverlayButton */
+  /* button scanlines — pre-quiet-pass recipe, same standing look decision */
   content: "";
   position: absolute;
   inset: 0;
@@ -260,13 +238,15 @@ a {
 }
 
 .btn-glass:active {
-  /* pressed: Online rail, label back to NavInk, fill w=0.24 @ 92% */
+  /* pressed: Online rail, label back to NavInk, fill w=0.24 @ 92%.
+     Recomputed on the teal Online (#05C6C1) — the old literals were the
+     retired green and had no way to follow the token. */
   color: var(--nav-ink);
-  border-color: rgba(0, 230, 118, 0.9);
+  border-color: rgba(5, 198, 193, 0.9);
   background: linear-gradient(
     180deg,
-    rgba(20, 75, 55, 0.92) 0%,
-    rgba(5, 64, 42, 0.92) 100%
+    rgba(9, 62, 65, 0.92) 0%,
+    rgba(6, 56, 60, 0.92) 100%
   );
 }
 

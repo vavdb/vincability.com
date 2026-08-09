@@ -5,13 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Battle-station designs — dedicated defensive station identities — Vindicator</title>
   <meta name="description" content="Captured 2026-07-19. The &quot;[Structures] Battle station designs&quot; card. Stations that fight (pirate pickets, militia defense platforms) were borrowing ship capital-hull art (`Station.…" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../vindicator.css" />
 </head>
 <body class="doc-body">
-
   <header class="site-nav">
     <a class="site-nav__brand" href="../index.html">VINDICATOR</a>
     <nav class="site-nav__links" aria-label="Section">
@@ -24,7 +20,6 @@
     <a class="site-nav__ext" href="../../index.html">Vincability</a>
   </header>
   <main class="doc-main">
-
     <article class="doc-article">
       <header class="doc-article__head">
         <a class="doc-back" href="index.html">← Design</a>
@@ -51,17 +46,17 @@ docs/design-stations.md &ldquo;What already exists&rdquo; for the fuller audit).
 levers this card actually needs were both already present:</p>
 <ul>
 <li><strong><code>StationDef.Mounts</code></strong> (<code>features/universe/StarSystemDef.cs</code>) — an optional
-  list of explicit <code>[x, y]</code> turret positions in local station space. When
-  present, <code>Station.ArmTurrets</code> places one turret per listed coordinate and
-  skips the procedural even-ring entirely (<code>ArmTurretsAtMounts</code>). Authored via
-  the HardpointEditor tool, or hand-written to its export shape (a JSON array
-  of <code>[x, y]</code> pairs). <strong>This is the layout knob.</strong></li>
+list of explicit <code>[x, y]</code> turret positions in local station space. When
+present, <code>Station.ArmTurrets</code> places one turret per listed coordinate and
+skips the procedural even-ring entirely (<code>ArmTurretsAtMounts</code>). Authored via
+the HardpointEditor tool, or hand-written to its export shape (a JSON array
+of <code>[x, y]</code> pairs). <strong>This is the layout knob.</strong></li>
 <li><strong><code>Station</code> hull pipeline</strong> — a single <code>Sprite2D</code> whose texture is padded
-  (<code>SpritePadding.Load</code>), alpha-traced for a collision polygon
-  (<code>HullTracer.Trace</code>), cel-outlined (<code>OutlineStyle</code>), and gently multiplied
-  toward the owning faction color (0.2 lerp, <code>Station.TintFor</code>). Everything
-  downstream — dock zone radius, map intel, the disable-on-shield-down
-  behavior — derives from that one traced sprite.</li>
+(<code>SpritePadding.Load</code>), alpha-traced for a collision polygon
+(<code>HullTracer.Trace</code>), cel-outlined (<code>OutlineStyle</code>), and gently multiplied
+toward the owning faction color (0.2 lerp, <code>Station.TintFor</code>). Everything
+downstream — dock zone radius, map intel, the disable-on-shield-down
+behavior — derives from that one traced sprite.</li>
 </ul>
 <h3 id="the-one-gap-art-selection-was-faction-only">The one gap: art selection was faction-only</h3>
 <p><code>Station</code> chose its sprite purely from <code>HullSpriteByFaction[factionId]</code>, so
@@ -84,13 +79,13 @@ of existing structure parts is acceptable if it reads well&rdquo;).</p>
 <p>The owned <em>structural</em> (non-ship) art that DOES exist:</p>
 <ul>
 <li><strong><code>assets/sprites/vindicator/stargate_parts.png</code></strong> (owned, 384×384, 3×3 @
-  128) — ring segments (chevron-marked C-rings, cells 0,0 / 2,0), a heavy
-  bilateral <strong>connector block</strong> (cell 1,0 — an industrial reactor/dock spine,
-  no thrust axis), and a compact <strong>reactor pod</strong> module (cell 1,2). These are
-  the strongest &ldquo;reads STRUCTURE not ship&rdquo; parts in the repo: symmetry, mass,
-  mechanical bristle, and crucially <strong>no engine flare / no pointed prow</strong>.</li>
+128) — ring segments (chevron-marked C-rings, cells 0,0 / 2,0), a heavy
+bilateral <strong>connector block</strong> (cell 1,0 — an industrial reactor/dock spine,
+no thrust axis), and a compact <strong>reactor pod</strong> module (cell 1,2). These are
+the strongest &ldquo;reads STRUCTURE not ship&rdquo; parts in the repo: symmetry, mass,
+mechanical bristle, and crucially <strong>no engine flare / no pointed prow</strong>.</li>
 <li><strong><code>assets/backgrounds/foozle_void_env/Asteroids/PNGs/Asteroid 01 - Base.png</code></strong>
-  (CC0, 96×96) — an irregular rock: pure mass, no thrust, no bilateral &ldquo;front.&rdquo;</li>
+(CC0, 96×96) — an irregular rock: pure mass, no thrust, no bilateral &ldquo;front.&rdquo;</li>
 </ul>
 <p><strong>Decision:</strong> bake dedicated station sprites by compositing these owned parts
 (ImageMagick, <code>scripts/</code> one-off) into standalone PNGs under
@@ -165,48 +160,50 @@ long can it hold its guns up under fire.&rdquo;</p>
 <h3 id="1-kessler-raider-bastion-priority">1. Kessler Raider Bastion (PRIORITY)</h3>
 <ul>
 <li><strong>Role.</strong> A pirate strongpoint dug into a belt&rsquo;s edge — the frontier&rsquo;s teeth
-  on an ore-haul route, and the anchor the conflict-ecology card will spawn a
-  raider pack from.</li>
+on an ore-haul route, and the anchor the conflict-ecology card will spawn a
+raider pack from.</li>
 <li><strong>Silhouette.</strong> A hollowed <strong>asteroid</strong> (irregular rock mass) welded with a
-  scavenged <strong>connector-block reactor spine</strong> across its face. Asymmetric rock</li>
+scavenged <strong>connector-block reactor spine</strong> across its face. Asymmetric rock
+<ul>
 <li>bilateral metal core = unmistakably an improvised fort, nothing like a
-  hull. Amber pirate tint (<code>#B45309</code>).</li>
+hull. Amber pirate tint (<code>#B45309</code>).</li>
+</ul>
+</li>
 <li><strong>Layout philosophy.</strong> Five guns bristled <em>around</em> the rock, not evenly — two
-  on the spine flanks, two low, one high (<code>[[-150,-20],[150,-20],[-95,95],
-  [95,95],[0,-150]]</code>). Bristle-over-symmetry sells &ldquo;scavenged and up-gunned.&rdquo;</li>
+on the spine flanks, two low, one high (<code>[[-150,-20],[150,-20],[-95,95], [95,95],[0,-150]]</code>). Bristle-over-symmetry sells &ldquo;scavenged and up-gunned.&rdquo;</li>
 <li><strong>Stats.</strong> Tough: Shield 400, Regen 22, Hull 900 — you have to work to punch
-  a window in it. Above a stock picket, below the militia bulwark.</li>
+a window in it. Above a stock picket, below the militia bulwark.</li>
 <li><strong>Reward.</strong> Salvage/loot is deferred to the conflict-ecology card (a disabled
-  bastion is where the pirate-hunter loop and any base-loot hook will live);
-  today it is a hard, hostile emplacement.</li>
+bastion is where the pirate-hunter loop and any base-loot hook will live);
+today it is a hard, hostile emplacement.</li>
 </ul>
 <h3 id="2-militia-bulwark-platform">2. Militia Bulwark Platform</h3>
 <ul>
 <li><strong>Role.</strong> A purpose-built, disciplined system-defense emplacement. Where the
-  bastion is improvised, the bulwark is engineered.</li>
+bastion is improvised, the bulwark is engineered.</li>
 <li><strong>Silhouette.</strong> A <strong>radial double-ring</strong> (two chevron-marked ring segments
-  closed into a full armored torus) around a central <strong>connector hub</strong>. Full
-  radial symmetry, guns on the ring — the cleanest &ldquo;battle platform&rdquo; read.
-  Green militia tint (<code>#00843D</code>).</li>
+closed into a full armored torus) around a central <strong>connector hub</strong>. Full
+radial symmetry, guns on the ring — the cleanest &ldquo;battle platform&rdquo; read.
+Green militia tint (<code>#00843D</code>).</li>
 <li><strong>Layout philosophy.</strong> Six guns evenly on the ring
-  (<code>[[150,0],[75,-130],[-75,-130],[-150,0],[-75,130],[75,130]]</code>) — even
-  spacing reads as designed doctrine, the opposite of the bastion&rsquo;s bristle.</li>
+(<code>[[150,0],[75,-130],[-75,-130],[-150,0],[-75,130],[75,130]]</code>) — even
+spacing reads as designed doctrine, the opposite of the bastion&rsquo;s bristle.</li>
 <li><strong>Stats.</strong> Toughest: Shield 500, Regen 26, Hull 1100 — the militia holds
-  ground.</li>
+ground.</li>
 </ul>
 <h3 id="3-independent-claim-guard">3. Independent Claim-Guard</h3>
 <ul>
 <li><strong>Role.</strong> A cheap, improvised picket the unaligned Independents throw up to
-  hold a belt claim against raiders. The soft end of the ladder.</li>
+hold a belt claim against raiders. The soft end of the ladder.</li>
 <li><strong>Silhouette.</strong> A compact <strong>reactor pod</strong> on a short <strong>connector spine</strong> — a
-  small cross/anchor of mechanical mass, two gun stubs. Reads as a minimal
-  emplacement, not a warship. Gold independent tint (<code>#D4A017</code>); neutral to the
-  player.</li>
+small cross/anchor of mechanical mass, two gun stubs. Reads as a minimal
+emplacement, not a warship. Gold independent tint (<code>#D4A017</code>); neutral to the
+player.</li>
 <li><strong>Layout philosophy.</strong> Two flank guns only (<code>[[-95,0],[95,0]]</code>) — token
-  defense, matching a faction that &ldquo;isn&rsquo;t built to fight&rdquo; (codex:
-  independents).</li>
+defense, matching a faction that &ldquo;isn&rsquo;t built to fight&rdquo; (codex:
+independents).</li>
 <li><strong>Stats.</strong> Soft: Shield 140, Regen 14, Hull 360 — below the stock default; a
-  claim-guard is a speed bump, not a wall.</li>
+claim-guard is a speed bump, not a wall.</li>
 </ul>
 <h2 id="placement-verification-fiction">Placement (verification + fiction)</h2>
 <p>Existing fighting stations were <strong>retrofitted in place</strong> to their archetype
@@ -215,7 +212,7 @@ retires the ship-hull reuse the card exists to end, with zero new-content
 balance risk:</p>
 <ul>
 <li><code>karda.thornpicket</code> → <strong>Thorn Bastion</strong> (pirate, Frontier Karda — one hop
-  from Eos, reachable for verification).</li>
+from Eos, reachable for verification).</li>
 <li><code>marches.gibbet</code> → <strong>The Gibbet</strong> (pirate, contested Marches).</li>
 <li><code>eos.relay</code> → <strong>Eos Relay</strong> bulwark (militia, Safe Eos).</li>
 <li><code>marches.warden</code> → <strong>Warden Bulwark</strong> (militia, contested Marches).</li>
@@ -231,39 +228,38 @@ Eos economy demo.</p>
 <code>CaptureRig</code>, following the existing <code>-Flag</code> pattern): it centers the camera on
 a station by id, hides the camera-anchor ship, and drops that anchor out of the
 target pool (so a hostile bastion&rsquo;s turrets don&rsquo;t bury the structure under
-point-blank beams). Proofs in <code>capture-out/battle-station-{bastion,bulwark,
-guard}.png</code>.</p>
+point-blank beams). Proofs in <code>capture-out/battle-station-{bastion,bulwark, guard}.png</code>.</p>
 <h2 id="alternatives-considered-rejected">Alternatives considered + rejected</h2>
 <ul>
 <li><strong>Keep reusing capital ship hulls.</strong> Rejected — it is the exact problem the
-  card names; a battlecruiser hull parked in an orbit reads as a ship, not a
-  fort.</li>
+card names; a battlecruiser hull parked in an orbit reads as a ship, not a
+fort.</li>
 <li><strong>Runtime multi-sprite composition</strong> (compose the body from child sprites at
-  load, like <code>StarlaneGate</code> does). Rejected: it fractures the single-file
-  collision trace, outline material, and tint the whole <code>Station</code> pipeline
-  assumes, for no visual gain over a pre-baked composite. Baking keeps the
-  archetype entirely in content.</li>
+load, like <code>StarlaneGate</code> does). Rejected: it fractures the single-file
+collision trace, outline material, and tint the whole <code>Station</code> pipeline
+assumes, for no visual gain over a pre-baked composite. Baking keeps the
+archetype entirely in content.</li>
 <li><strong>A single raw stargate connector cell as the body.</strong> Rejected: reads too
-  much like a piece of a gate. The asteroid + spine composite is distinct and
-  unmistakably a base.</li>
+much like a piece of a gate. The asteroid + spine composite is distinct and
+unmistakably a base.</li>
 <li><strong>A bare scaled-up asteroid.</strong> Rejected: plain, and &ldquo;big rock&rdquo; doesn&rsquo;t say
-  &ldquo;fortified emplacement with guns.&rdquo; The embedded reactor spine is what makes
-  it a bastion.</li>
+&ldquo;fortified emplacement with guns.&rdquo; The embedded reactor spine is what makes
+it a bastion.</li>
 <li><strong>New per-archetype hulls as first-class ship-style templates.</strong> Rejected as
-  over-built: a station is a <code>StationDef</code> + a sprite, not a ship template with
-  engine/shield/weapon sheets. Two optional fields on <code>StationDef</code> carry the
-  whole feature.</li>
+over-built: a station is a <code>StationDef</code> + a sprite, not a ship template with
+engine/shield/weapon sheets. Two optional fields on <code>StationDef</code> carry the
+whole feature.</li>
 <li><strong>New bespoke turret art per faction.</strong> Out of scope: turrets already skin
-  per faction (<code>Turret.BarrelSheetByFaction</code>); the card is about station
-  <em>bodies</em>.</li>
+per faction (<code>Turret.BarrelSheetByFaction</code>); the card is about station
+<em>bodies</em>.</li>
 </ul>
 <h2 id="follow-ups-not-this-card">Follow-ups (not this card)</h2>
 <ul>
 <li><strong>Conflict ecology</strong> (its own card): the Kessler Raider Bastion spawns a
-  raider/hunter pack anchored on it; base-loot/salvage on disable lives there.</li>
+raider/hunter pack anchored on it; base-loot/salvage on disable lives there.</li>
 <li><strong>Player-station art</strong>: <code>docs/design-stations.md</code> step 2 notes a dedicated
-  <code>faction.player</code> station silhouette is a nice-to-have; the <code>Sprite</code> field
-  this card adds is exactly the hook it would use.</li>
+<code>faction.player</code> station silhouette is a nice-to-have; the <code>Sprite</code> field
+this card adds is exactly the hook it would use.</li>
 </ul>
       </div>
       <nav class="doc-pager" aria-label="Adjacent articles">
@@ -271,10 +267,9 @@ guard}.png</code>.</p>
         <a class="doc-pager__link" href="design-conflict.html">Conflict ecology — the economy fights back (MVP) →</a>
       </nav>
     </article>
-
   </main>
   <footer class="footer">
-    <span>Built 2026-07-23 from game sources</span>
+    <span>Built 2026-08-09 from game sources</span>
     <span><a href="../index.html">Home</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
     <span>© Vincability</span>
   </footer>

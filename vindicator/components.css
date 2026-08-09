@@ -1,0 +1,34 @@
+body.vind{background:var(--bg-deep);color:var(--nav-ink);margin:16px;
+  font:12px/1.5 "Titillium Web","Geist","Inter",system-ui,sans-serif}
+.vd{font-family:"Maple Mono NF","Maple Mono","JetBrains Mono",Consolas,monospace}
+.vtitle-display{font-family:"Asimovian","Titillium Web",sans-serif}
+
+.vframe{--frame-rail:var(--rail);--frame-glow:rgba(131,195,255,.4);
+  background:var(--frame-rail);padding:1px;
+  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
+  filter:drop-shadow(0 0 7px var(--frame-glow))}
+.vframe.cassius{--frame-rail:rgba(245,154,86,.6);--frame-glow:rgba(245,154,86,.35)}
+.vpanel{background:var(--panel-base);padding:14px 16px;
+  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+
+.vtitle{color:var(--signal);font-size:13px;letter-spacing:2px;font-weight:600}
+.vsub{color:var(--muted-ink);font-size:11px}
+.vrule{height:1px;background:var(--rail);margin:8px 0 12px}
+
+.vbtn{display:inline-flex;align-items:center;border:1px solid var(--steel-rail);
+  color:var(--nav-ink);padding:6px 18px;font-size:12px;cursor:pointer;
+  background:var(--grid-minor);
+  clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px)}
+.vbtn:hover{border-color:var(--signal);color:#fff;background:var(--grid-major)}
+.vbtn.go{border:none;background:var(--online);color:var(--bg-deep);font-weight:600}
+
+table.vtab{border-collapse:collapse;table-layout:fixed;width:100%}
+.vtab td,.vtab th{border:1px solid var(--grid-major-solid);padding:2px 8px;text-align:left;
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.vtab th{color:var(--online);font-weight:400;position:sticky;top:0;
+  background:var(--panel-base);z-index:1}
+.vtab td.n,.vtab th.n{text-align:right}
+.vtab tr.zero td{color:var(--muted-ink)}
+.vtab tr.sys td{background:var(--grid-minor-solid);color:var(--signal);letter-spacing:1px}
+.craft{color:var(--cassius)}
+.recipe{color:var(--cassius);font-size:10px}

@@ -5,13 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Munitions — ammo &amp; kinetic fabrication (design capture) — Vindicator</title>
   <meta name="description" content="Captured 2026-07-19. Design-only pass for the PLAN card *&quot;[Economy] Missile ammo + kinetic fabrication&quot;*, whose own note says **&quot;Needs economy UX/storage/source design first, then…" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../vindicator.css" />
 </head>
 <body class="doc-body">
-
   <header class="site-nav">
     <a class="site-nav__brand" href="../index.html">VINDICATOR</a>
     <nav class="site-nav__links" aria-label="Section">
@@ -24,7 +20,6 @@
     <a class="site-nav__ext" href="../../index.html">Vincability</a>
   </header>
   <main class="doc-main">
-
     <article class="doc-article">
       <header class="doc-article__head">
         <a class="doc-back" href="index.html">← Design</a>
@@ -34,9 +29,9 @@
         <p class="banner banner--warn">Design note — systems rationale, not player-facing codex text.</p>
       </header>
       <div class="prose">
-<p>Captured 2026-07-19. Design-only pass for the PLAN card <em>&ldquo;[Economy] Missile
-ammo + kinetic fabrication&rdquo;</em>, whose own note says <strong>&ldquo;Needs economy
-UX/storage/source design first, then combat wiring.&rdquo;</strong> This doc <strong>is</strong> that
+<p>Captured 2026-07-19. Design-only pass for the PLAN card <em>&quot;[Economy] Missile
+ammo + kinetic fabrication&quot;</em>, whose own note says <strong>&quot;Needs economy
+UX/storage/source design first, then combat wiring.&quot;</strong> This doc <strong>is</strong> that
 economy design; the combat wiring is a separate, later card sequenced at the
 end here.</p>
 <p>Sits downstream of <code>docs/design-economy.md</code> (the mineral ladder, refine chain,
@@ -282,40 +277,39 @@ than fabricated bulk.</p>
 <h3 id="retrofit-consequences">Retrofit consequences</h3>
 <ul>
 <li>Per-family ammo pooling already suits modular weapons: every equipped item
-  with the same <code>MunitionId</code> draws from the same cargo stack.</li>
+with the same <code>MunitionId</code> draws from the same cargo stack.</li>
 <li>Equipping an ammo-fed kinetic or missile module surfaces <strong>REARM</strong> and HUD
-  state only when its <code>WeaponTemplate</code> authors a <code>MunitionId</code>/ammo family.
-  Capacitor-only rail hybrids have no ammo family and must not show REARM.</li>
+state only when its <code>WeaponTemplate</code> authors a <code>MunitionId</code>/ammo family.
+Capacitor-only rail hybrids have no ammo family and must not show REARM.</li>
 <li>NPC firing remains unmetered. Only the player pays retrofit logistics; an
-  NPC default loadout is still just a list of modular weapon IDs.</li>
+NPC default loadout is still just a list of modular weapon IDs.</li>
 </ul>
 <h2 id="2-storage-where-ammo-lives">2. Storage — where ammo lives</h2>
 <p><strong>Decision: reuse <code>CargoHold</code>; ammo is a commodity, not a new subsystem.</strong></p>
 <p><code>features/economy/CargoHold.cs</code> is already a generic
-<code>Dictionary&lt;string,float&gt;</code> store with a unit <code>Capacity</code>, <code>Add/Remove/
-Quantity</code>, and — critically — <strong>it is lost with the hull</strong> (the run&rsquo;s risk).
+<code>Dictionary&lt;string,float&gt;</code> store with a unit <code>Capacity</code>, <code>Add/Remove/ Quantity</code>, and — critically — <strong>it is lost with the hull</strong> (the run&rsquo;s risk).
 Munitions get a new <code>CommodityCategory.Munition</code> and live in that same hold.</p>
 <ul>
 <li><strong>No dedicated magazine component for MVP.</strong> A &ldquo;magazine&rdquo; node would
-  duplicate everything <code>CargoHold</code> already does. Adding a category is a data
-  change; adding a subsystem is a refactor.</li>
+duplicate everything <code>CargoHold</code> already does. Adding a category is a data
+change; adding a subsystem is a refactor.</li>
 <li><strong>Pooled per-family, not per-weapon.</strong> One <code>munition.slug</code> stack feeds
-  <em>every</em> kinetic cannon on the hull; one <code>missile.strike</code> stack feeds every
-  light launcher. This matches how cargo already pools commodities and keeps
-  the HUD readable (a handful of stacks, not one counter per hardpoint).
-  Per-weapon reservoirs are rejected below.</li>
+<em>every</em> kinetic cannon on the hull; one <code>missile.strike</code> stack feeds every
+light launcher. This matches how cargo already pools commodities and keeps
+the HUD readable (a handful of stacks, not one counter per hardpoint).
+Per-weapon reservoirs are rejected below.</li>
 <li><strong>Capacity vs <code>ShipSize</code> — the deliberate tension.</strong> Because ammo shares the
-  cargo hold, <strong>a loaded warship carries less loot, and a full ore-hauler
-  carries fewer rounds.</strong> That tradeoff is the point: cargo capacity already
-  scales with hull (<code>features/economy</code> hold + the grid ladder in
-  <code>features/modules/GridDimensions.cs</code>, xs 4×3 → xl 10×7), so a fighter&rsquo;s
-  slim hold forces real &ldquo;guns <em>or</em> groceries&rdquo; choices while a battlecruiser
-  can carry a war&rsquo;s worth of both.</li>
+cargo hold, <strong>a loaded warship carries less loot, and a full ore-hauler
+carries fewer rounds.</strong> That tradeoff is the point: cargo capacity already
+scales with hull (<code>features/economy</code> hold + the grid ladder in
+<code>features/modules/GridDimensions.cs</code>, xs 4×3 → xl 10×7), so a fighter&rsquo;s
+slim hold forces real &ldquo;guns <em>or</em> groceries&rdquo; choices while a battlecruiser
+can carry a war&rsquo;s worth of both.</li>
 <li><strong>Later, optional: a <code>Magazine</code> ship-tweak module</strong> (the &ldquo;Ship tweaks&rdquo;
-  category in <code>docs/design-economy.md</code>) that adds <em>dedicated</em> ammo-only
-  capacity, so a committed combat loadout isn&rsquo;t strangled by the loot/ammo
-  split. This is a grid-inventory module, content not a refactor — deferred
-  past MVP but the reason per-family pooling is worth keeping simple now.</li>
+category in <code>docs/design-economy.md</code>) that adds <em>dedicated</em> ammo-only
+capacity, so a committed combat loadout isn&rsquo;t strangled by the loot/ammo
+split. This is a grid-inventory module, content not a refactor — deferred
+past MVP but the reason per-family pooling is worth keeping simple now.</li>
 </ul>
 <h2 id="3-sourcing-fabrication-recipes">3. Sourcing — fabrication recipes</h2>
 <p>Munitions are <strong>fabricated</strong>, reusing the refine-chain pattern exactly
@@ -370,29 +364,29 @@ below the ratio stays behind). Fabrication is refining with a munition as the
 <p>Two authoring shapes, both already supported or a thin extension:</p>
 <ul>
 <li><strong>Single-input munitions</strong> (<code>munition.slug</code> from Ferrite) drop straight into
-  the existing <code>refineTargetId</code>/<code>refineRatio</code> fields — a Ferrite stack can
-  refine into <em>either</em> Alloy Plate <em>or</em> Slug depending on which button the
-  player hits, so a commodity may want a small <code>fabricateTargetId</code> alongside
-  its <code>refineTargetId</code> rather than a single target. (One-target-per-commodity
-  vs. a recipe list is the one open data-shape question — see Sequencing.)</li>
+the existing <code>refineTargetId</code>/<code>refineRatio</code> fields — a Ferrite stack can
+refine into <em>either</em> Alloy Plate <em>or</em> Slug depending on which button the
+player hits, so a commodity may want a small <code>fabricateTargetId</code> alongside
+its <code>refineTargetId</code> rather than a single target. (One-target-per-commodity
+vs. a recipe list is the one open data-shape question — see Sequencing.)</li>
 <li><strong>Multi-input munitions</strong> (<code>missile.strike</code> = metal + propellant) need a
-  small recipe object (<code>inputs: [{id, qty}], output, qty</code>) — a genuinely new
-  data structure, but tiny, and only missiles need it for MVP.</li>
+small recipe object (<code>inputs: [{id, qty}], output, qty</code>) — a genuinely new
+data structure, but tiny, and only missiles need it for MVP.</li>
 </ul>
 <h3 id="buy-at-station-option-price-ladder">Buy-at-station option + price ladder</h3>
 <p>Not every rearm should require a refinery run. Munitions <strong>also sell on the
 dock market</strong> (they are commodities with a <code>baseWorth</code>), so:</p>
 <ul>
 <li><strong>Trade / Shipyard stations stock munitions</strong> at <code>baseWorth × station skew</code>
-  (<code>features/economy/SellMath.cs</code> skew already exists), same buy path a future
-  outfitting shop uses. Buying is the convenient, pricier option; fabricating
-  from ore you mined is the cheap, self-sufficient one.</li>
+(<code>features/economy/SellMath.cs</code> skew already exists), same buy path a future
+outfitting shop uses. Buying is the convenient, pricier option; fabricating
+from ore you mined is the cheap, self-sufficient one.</li>
 <li><strong>Price ladder mirrors the fabrication ladder:</strong> slugs cheap and everywhere,
-  torpedoes expensive and only stocked at higher-tier/defense hubs. A deadly
-  frontier station charges more for the same round (the danger skew), so
-  rearming deep in hostile space costs a premium — another reason to haul.</li>
+torpedoes expensive and only stocked at higher-tier/defense hubs. A deadly
+frontier station charges more for the same round (the danger skew), so
+rearming deep in hostile space costs a premium — another reason to haul.</li>
 <li><strong>Missiles as discrete ordnance stay pricier per unit than bulk kinetic</strong>,
-  so spamming torpedoes is a real credit drain, not a default.</li>
+so spamming torpedoes is a real credit drain, not a default.</li>
 </ul>
 <h2 id="4-resupply-ux">4. Resupply UX</h2>
 <h3 id="dock-rearm-flow-reuse-the-dockscreen">Dock rearm flow (reuse the DockScreen)</h3>
@@ -400,13 +394,13 @@ dock market</strong> (they are commodities with a <code>baseWorth</code>), so:</
 DEPART sections. Add:</p>
 <ul>
 <li><strong>REARM</strong> — one row per munition the ship&rsquo;s <em>equipped weapons</em> can consume,
-  showing held / capacity and a buy control (<code>baseWorth × skew</code>), plus a
-  <strong>REARM ALL</strong> that tops every family to capacity for one credit sum
-  (mirrors SELL ALL / REFINE ALL). Available at Trade/Shipyard stations.</li>
+showing held / capacity and a buy control (<code>baseWorth × skew</code>), plus a
+<strong>REARM ALL</strong> that tops every family to capacity for one credit sum
+(mirrors SELL ALL / REFINE ALL). Available at Trade/Shipyard stations.</li>
 <li><strong>FABRICATE</strong> rows appear in the existing REFINE section at <strong>Refinery</strong>
-  stations — the same &ldquo;ore in, whole batches out&rdquo; UI, with munition targets
-  listed beside component targets. No new screen; a munition is just another
-  refine output.</li>
+stations — the same &ldquo;ore in, whole batches out&rdquo; UI, with munition targets
+listed beside component targets. No new screen; a munition is just another
+refine output.</li>
 </ul>
 <h3 id="in-flight-fabrication">In-flight fabrication?</h3>
 <p><strong>No (MVP).</strong> Fabrication is a docked action, same as refining. An in-flight
@@ -422,60 +416,60 @@ the taxonomy visually (if it has a round counter, it eats mass).</p>
 <h3 id="empty-ammo-behavior">Empty-ammo behavior</h3>
 <ul>
 <li><strong>Click dry = a dull click + a brief &ldquo;OUT: SLUG&rdquo; flash</strong>, no shot, no
-  cooldown burned. The gate sits right beside <code>TryPayShotEnergy</code> in
-  <code>WeaponMount._PhysicsProcess</code> (the <code>TriggerHeld &amp;&amp; cooldown==0</code> branch): a
-  new <code>TryPayMunition(template)</code> that returns false when the pooled stock is
-  empty, short-circuiting the shot exactly like a failed energy pay.</li>
+cooldown burned. The gate sits right beside <code>TryPayShotEnergy</code> in
+<code>WeaponMount._PhysicsProcess</code> (the <code>TriggerHeld &amp;&amp; cooldown==0</code> branch): a
+new <code>TryPayMunition(template)</code> that returns false when the pooled stock is
+empty, short-circuiting the shot exactly like a failed energy pay.</li>
 <li><strong>No silent auto-switch.</strong> Auto-swapping the player&rsquo;s active weapon set on
-  a dry gun is rejected — it steals aim control and hides the resource state
-  the whole system is teaching. The empty gun stays empty and loud about it;
-  switching is the player&rsquo;s call.</li>
+a dry gun is rejected — it steals aim control and hides the resource state
+the whole system is teaching. The empty gun stays empty and loud about it;
+switching is the player&rsquo;s call.</li>
 <li><strong>Energy fallback stays available by design:</strong> because the Pulse Cannon (the
-  default set-0 gun) is energy-only, a bone-dry ship can still fight its way
-  home on the capacitor. Ammo scarcity is a <em>pressure</em>, never a hard
-  can&rsquo;t-shoot-anything lock.</li>
+default set-0 gun) is energy-only, a bone-dry ship can still fight its way
+home on the capacitor. Ammo scarcity is a <em>pressure</em>, never a hard
+can&rsquo;t-shoot-anything lock.</li>
 </ul>
 <h2 id="5-ai-do-npc-ships-consume-ammo">5. AI — do NPC ships consume ammo?</h2>
 <p><strong>Recommendation: NO — NPC brains fire unmetered (energy AND ammo).</strong></p>
 <ul>
 <li><strong>Simulation cost &amp; fairness.</strong> Tracking, fabricating, and resupplying
-  finite ammo for every spawned pirate/militia hull is bookkeeping the player
-  never sees the far side of (an NPC doesn&rsquo;t dock to rearm on screen), and an
-  NPC that runs dry mid-fight and stops shooting reads as a bug, not a
-  mechanic. The existing brains already never pull utility triggers
-  (<code>IsUtilityWeapon</code>); munitions extend &ldquo;the AI just fires what it&rsquo;s holding.&rdquo;</li>
+finite ammo for every spawned pirate/militia hull is bookkeeping the player
+never sees the far side of (an NPC doesn&rsquo;t dock to rearm on screen), and an
+NPC that runs dry mid-fight and stops shooting reads as a bug, not a
+mechanic. The existing brains already never pull utility triggers
+(<code>IsUtilityWeapon</code>); munitions extend &ldquo;the AI just fires what it&rsquo;s holding.&rdquo;</li>
 <li><strong>The economy is the <em>player&rsquo;s</em> constraint.</strong> Ammo scarcity is a
-  loadout/logistics choice the player makes; imposing it on NPCs adds no
-  player-facing depth and a lot of edge cases (fleeing-to-rearm AI, ammo
-  loot from every kill, etc.).</li>
+loadout/logistics choice the player makes; imposing it on NPCs adds no
+player-facing depth and a lot of edge cases (fleeing-to-rearm AI, ammo
+loot from every kill, etc.).</li>
 <li><strong>One deliberate exception, later:</strong> the independent-faction gather drones
-  and any <em>fabricator/hauler</em> NPCs in the economy testbed
-  (<code>docs/design-economy.md</code> &ldquo;Economy testbed&rdquo;) may <em>produce</em> munitions as an
-  economic flow, but that is supply-side simulation, not combat consumption.</li>
+and any <em>fabricator/hauler</em> NPCs in the economy testbed
+(<code>docs/design-economy.md</code> &ldquo;Economy testbed&rdquo;) may <em>produce</em> munitions as an
+economic flow, but that is supply-side simulation, not combat consumption.</li>
 <li><strong>Loot hook (optional, cheap):</strong> a killed kinetic-armed NPC <em>can</em> drop a
-  small munition cache as salvage — consumption stays off, but ammo enters the
-  world as a combat reward, closing a nice &ldquo;kill pirates → restock slugs&rdquo; loop
-  without simulating their magazines.</li>
+small munition cache as salvage — consumption stays off, but ammo enters the
+world as a combat reward, closing a nice &ldquo;kill pirates → restock slugs&rdquo; loop
+without simulating their magazines.</li>
 </ul>
 <h2 id="6-balance-intent-why-this-makes-kinetic-vs-energy-a-real-choice">6. Balance intent — why this makes kinetic vs energy a real choice</h2>
 <p>Without munitions, energy is strictly better: it regenerates and never runs
 out. Munitions buy kinetic weapons a compensating identity:</p>
 <ul>
 <li><strong>Energy weapons:</strong> infinite ammo, capped <em>rate</em> (capacitor regen is the
-  ceiling), zero logistics. The choice for long patrols, exploration, and
-  anyone who doesn&rsquo;t want to think about supply. Sustained but rate-limited.</li>
+ceiling), zero logistics. The choice for long patrols, exploration, and
+anyone who doesn&rsquo;t want to think about supply. Sustained but rate-limited.</li>
 <li><strong>Kinetic weapons:</strong> burst far past the capacitor ceiling (no per-shot
-  energy tax), usually higher raw damage-per-shot, but every trigger pull
-  spends hauled stock and hold space. The choice for a planned engagement you
-  rearmed for — front-load damage, then you&rsquo;re on the capacitor gun home.</li>
+energy tax), usually higher raw damage-per-shot, but every trigger pull
+spends hauled stock and hold space. The choice for a planned engagement you
+rearmed for — front-load damage, then you&rsquo;re on the capacitor gun home.</li>
 <li><strong>The knock-on economy demand:</strong> ammo turns <em>combat itself</em> into a mineral
-  sink, giving Ferrite/Titanium/Iridium a pull beyond hulls and modules — you
-  mine to shoot, not only to sell. That deepens every existing loop (mine →
-  haul → refine → <strong>fabricate</strong> → fight) without a new subsystem.</li>
+sink, giving Ferrite/Titanium/Iridium a pull beyond hulls and modules — you
+mine to shoot, not only to sell. That deepens every existing loop (mine →
+haul → refine → <strong>fabricate</strong> → fight) without a new subsystem.</li>
 <li><strong>Scarcity = tension, not tedium:</strong> because the default gun is energy, going
-  dry is a <em>degradation</em> (you drop to your fallback), never a wall. The player
-  who over-commits torpedoes limps home on the Pulse Cannon and rearms — a
-  consequence, not a game-over.</li>
+dry is a <em>degradation</em> (you drop to your fallback), never a wall. The player
+who over-commits torpedoes limps home on the Pulse Cannon and rearms — a
+consequence, not a game-over.</li>
 </ul>
 <h2 id="7-three-throttles-heat-energy-ammo-precedence">7. Three throttles — heat + energy + ammo precedence</h2>
 <p>An in-flight design card (PLAN &ldquo;[Combat] Hardpoint heat + overmount&rdquo;) is
@@ -486,11 +480,11 @@ contract:</p>
 shot fires only if <strong>all</strong> pre-pay gates pass, checked in this order:</p>
 <ol>
 <li><strong>Munition</strong> (cheapest check, most fundamental): no round → dull click, no
-   shot, <strong>no cooldown, no energy, no heat</strong>. A dry gun does <em>nothing</em>.</li>
+shot, <strong>no cooldown, no energy, no heat</strong>. A dry gun does <em>nothing</em>.</li>
 <li><strong>Energy</strong> (<code>TryPayShotEnergy</code> today): capacitor can&rsquo;t pay → no shot; the
-   round is <strong>not</strong> consumed (you don&rsquo;t burn ammo on a shot that didn&rsquo;t fire).</li>
+round is <strong>not</strong> consumed (you don&rsquo;t burn ammo on a shot that didn&rsquo;t fire).</li>
 <li><strong>Heat lockout</strong>: if the mount is in overheat lockout, no shot; round and
-   energy <strong>not</strong> consumed.</li>
+energy <strong>not</strong> consumed.</li>
 </ol>
 <p>Heat is otherwise a <strong>post-shot accrual</strong> — a fired shot <em>adds</em> heat, which may
 later trip the lockout in check 3. So: ammo and energy are pre-pay gates (both
@@ -505,22 +499,22 @@ only that the gate order above is honored when both land.</p>
 <p>This is design-only. The follow-up <strong>combat-wiring</strong> card implements, in order:</p>
 <ol>
 <li><strong>Data:</strong> <code>CommodityCategory.Munition</code>; <code>MunitionId</code> + <code>RoundsPerShot</code> on
-   <code>WeaponTemplate</code>; munition commodity JSON entries (slug/shell/flak/
-   strike/torpedo) with <code>baseWorth</code> + fabrication targets. Resolve the one
-   open data-shape question: <strong>single <code>fabricateTargetId</code> per ore vs. a recipe
-   list</strong> (recommend the recipe list — it&rsquo;s the only shape that supports
-   multi-input missiles and ore-with-two-outputs cleanly).</li>
+<code>WeaponTemplate</code>; munition commodity JSON entries (slug/shell/flak/
+strike/torpedo) with <code>baseWorth</code> + fabrication targets. Resolve the one
+open data-shape question: <strong>single <code>fabricateTargetId</code> per ore vs. a recipe
+list</strong> (recommend the recipe list — it&rsquo;s the only shape that supports
+multi-input missiles and ore-with-two-outputs cleanly).</li>
 <li><strong>Fire gate:</strong> <code>TryPayMunition</code> in <code>WeaponMount</code>, wired beside
-   <code>TryPayShotEnergy</code> with the precedence in §7. Draw from <code>ship.Cargo</code>.</li>
+<code>TryPayShotEnergy</code> with the precedence in §7. Draw from <code>ship.Cargo</code>.</li>
 <li><strong>Fabrication:</strong> extend <code>RefineMath</code>/DockScreen REFINE to emit munition
-   targets (single-input) + a small multi-input recipe path for missiles.</li>
+targets (single-input) + a small multi-input recipe path for missiles.</li>
 <li><strong>Dock REARM section</strong> + buy path (reuse <code>SellMath</code> skew).</li>
 <li><strong>HUD ammo readout</strong> + empty-gun feedback.</li>
 <li><strong>Content pass:</strong> set <code>MunitionId</code> on intentionally ammo-fed JSONs (Heavy
-   Cannon, Slug Repeater, missiles), <em>drop</em> their <code>energyPerShot</code> where the
-   design is ammo-only, and leave Pulse Cannon, railguns, and all beams on
-   capacitor unless a rail munition is deliberately authored later. Ship the
-   codex update (below) in the same change (the Codex rule).</li>
+Cannon, Slug Repeater, missiles), <em>drop</em> their <code>energyPerShot</code> where the
+design is ammo-only, and leave Pulse Cannon, railguns, and all beams on
+capacitor unless a rail munition is deliberately authored later. Ship the
+codex update (below) in the same change (the Codex rule).</li>
 <li><strong>Balance tune</strong> against the economy testbed once flows run.</li>
 </ol>
 <p>Each numbered step is a candidate card of its own if the wiring card is too big
@@ -528,29 +522,29 @@ to land atomically.</p>
 <h2 id="9-alternatives-considered-and-rejected">9. Alternatives considered — and rejected</h2>
 <ul>
 <li><strong>Key ammo off <code>WeaponType.Cannon</code>.</strong> Rejected: <code>Cannon</code> mixes energy bolts
-  (Pulse Cannon) and kinetic slugs (Railgun/Slug Repeater). An explicit
-  <code>MunitionId</code> is the only clean boundary.</li>
+(Pulse Cannon) and kinetic slugs (Railgun/Slug Repeater). An explicit
+<code>MunitionId</code> is the only clean boundary.</li>
 <li><strong>Dedicated magazine subsystem</strong> (separate from cargo). Rejected for MVP:
-  duplicates <code>CargoHold</code>, and <em>sharing</em> the hold creates the desirable
-  loot-vs-ammo tension for free. Revisited only as an optional capacity-adding
-  ship-tweak module later.</li>
+duplicates <code>CargoHold</code>, and <em>sharing</em> the hold creates the desirable
+loot-vs-ammo tension for free. Revisited only as an optional capacity-adding
+ship-tweak module later.</li>
 <li><strong>Per-weapon ammo reservoirs.</strong> Rejected: N counters for N hardpoints is HUD
-  noise and forces micro-managing which gun gets the last rounds. Pooled
-  per-family is simpler and reads better; the &ldquo;assign ammo to a mount&rdquo; fantasy
-  isn&rsquo;t worth the UI.</li>
+noise and forces micro-managing which gun gets the last rounds. Pooled
+per-family is simpler and reads better; the &ldquo;assign ammo to a mount&rdquo; fantasy
+isn&rsquo;t worth the UI.</li>
 <li><strong>All cannons (incl. Pulse Cannon) consume ammo.</strong> Rejected: it turns the
-  player&rsquo;s default gun into a soft-lock risk. Keeping one energy gun on the
-  hull guarantees a dry ship can still fight home.</li>
+player&rsquo;s default gun into a soft-lock risk. Keeping one energy gun on the
+hull guarantees a dry ship can still fight home.</li>
 <li><strong>In-flight fabrication as default.</strong> Rejected: erases the disengage-and-
-  resupply loop the whole system exists to create. Deferred to an optional
-  module.</li>
+resupply loop the whole system exists to create. Deferred to an optional
+module.</li>
 <li><strong>NPCs consume ammo too.</strong> Rejected: invisible bookkeeping, &ldquo;AI ran dry and
-  froze&rdquo; reads as a bug, adds no player-facing depth. NPCs fire unmetered;
-  ammo is the <em>player&rsquo;s</em> logistics game.</li>
+froze&rdquo; reads as a bug, adds no player-facing depth. NPCs fire unmetered;
+ammo is the <em>player&rsquo;s</em> logistics game.</li>
 <li><strong>Missiles as fabricated bulk like slugs.</strong> Rejected: missiles are named,
-  discrete ordnance — one warhead per launch, pricier, pooled by weight class.
-  Treating them as interchangeable bulk erases their identity as the
-  expensive-but-devastating option.</li>
+discrete ordnance — one warhead per launch, pricier, pooled by weight class.
+Treating them as interchangeable bulk erases their identity as the
+expensive-but-devastating option.</li>
 </ul>
 <hr />
 <h2 id="codex-draft">§Codex-draft</h2>
@@ -624,10 +618,9 @@ decides for you.
         <a class="doc-pager__link" href="design-combat-heat.html">Hardpoint heat + overmount — design capture →</a>
       </nav>
     </article>
-
   </main>
   <footer class="footer">
-    <span>Built 2026-07-23 from game sources</span>
+    <span>Built 2026-08-09 from game sources</span>
     <span><a href="../index.html">Home</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
     <span>© Vincability</span>
   </footer>

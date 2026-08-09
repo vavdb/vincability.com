@@ -5,13 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ship Modules — Vindicator</title>
   <meta name="description" content="Grid-mounted hardware — weapons, engines, and hull tweaks — tested in the arena before it ever reaches a shop." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../vindicator.css" />
 </head>
 <body class="doc-body">
-
   <header class="site-nav">
     <a class="site-nav__brand" href="../index.html">VINDICATOR</a>
     <nav class="site-nav__links" aria-label="Section">
@@ -24,7 +20,6 @@
     <a class="site-nav__ext" href="../../index.html">Vincability</a>
   </header>
   <main class="doc-main">
-
     <article class="doc-article">
       <header class="doc-article__head">
         <a class="doc-back" href="index.html">← Codex</a>
@@ -35,10 +30,12 @@
       </header>
       <div class="prose">
 <p>Every hull has a grid. Not a metaphor — an actual gridded bay behind the
-plating, sized to the ship, where hardware bolts in cell by cell. Today
-that bay is a prototype rig, not a shop shelf: engineers run loadouts
-through the <strong>Arena</strong> (a sealed test bout, two hulls, one timer) before
-anything reaches a real deck. What follows is what the rig can mount.</p>
+plating, sized to the ship, where hardware bolts in cell by cell. The
+bay started as a prototype rig — engineers running loadouts through the
+<strong>Arena</strong> (a sealed test bout, two hulls, one timer) before anything
+reaches a real deck — and the rig is still where fitting happens. But
+hardware reaches you from the field now: blocks come off the wrecks you
+make (see below). What follows is what the rig can mount.</p>
 <h2 id="weapon-modules">Weapon modules</h2>
 <p>A gun, gridded instead of hard-mounted. Functionally identical to the
 weapon bolted straight to a hardpoint (see <a href="weapons.html">Weapons</a>) — same
@@ -59,6 +56,17 @@ trail wrapped in a double-helix spiral instead of a flat bolt bloom.</p>
 is the honest minimum and maximum; <strong>CURRENT</strong> is what this physical block
 delivers. Quality runs from worn through standard and refined to exceptional.
 It is not a hidden rarity multiplier: the current numbers are the item.</p>
+<p>That sentence stopped being theoretical the day blocks started coming off
+wrecks. Kill a ship and sometimes a module block tumbles out — usually
+hardware matching what the victim actually flew, a raider&rsquo;s pulse cannon
+dropping a pulse-cannon block, though pirates scavenge widely enough that
+anything can turn up. The block lands with its own fresh roll, and the roll
+is the gamble: the name tells you what dropped, the numbers wait until it&rsquo;s
+aboard. Salvaged blocks are <strong>yours</strong> — a finite stash, each block one
+physical item with its one roll, unlike the rig&rsquo;s bottomless test-issue
+stacks. The stash shows up in the arena bay as its own SALVAGE shelf: a
+block of yours that&rsquo;s sitting in a grid greys out on the shelf until you
+lift it back off.</p>
 <p>The Arena&rsquo;s compare selector targets LEFT, RIGHT, or OFF. Hovering a weapon
 block opens the same compact card used for equipped hardware: candidate first,
 then one identical card per occupied hardpoint. Damage, range, rate of fire,
@@ -85,7 +93,7 @@ who commits to a target rather than sweeping.</p>
 <li><strong>Vector Thrusters</strong> favor sustained cruise speed and corrections.</li>
 <li><strong>Afterburner Coil</strong> favors boost-like acceleration and raw punch.</li>
 <li><strong>Capacitor Injector</strong> favors repeated burns by adding energy capacity and
-  regeneration instead of winning the speed roll outright.</li>
+regeneration instead of winning the speed roll outright.</li>
 </ul>
 <p>Capacitor note: engines, shield recharge, and power-weapon fire now pull
 from the same ship energy pool. Running all three at once is a real budget,
@@ -97,30 +105,28 @@ three below are new hardware; read them as prototypes, the same
 <a href="weapons.html">Weapons</a> — except these three actually work end to end in
 the arena rig, bolt to result, right now.</p>
 <ul>
-<li>
-<p><strong>Shield Capacitor</strong>: extra capacitor banked straight into the shield
-  emitter. Raises how much a shield can soak <em>and</em> how fast it climbs
-  back once you stop taking fire — the same regen-after-a-quiet-moment
-  rule every shield already runs on (see the shield note under
-  <a href="weapons.html">Weapons</a>&rsquo;s defensive emplacements), just with a deeper well
-  and a faster refill.</p>
+<li><p><strong>Shield Capacitor</strong>: extra capacitor banked straight into the shield
+emitter. Raises how much a shield can soak <em>and</em> how fast it climbs
+back once you stop taking fire — the same regen-after-a-quiet-moment
+rule every shield already runs on (see the shield note under
+<a href="weapons.html">Weapons</a>'s defensive emplacements), just with a deeper well
+and a faster refill.</p>
 </li>
-<li>
-<p><strong>Repair Bot</strong>: a palm-sized drone that never stops crawling the hull.
-  This is the one genuinely new trick — every other defense layer on a
-  ship holds still until you dock at a station. The Repair Bot doesn&rsquo;t
-  wait. It patches armor plate first, then works on the frame
-  underneath, continuously, whether or not you&rsquo;re still taking fire.
-  Slow — a station repair is instant and total, this is a trickle — but
-  a trickle that runs mid-fight is worth more than it looks on paper.</p>
+<li><p><strong>Repair Bot</strong>: a palm-sized drone that never stops crawling the hull.
+This is the one genuinely new trick — every other defense layer on a
+ship holds still until you dock at a station. The Repair Bot doesn&rsquo;t
+wait. It patches armor plate first, then works on the frame
+underneath, continuously, whether or not you&rsquo;re still taking fire.
+Slow — a station repair is instant and total, this is a trickle — but
+a trickle that runs mid-fight is worth more than it looks on paper.</p>
 </li>
-<li>
-<p><strong>Scanner Array</strong>: a wider dish bolted where the stock antenna sat.
-  Stretches how far a hull&rsquo;s own scanner projects before a contact
-  drops off the chart (see <a href="scanners.html">Scanners</a> — &ldquo;no swapping or
-  upgrading yet&hellip; until module hardware reaches the market&rdquo;). The
-  module hardware exists now. The market doesn&rsquo;t, not yet — this is
-  still an arena-only rig.</p>
+<li><p><strong>Scanner Array</strong>: a wider dish bolted where the stock antenna sat.
+Stretches how far a hull&rsquo;s own scanner projects before a contact
+drops off the chart (see <a href="scanners.html">Scanners</a> — &ldquo;no swapping or
+upgrading yet&hellip; until module hardware reaches the market&rdquo;). The
+module hardware exists now. The market still doesn&rsquo;t — but wrecks
+deliver where the aftermarket won&rsquo;t: the field is the shop, and the
+price is whoever was flying the hardware before you.</p>
 </li>
 </ul>
 <h2 id="the-grid-itself">The grid itself</h2>
@@ -129,8 +135,9 @@ engine, and system stacks, with scrolling instead of one line escaping the
 screen. Drag a block from the palette into a bay cell to fit it; drag a fitted
 block to another cell to move it, or off the grid to pull it. If a drag ever
 feels fiddly, <strong>right-click a fitted cell to clear it outright</strong> — the block
-just unequips, and the palette always has another. Every module tested so far
-fits one cell. That&rsquo;s not a rule, it&rsquo;s where
+just unequips: a test-issue stack always has another, and a salvaged block of
+yours lights back up on the SALVAGE shelf, never lost. Every module tested so
+far fits one cell. That&rsquo;s not a rule, it&rsquo;s where
 the rig starts: engineers expect denser, oddly-shaped hardware later —
 a compact rare capacitor next to a clunky common one carrying the same
 numbers — and the grid was built cell-list-first so that day doesn&rsquo;t
@@ -158,10 +165,9 @@ for the hulls these bays are cut into.</em></p>
         <a class="doc-pager__link" href="conflict-ecology.html">When the Belt Fights Back →</a>
       </nav>
     </article>
-
   </main>
   <footer class="footer">
-    <span>Built 2026-07-23 from game sources</span>
+    <span>Built 2026-08-09 from game sources</span>
     <span><a href="../index.html">Home</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
     <span>© Vincability</span>
   </footer>

@@ -5,13 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hardpoint heat + overmount — design capture — Vindicator</title>
   <meta name="description" content="Captured 2026-07-19 from the owner&#x27;s spec (Star Valor inspiration): the owner liked Star Valor-style weapon heat, and hardpoints that can mount MORE than one gun at a heat cost. Th…" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../vindicator.css" />
 </head>
 <body class="doc-body">
-
   <header class="site-nav">
     <a class="site-nav__brand" href="../index.html">VINDICATOR</a>
     <nav class="site-nav__links" aria-label="Section">
@@ -24,7 +20,6 @@
     <a class="site-nav__ext" href="../../index.html">Vincability</a>
   </header>
   <main class="doc-main">
-
     <article class="doc-article">
       <header class="doc-article__head">
         <a class="doc-back" href="index.html">← Design</a>
@@ -45,7 +40,7 @@ Codex rule: codex articles ship WITH the code that makes them true). When heat
 ships, the draft moves into <code>assets/codex/combat-heat.md</code>, <code>CODEX.md</code> is
 regenerated, and this file keeps only the rationale. This mirrors the
 missile-ammo card&rsquo;s &ldquo;needs design first, then combat wiring&rdquo; precedent
-(PLAN.md).</p>
+(<code>Plan/missile-ammo-kinetic-fabrication.md</code>).</p>
 <h2 id="the-core-idea-heat-is-a-second-axis-per-hardpoint">The core idea: heat is a SECOND axis, per-hardpoint</h2>
 <p>The ship already has ONE shared budget: the <strong>energy capacitor</strong>
 (<code>features/combat/Energy.cs</code>, Max 100 / regen 22-per-second on the Vindicator).
@@ -200,37 +195,37 @@ continuous weapon. Grounded against shipped weapon data
 <p>Family notes:</p>
 <ul>
 <li><strong>Cannon (burst)</strong>: heat per shot, so cadence sets the average. A lone Pulse
-  Cannon sits right at break-even — heat-free solo, exactly as it plays today.</li>
+Cannon sits right at break-even — heat-free solo, exactly as it plays today.</li>
 <li><strong>Beam (continuous)</strong>: heat per second while lit. A light beam solo is
-  sustainable.</li>
+sustainable.</li>
 <li><strong>Beam, heavy — the intentional exception.</strong> At 32/s it out-paces dissipation
-  even solo, so a heavy beam welded forever WILL climb into throttle and force
-  you to let go. This composes with the shipped <code>BeamRamp</code> (decisions
-  2026-07-19: 0.7→1.5× over 2.5s, HARD reset on release/switch): the ramp
-  rewards commitment, heat punishes INFINITE commitment. You earn the ramp
-  payoff, heat eventually makes you release, releasing resets the ramp, and the
-  cycle restarts. The two mechanics pull against each other by design.</li>
+even solo, so a heavy beam welded forever WILL climb into throttle and force
+you to let go. This composes with the shipped <code>BeamRamp</code> (decisions
+2026-07-19: 0.7→1.5× over 2.5s, HARD reset on release/switch): the ramp
+rewards commitment, heat punishes INFINITE commitment. You earn the ramp
+payoff, heat eventually makes you release, releasing resets the ramp, and the
+cycle restarts. The two mechanics pull against each other by design.</li>
 <li><strong>Railgun (spike)</strong>: average is cold, but each shot dumps its whole heat load
-  at once — the bar jumps toward red per trigger pull. Two overmounted railguns
-  spike so hard they lock almost immediately. The &ldquo;spike&rdquo; read is the point.</li>
+at once — the bar jumps toward red per trigger pull. Two overmounted railguns
+spike so hard they lock almost immediately. The &ldquo;spike&rdquo; read is the point.</li>
 <li><strong>Missile</strong>: barely heats — ordnance, not a power weapon. Missiles are gated
-  by ammo (the separate missile-ammo card), not heat.</li>
+by ammo (the separate missile-ammo card), not heat.</li>
 </ul>
 <h2 id="cooling-curves">Cooling curves</h2>
 <ul>
 <li><strong>Passive dissipation: constant 25 heat/s per hardpoint</strong>, always on, even
-  while firing. Net rate = generation − 25. <strong>Linear, not exponential</strong> — a
-  linear bar is legible at a glance and matches the crisp/deterministic
-  precedent the owner already chose for <code>BeamRamp</code> (decisions 2026-07-19: hard
-  reset over slow decay &ldquo;so the behavior is crisp and deterministic&rdquo;).</li>
+while firing. Net rate = generation − 25. <strong>Linear, not exponential</strong> — a
+linear bar is legible at a glance and matches the crisp/deterministic
+precedent the owner already chose for <code>BeamRamp</code> (decisions 2026-07-19: hard
+reset over slow decay &ldquo;so the behavior is crisp and deterministic&rdquo;).</li>
 <li><strong>Idle purge: dissipation DOUBLES to 50/s after 1.5s without firing</strong> — the
-  coolant catches up once the barrel is quiet. This rewards trigger discipline
-  (tap-and-release cools faster than a held plateau) WITHOUT adding an input,
-  keeping the deliberately two-trigger control scheme intact (weapons.md: &ldquo;two
-  triggers in-flight today&rdquo;). Same tap-vs-hold philosophy the heavy beam
-  already teaches.</li>
+coolant catches up once the barrel is quiet. This rewards trigger discipline
+(tap-and-release cools faster than a held plateau) WITHOUT adding an input,
+keeping the deliberately two-trigger control scheme intact (weapons.md: &ldquo;two
+triggers in-flight today&rdquo;). Same tap-vs-hold philosophy the heavy beam
+already teaches.</li>
 <li><strong>Venting exists as the idle purge and the forced overheat vent (below), not
-  a manual button.</strong> See alternatives for why a manual vent key was rejected.</li>
+a manual button.</strong> See alternatives for why a manual vent key was rejected.</li>
 </ul>
 <h2 id="overheat-penalty-one-ladder-throttle-lockout-vent-resume">Overheat penalty — ONE ladder: throttle → lockout → vent → resume</h2>
 <p>A single heat-fraction curve, no separate systems, no hull damage:</p>
@@ -281,14 +276,14 @@ whole-ship penalty (too swingy). One curve, fully readable, self-healing.</p>
 <h2 id="overmount-more-guns-than-one-mount-can-cool">OVERMOUNT — more guns than one mount can cool</h2>
 <p>The headline feature: fit MORE than one weapon into a single hardpoint.</p>
 <ul>
-<li><strong>How many</strong> — a hard slot cap by size (xs 2, s 2, m 3, l 3, xl 4; see budget
-  table). A hard cap + a super-linear heat curve (below) prevents a degenerate
-  &ldquo;stack eight guns&rdquo; build. Overmount is a burst-DPS <strong>spike</strong>, not a stacking
-  ramp.</li>
-<li><strong>Heat cost curve — super-linear.</strong> Guns on one hardpoint SHARE that
-  hardpoint&rsquo;s single heat budget, and each additional barrel multiplies its own
-  heat because cramming barrels wrecks local cooling:</li>
-</ul>
+<li><p><strong>How many</strong> — a hard slot cap by size (xs 2, s 2, m 3, l 3, xl 4; see budget
+table). A hard cap + a super-linear heat curve (below) prevents a degenerate
+&ldquo;stack eight guns&rdquo; build. Overmount is a burst-DPS <strong>spike</strong>, not a stacking
+ramp.</p>
+</li>
+<li><p><strong>Heat cost curve — super-linear.</strong> Guns on one hardpoint SHARE that
+hardpoint&rsquo;s single heat budget, and each additional barrel multiplies its own
+heat because cramming barrels wrecks local cooling:</p>
 <table>
 <thead>
 <tr>
@@ -316,117 +311,115 @@ whole-ship penalty (too swingy). One curve, fully readable, self-healing.</p>
 </tbody>
 </table>
 <p>Worked example — two Pulse Cannons overmounted on one xs hardpoint: 24 (1st) +
-  24×1.35 = 32.4 (2nd) = 56.4 heat/s, minus 25 dissipation = +31/s → fills the
-  100-cap xs mount in ~3.2s, then throttles. You get double bolts from one
-  muzzle point, but you CANNOT hold it — you fire in bursts and let it purge.
-  That is the Star Valor feel: more firepower than you can cool, managed by the
-  trigger.
-- <strong>Taxed on BOTH axes.</strong> The overmounted guns also each draw full energy from
-  the shared ship pool, so overmount spikes energy AND heat at once. A heavy
-  overmount build wants both a fat capacitor (energy modules) and restraint
-  (heat).
-- <strong>Damage/fire is otherwise normal</strong> — overmounted guns fire together from the
-  one hardpoint&rsquo;s muzzle (the multi-mount wiring gives each hardpoint a distinct
-  muzzle; overmounted guns share it).</p>
+24×1.35 = 32.4 (2nd) = 56.4 heat/s, minus 25 dissipation = +31/s → fills the
+100-cap xs mount in ~3.2s, then throttles. You get double bolts from one
+muzzle point, but you CANNOT hold it — you fire in bursts and let it purge.
+That is the Star Valor feel: more firepower than you can cool, managed by the
+trigger.</p>
+</li>
+<li><p><strong>Taxed on BOTH axes.</strong> The overmounted guns also each draw full energy from
+the shared ship pool, so overmount spikes energy AND heat at once. A heavy
+overmount build wants both a fat capacitor (energy modules) and restraint
+(heat).</p>
+</li>
+<li><p><strong>Damage/fire is otherwise normal</strong> — overmounted guns fire together from the
+one hardpoint&rsquo;s muzzle (the multi-mount wiring gives each hardpoint a distinct
+muzzle; overmounted guns share it).</p>
+</li>
+</ul>
 <h3 id="overmount-ui-language-arena-grid">Overmount UI language (arena grid)</h3>
 <ul>
 <li>Each hardpoint shows a <strong>slot-pip capacity display</strong> — e.g. <code>◇◇</code> for a
-  2-capacity xs mount, filling as guns are stacked (<code>◆◇</code> = one fitted, one
-  free). A hardpoint at capacity rejects further drops (same reject feel the
-  grid already has for a full cell).</li>
+2-capacity xs mount, filling as guns are stacked (<code>◆◇</code> = one fitted, one
+free). A hardpoint at capacity rejects further drops (same reject feel the
+grid already has for a full cell).</li>
 <li>Dragging a weapon block onto an already-occupied hardpoint <strong>stacks</strong> it into
-  the next pip rather than replacing (a modifier or an explicit stack target;
-  detail for implementation). The existing <code>ship-modules.md</code> &ldquo;a module weapon
-  fills the next open hardpoint, in order&rdquo; rule extends to &ldquo;fills the next open
-  SLOT on the current hardpoint, then the next hardpoint.&rdquo;</li>
+the next pip rather than replacing (a modifier or an explicit stack target;
+detail for implementation). The existing <code>ship-modules.md</code> &ldquo;a module weapon
+fills the next open hardpoint, in order&rdquo; rule extends to &ldquo;fills the next open
+SLOT on the current hardpoint, then the next hardpoint.&rdquo;</li>
 <li>The arena compare card (candidate vs each occupied hardpoint — damage, range,
-  RoF, sustained, energy) gains a <strong>HEAT row</strong>: the candidate&rsquo;s heat/sec
-  contribution and the resulting steady-state heat fraction, so a build&rsquo;s
-  cooling headroom is visible before you commit it.</li>
+RoF, sustained, energy) gains a <strong>HEAT row</strong>: the candidate&rsquo;s heat/sec
+contribution and the resulting steady-state heat fraction, so a build&rsquo;s
+cooling headroom is visible before you commit it.</li>
 </ul>
 <h2 id="hud-language-in-flight">HUD language (in flight)</h2>
 <p>Heat reuses the existing cognitive-overlay color ladder as a heat gradient —
 the same cool→online→warn→danger tokens <code>EconomyTracker</code> and <code>HullReadout</code>
 already use, so heat reads consistently with the rest of the skin:</p>
 <ul>
-<li>
-<p><strong>NavCyan</strong> (cool/idle) → <strong>GreenNeon</strong> (firing, healthy) → <strong>Orange</strong> (75%+,
-  throttling) → <strong>HullRed</strong> (100%, locked). Tokens: <code>Palette.NavCyan</code>,
-  <code>Palette.GreenNeon</code>, <code>Palette.Orange</code>, <code>Palette.HullRed</code> (common/Palette.cs).</p>
+<li><p><strong>NavCyan</strong> (cool/idle) → <strong>GreenNeon</strong> (firing, healthy) → <strong>Orange</strong> (75%+,
+throttling) → <strong>HullRed</strong> (100%, locked). Tokens: <code>Palette.NavCyan</code>,
+<code>Palette.GreenNeon</code>, <code>Palette.Orange</code>, <code>Palette.HullRed</code> (common/Palette.cs).</p>
 </li>
-<li>
-<p><strong>Per-hardpoint, not aggregate.</strong> The point of the feature is that each mount
-  heats independently; an aggregate bar would hide WHICH mount is about to lock.
-  Add a compact <strong>hardpoint heat strip</strong> to the player HUD: one short bar per
-  hardpoint (3 for the Vindicator today), grouped tight, each colored by the
-  ladder, with slot-pip markers when a hardpoint is overmounted.</p>
+<li><p><strong>Per-hardpoint, not aggregate.</strong> The point of the feature is that each mount
+heats independently; an aggregate bar would hide WHICH mount is about to lock.
+Add a compact <strong>hardpoint heat strip</strong> to the player HUD: one short bar per
+hardpoint (3 for the Vindicator today), grouped tight, each colored by the
+ladder, with slot-pip markers when a hardpoint is overmounted.</p>
 </li>
-<li>
-<p><strong>Player-only on the HUD; other ships stay clean.</strong> This mirrors the existing
-  split: <code>ShipStatusArcs</code> (&ldquo;(( s ))&rdquo; arcs — energy/hull left, armor/shield
-  right) are for reading OTHER ships, and the player reads themselves off HUD
-  bars. Heat is a new player-readout bar, NOT a fifth arc on every enemy (that
-  would clutter every hull in a brawl). Enemy heat, where it matters (arena),
-  reads off their own HUD-equivalent, not world arcs.</p>
+<li><p><strong>Player-only on the HUD; other ships stay clean.</strong> This mirrors the existing
+split: <code>ShipStatusArcs</code> (&quot;(( s ))&quot; arcs — energy/hull left, armor/shield
+right) are for reading OTHER ships, and the player reads themselves off HUD
+bars. Heat is a new player-readout bar, NOT a fifth arc on every enemy (that
+would clutter every hull in a brawl). Enemy heat, where it matters (arena),
+reads off their own HUD-equivalent, not world arcs.</p>
 </li>
 </ul>
 <h2 id="interaction-with-existing-systems">Interaction with existing systems</h2>
 <ul>
-<li>
-<p><strong>Energy vs heat precedence — energy first, then heat.</strong> A shot/tick is gated
-  by ENERGY first (existing all-or-nothing <code>TryDrain</code> / <code>DrainPerSecond</code>
-  behavior, unchanged); only shots that actually fire generate heat. So <strong>no
-  energy → no shot → no heat</strong> — you cannot overheat a gun you can&rsquo;t afford to
-  fire. The heat throttle reduces fire RATE, which in turn reduces energy draw,
-  so the two compose cleanly rather than fighting. Energy is the ship-wide
-  budget (all mounts share, global regen); heat is the per-mount budget (each
-  independent, local dissipation). Precedence stated crisply so implementation
-  wires the gate order once: <strong>energy gate (binary, per shot) runs before heat
-  accrual; heat gate (rate throttle + lockout) runs before the trigger even
-  reaches the energy gate.</strong></p>
+<li><p><strong>Energy vs heat precedence — energy first, then heat.</strong> A shot/tick is gated
+by ENERGY first (existing all-or-nothing <code>TryDrain</code> / <code>DrainPerSecond</code>
+behavior, unchanged); only shots that actually fire generate heat. So <strong>no
+energy → no shot → no heat</strong> — you cannot overheat a gun you can&rsquo;t afford to
+fire. The heat throttle reduces fire RATE, which in turn reduces energy draw,
+so the two compose cleanly rather than fighting. Energy is the ship-wide
+budget (all mounts share, global regen); heat is the per-mount budget (each
+independent, local dissipation). Precedence stated crisply so implementation
+wires the gate order once: <strong>energy gate (binary, per shot) runs before heat
+accrual; heat gate (rate throttle + lockout) runs before the trigger even
+reaches the energy gate.</strong></p>
 </li>
-<li>
-<p><strong>Drone links</strong> draw continuous carrier ENERGY (existing) and <strong>do not consume
-  a hardpoint</strong> (ship-modules.md: &ldquo;Drone blocks do not consume one of the
-  Vindicator&rsquo;s three gun hardpoints&rdquo;). Therefore drones carry <strong>no heat and
-  cannot overmount</strong> — the drone is the unit, its guns are abstracted. Heat stays
-  a hardpoint-fired-weapon concept only. No change to the drone/energy leash.</p>
+<li><p><strong>Drone links</strong> draw continuous carrier ENERGY (existing) and <strong>do not consume
+a hardpoint</strong> (ship-modules.md: &ldquo;Drone blocks do not consume one of the
+Vindicator&rsquo;s three gun hardpoints&rdquo;). Therefore drones carry <strong>no heat and
+cannot overmount</strong> — the drone is the unit, its guns are abstracted. Heat stays
+a hardpoint-fired-weapon concept only. No change to the drone/energy leash.</p>
 </li>
-<li>
-<p><strong>Doctrine AI respects heat, but the mount enforces it — no brain change.</strong>
-  Ambient NPC hulls run <code>maxEnergy 0</code> (decisions: &ldquo;All NPC hulls keep maxEnergy
-  0 — no NPC energy&rdquo;) and are energy-EXEMPT; heat takes the same carve-out, so
-  a raider swarm doesn&rsquo;t simulate heat. Heat binds the <strong>player and the arena
-  duelists</strong> (the arena is the test bench and should show heat honestly — the
-  <code>DuelBrain</code> drives real loadouts). Where it applies, the AI &ldquo;respects&rdquo; heat
-  for free: <code>ShipBrain</code>/<code>DuelBrain</code> just hold <code>TriggerHeld</code> true when on target
-  (ShipBrain.cs:108), and the <strong>mount self-gates on heat internally</strong>, exactly
-  as it already self-gates on energy and fire rate. A locked mount refuses to
-  fire even with the trigger held — no doctrine logic needed. Smarter
-  burst-timing AI (deliberately pulsing to stay under throttle) is a future
-  refinement, not required for v1.</p>
+<li><p><strong>Doctrine AI respects heat, but the mount enforces it — no brain change.</strong>
+Ambient NPC hulls run <code>maxEnergy 0</code> (decisions: &ldquo;All NPC hulls keep maxEnergy
+0 — no NPC energy&rdquo;) and are energy-EXEMPT; heat takes the same carve-out, so
+a raider swarm doesn&rsquo;t simulate heat. Heat binds the <strong>player and the arena
+duelists</strong> (the arena is the test bench and should show heat honestly — the
+<code>DuelBrain</code> drives real loadouts). Where it applies, the AI &ldquo;respects&rdquo; heat
+for free: <code>ShipBrain</code>/<code>DuelBrain</code> just hold <code>TriggerHeld</code> true when on target
+(ShipBrain.cs:108), and the <strong>mount self-gates on heat internally</strong>, exactly
+as it already self-gates on energy and fire rate. A locked mount refuses to
+fire even with the trigger held — no doctrine logic needed. Smarter
+burst-timing AI (deliberately pulsing to stay under throttle) is a future
+refinement, not required for v1.</p>
 </li>
 </ul>
 <h2 id="dependency-sequencing">Dependency / sequencing</h2>
-<p>Heat + overmount builds ON the end state of the <strong>in-flight arena bugfix card</strong>
-(PLAN.md &ldquo;Arena bugfix pass&rdquo;), which must be stable first:</p>
+<p>Heat + overmount builds ON the end state of the <strong>in-flight arena bugfix work</strong>
+(no card of its own on the board any more), which must be stable first:</p>
 <ol>
 <li><strong>Third mount on the Vindicator + distinct hardpoint positions</strong> (multi-mount
-   wiring) — heat attaches PER hardpoint, so there must be real, distinct
-   hardpoints to attach to. The Vindicator template already declares three
-   (<code>player_vindicator_xs.json</code>: <code>"hardpoints": [[-8,-9],[8,-9],[0,-14]]</code>) and
-   <code>Ship.cs</code> maps three mounts (set 0/1/2); the arena card makes them fire from
-   distinct muzzles.</li>
+wiring) — heat attaches PER hardpoint, so there must be real, distinct
+hardpoints to attach to. The Vindicator template already declares three
+(<code>player_vindicator_xs.json</code>: <code>&quot;hardpoints&quot;: [[-8,-9],[8,-9],[0,-14]]</code>) and
+<code>Ship.cs</code> maps three mounts (set 0/1/2); the arena card makes them fire from
+distinct muzzles.</li>
 <li><strong>Explicit hardpoint reset before module weapon assignment</strong> — so a
-   hardpoint&rsquo;s gun-list is authoritative and &ldquo;no weapon&rdquo; truly means no fire.
-   Overmount stacking must start from a known-empty mount.</li>
+hardpoint&rsquo;s gun-list is authoritative and &ldquo;no weapon&rdquo; truly means no fire.
+Overmount stacking must start from a known-empty mount.</li>
 <li><strong>Cannon contribution restored in the duel flow</strong> — heat balancing is tuned
-   against real cannon + beam fire, so the duel must actually emit both.</li>
+against real cannon + beam fire, so the duel must actually emit both.</li>
 </ol>
 <p>Also depends on the shipped <strong>energy pool</strong> (<code>features/combat/Energy.cs</code>), since
 precedence is defined against it. Design assumes the arena card has landed.
 Implementation order once foundations are stable: (a) per-hardpoint heat
-accumulator (mirror <code>BeamRamp</code>&rsquo;s pure/testable shape — a Godot-free
+accumulator (mirror <code>BeamRamp</code>'s pure/testable shape — a Godot-free
 <code>HeatSink.Advance(dt, generated)</code> / <code>Fraction</code> / <code>Locked</code>), (b) generation
 hooks in <code>WeaponMount</code> firing paths, (c) throttle+lockout gate, (d) overmount
 slot model + arena grid stacking UI, (e) HUD heat strip, (f) codex article moves
@@ -434,27 +427,27 @@ to <code>assets/codex/</code>.</p>
 <h2 id="alternatives-considered-and-why-rejected">Alternatives considered (and why rejected)</h2>
 <ol>
 <li><strong>Heat as a ship-wide pool (one heat bar, like energy)</strong> — REJECTED. Makes
-   overmount indistinguishable from &ldquo;just fire more&rdquo;; the localized cost that
-   makes stacking guns on ONE mount interesting evaporates. Per-hardpoint IS the
-   feature.</li>
+overmount indistinguishable from &ldquo;just fire more&rdquo;; the localized cost that
+makes stacking guns on ONE mount interesting evaporates. Per-hardpoint IS the
+feature.</li>
 <li><strong>Overheat deals hull damage</strong> — REJECTED. Double jeopardy (lost DPS AND lost
-   hull), unreadable, un-fun. The throttle→lockout ladder is self-correcting and
-   costs only tempo.</li>
+hull), unreadable, un-fun. The throttle→lockout ladder is self-correcting and
+costs only tempo.</li>
 <li><strong>Manual vent button</strong> — REJECTED. Adds a third input to a deliberately
-   two-trigger scheme (weapons.md). The idle purge gives the same &ldquo;cool it down&rdquo;
-   agency through trigger discipline, no new key.</li>
+two-trigger scheme (weapons.md). The idle purge gives the same &ldquo;cool it down&rdquo;
+agency through trigger discipline, no new key.</li>
 <li><strong>Exponential cooling curve</strong> — REJECTED. Linear is legible on a bar and
-   matches the crisp/deterministic <code>BeamRamp</code> precedent (decisions 2026-07-19).</li>
+matches the crisp/deterministic <code>BeamRamp</code> precedent (decisions 2026-07-19).</li>
 <li><strong>Heat replacing energy for weapons</strong> — REJECTED. Energy is a shipped, shared
-   cross-system budget (engines/shield/weapons); heat is a NEW orthogonal axis.
-   Two axes give richer loadout decisions (energy-heavy vs heat-heavy builds)
-   than collapsing them into one.</li>
+cross-system budget (engines/shield/weapons); heat is a NEW orthogonal axis.
+Two axes give richer loadout decisions (energy-heavy vs heat-heavy builds)
+than collapsing them into one.</li>
 <li><strong>Unlimited overmount at pure-linear cost</strong> — REJECTED. A hard slot cap
-   (2–4 by size) + super-linear heat multiplier stops a degenerate stack; the
-   spike stays a spike.</li>
+(2–4 by size) + super-linear heat multiplier stops a degenerate stack; the
+spike stays a spike.</li>
 <li><strong>Heat on every ambient NPC</strong> — REJECTED. Simulating heat on every raider
-   buys nothing the player sees and costs perf; heat takes the same
-   player/arena carve-out energy already has.</li>
+buys nothing the player sees and costs perf; heat takes the same
+player/arena carve-out energy already has.</li>
 </ol>
 <h2 id="codex-draft">§Codex-draft</h2>
 <p>The player-voiced article that ships WITH implementation. Lives here (not
@@ -543,10 +536,9 @@ shared capacitor these guns draw on.*
         <a class="doc-pager__link" href="design-generation.html">Universe generation: building blocks — design capture →</a>
       </nav>
     </article>
-
   </main>
   <footer class="footer">
-    <span>Built 2026-07-23 from game sources</span>
+    <span>Built 2026-08-09 from game sources</span>
     <span><a href="../index.html">Home</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
     <span>© Vincability</span>
   </footer>

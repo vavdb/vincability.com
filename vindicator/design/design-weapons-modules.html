@@ -5,13 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Modular weapons and modules — Vindicator</title>
   <meta name="description" content="&gt; Start at the [visual combat system spine](design-visual-combat-spine.md)." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Asimovian&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../vindicator.css" />
 </head>
 <body class="doc-body">
-
   <header class="site-nav">
     <a class="site-nav__brand" href="../index.html">VINDICATOR</a>
     <nav class="site-nav__links" aria-label="Section">
@@ -24,7 +20,6 @@
     <a class="site-nav__ext" href="../../index.html">Vincability</a>
   </header>
   <main class="doc-main">
-
     <article class="doc-article">
       <header class="doc-article__head">
         <a class="doc-back" href="index.html">← Design</a>
@@ -57,65 +52,65 @@ markings, never from a claim that only one faction can fire a particular bolt.</
 <h3 id="current-shipped-foundations">Current, shipped foundations</h3>
 <ul>
 <li><code>WeaponTemplate</code> is the JSON-loaded mechanical definition. It carries
-  <code>Type</code>, tint keys, beam/trail style, projectile presentation, and firing
-  values.</li>
+<code>Type</code>, tint keys, beam/trail style, projectile presentation, and firing
+values.</li>
 <li>A ship template&rsquo;s <code>weapons</code> list loads those IDs directly into three
-  scene-authored <code>WeaponMount</code> nodes. Those nodes, not hull pixels, own muzzle
-  position and orientation.</li>
+scene-authored <code>WeaponMount</code> nodes. Those nodes, not hull pixels, own muzzle
+position and orientation.</li>
 <li><code>ModuleTemplate</code> with <code>Category = Weapon</code> wraps a <code>WeaponId</code> and may override
-  <code>WeaponColorHex</code>. <code>ModuleEquipping</code> clears the mounts and loads weapon-module
-  instances into open mounts in order, applying rolled weapon values.</li>
+<code>WeaponColorHex</code>. <code>ModuleEquipping</code> clears the mounts and loads weapon-module
+instances into open mounts in order, applying rolled weapon values.</li>
 <li><code>WeaponMount.Load</code> calls <code>ConstructorWeaponArt.ApplyMount</code>; mount art is a
-  child of the anchor. Beams, projectiles, trails, and impacts are separate
-  runtime presentations.</li>
+child of the anchor. Beams, projectiles, trails, and impacts are separate
+runtime presentations.</li>
 <li>Module inventory/drag previews currently use one procedural glyph selected by
-  <code>ModuleTemplate.Icon</code>; that glyph and its module tint are shared by palette,
-  grid, and drag preview.</li>
+<code>ModuleTemplate.Icon</code>; that glyph and its module tint are shared by palette,
+grid, and drag preview.</li>
 <li>The Arena applies real module instances through <code>ModuleEquipping</code> before its
-  duel. It is the retrofit/loadout laboratory before the dock outfitting shop
-  exists, not a separate combat-content format.</li>
+duel. It is the retrofit/loadout laboratory before the dock outfitting shop
+exists, not a separate combat-content format.</li>
 </ul>
 <h3 id="forward-contract-not-yet-runtime-truth">Forward contract, not yet runtime truth</h3>
 <ul>
 <li><code>WeaponTemplate</code> has no live munition discriminator today. All live firing
-  uses capacitor fields when authored; a zero-cost missile is not yet consuming
-  cargo. <code>MunitionId</code>, cargo consumption, REARM, and player-only ammo logistics
-  remain the design in <a href="design-munitions.html">Munitions</a>.</li>
+uses capacitor fields when authored; a zero-cost missile is not yet consuming
+cargo. <code>MunitionId</code>, cargo consumption, REARM, and player-only ammo logistics
+remain the design in <a href="design-munitions.html">Munitions</a>.</li>
 <li>When munitions land, equipping an explicitly ammo-fed kinetic or missile
-  module must surface its REARM family and expected stock. An energy-only module
-  or capacitor-only rail hybrid shows capacitor/heat, not a fake ammo
-  requirement. NPC ammo remains unmetered; this logistics decision belongs to
-  the player. Heat remains a separate per-hardpoint axis in
-  <a href="design-combat-heat.html">Combat heat</a>.</li>
+module must surface its REARM family and expected stock. An energy-only module
+or capacitor-only rail hybrid shows capacitor/heat, not a fake ammo
+requirement. NPC ammo remains unmetered; this logistics decision belongs to
+the player. Heat remains a separate per-hardpoint axis in
+<a href="design-combat-heat.html">Combat heat</a>.</li>
 <li>Fabrication produces reusable module items, including weapon wrappers. It
-  does not manufacture hull-exclusive guns; see <a href="design-economy.html">Economy</a>.</li>
+does not manufacture hull-exclusive guns; see <a href="design-economy.html">Economy</a>.</li>
 </ul>
 <h2 id="art-package-and-runtime-mapping">Art package and runtime mapping</h2>
 <p>Author one reusable package per <strong>weapon item family</strong>, with tintable regions
 where readability survives recoloring. A package may include:</p>
 <ol>
 <li><strong>Mount sprite</strong> — emitter, barrel, rack, or tool face attached to the
-   hardpoint. It must read at gameplay scale without merging into the hull.</li>
+hardpoint. It must read at gameplay scale without merging into the hull.</li>
 <li><strong>Muzzle/charge</strong> — a separate transient at the anchor; never painted into
-   the idle hull or permanent mount sprite.</li>
+the idle hull or permanent mount sprite.</li>
 <li><strong>Shot body</strong> — beam, plasma/energy bolt, physical projectile, or missile.</li>
 <li><strong>Trail and impact</strong> — separate from the shot body so speed, lifetime, and
-   hit feedback can vary without cloning the projectile.</li>
+hit feedback can vary without cloning the projectile.</li>
 <li><strong>Inventory glyph</strong> — a compact family silhouette for module palette,
-   inventory, compare view, loot, and later shops. It represents the item, not
-   the faction currently holding it.</li>
+inventory, compare view, loot, and later shops. It represents the item, not
+the faction currently holding it.</li>
 </ol>
 <h3 id="fx-acceptance">FX acceptance</h3>
 <ul>
 <li><strong>Energy:</strong> use a narrow white-hot core with a controlled soft halo. Keep
-  charge/muzzle, beam or projectile, and impact as three separable stages so
-  timing and scale can change independently. Pink/orange comet treatments are
-  exotic-only; large starbursts are heavy-impact-only, not the default hit.</li>
+charge/muzzle, beam or projectile, and impact as three separable stages so
+timing and scale can change independently. Pink/orange comet treatments are
+exotic-only; large starbursts are heavy-impact-only, not the default hit.</li>
 <li><strong>Kinetic, missile, and rail:</strong> retain a readable solid body (or rail slug)
-  plus a separate trail. They are never glow-only silhouettes.</li>
+plus a separate trail. They are never glow-only silhouettes.</li>
 <li>No sprite or FX sheet bakes in a black background. Faction color and visual
-  verbs belong to the <a href="design-faction-art-language.html">faction art language</a>,
-  not a duplicate palette table here.</li>
+verbs belong to the <a href="design-faction-art-language.html">faction art language</a>,
+not a duplicate palette table here.</li>
 </ul>
 <p><code>WeaponTemplate</code> selects the mechanical and base presentation family.
 <code>ModuleTemplate.WeaponId</code> selects that template; <code>WeaponColorHex</code> may recolor
@@ -205,15 +200,15 @@ mining beam into a player lance or imply that a repair bolt is ordnance.</p>
 <h2 id="content-and-documentation-handoff">Content and documentation handoff</h2>
 <ul>
 <li><a href="design-faction-art-language.html">Faction art language</a> owns faction bodies,
-  markings, and short weapon/VFX verbs.</li>
+markings, and short weapon/VFX verbs.</li>
 <li><a href="design-fleets-content.html">Fleet content</a> owns hull IDs and default lists of
-  modular weapon IDs; proxy packs are not final faction-exclusive art.</li>
+modular weapon IDs; proxy packs are not final faction-exclusive art.</li>
 <li><a href="design-munitions.html">Munitions</a> and <a href="design-combat-heat.html">combat heat</a> own
-  firing resources and gate order.</li>
+firing resources and gate order.</li>
 <li><a href="design-economy.html">Economy</a> owns construction, salvage/shop distribution,
-  and when retrofit items enter the campaign.</li>
+and when retrofit items enter the campaign.</li>
 <li><a href="../codex/weapons.html">Weapons</a>, <a href="../codex/ship-modules.html">Ship Modules</a>,
-  and <a href="../codex/ships.html">Ships</a> state only player-visible shipped truth.</li>
+and <a href="../codex/ships.html">Ships</a> state only player-visible shipped truth.</li>
 </ul>
 <p>When implementation changes any of those player-visible rules, update its
 codex article in the same change. Design-only forward contracts stay here.</p>
@@ -223,10 +218,9 @@ codex article in the same change. Design-only forward contracts stay here.</p>
         <a class="doc-pager__link" href="design-faction-art-language.html">Faction art language — production implementation →</a>
       </nav>
     </article>
-
   </main>
   <footer class="footer">
-    <span>Built 2026-07-23 from game sources</span>
+    <span>Built 2026-08-09 from game sources</span>
     <span><a href="../index.html">Home</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
     <span>© Vincability</span>
   </footer>
