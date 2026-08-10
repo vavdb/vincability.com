@@ -411,7 +411,7 @@ string RenderCodexIndex(List<Article> articles)
 
         sections.Append($"""
             <section class="doc-section">
-              <h2 class="doc-section__title">{Esc(category)}</h2>
+              <h2 class="doc-section__title vtitle">{Esc(category)}</h2>
               <ul class="doc-list">
         {ListItems(items)}
               </ul>
@@ -422,8 +422,8 @@ string RenderCodexIndex(List<Article> articles)
 
     string body = $"""
         <header class="doc-hero">
-          <span class="chip">Codex</span>
-          <h1>In-game manual</h1>
+          <span class="vchip">Codex</span>
+          <h1 class="vtitle-display">In-game manual</h1>
           <p class="doc-hero__lede">Player-voiced articles that ship with the game. What the systems <em>are</em> — not the design rationale behind them.</p>
         </header>
     {sections.ToString().TrimEnd('\n')}
@@ -436,8 +436,8 @@ string RenderDesignIndex(List<Article> articles)
 {
     string body = $"""
         <header class="doc-hero">
-          <span class="chip">Design</span>
-          <h1>Curated design notes</h1>
+          <span class="vchip">Design</span>
+          <h1 class="vtitle-display">Curated design notes</h1>
           <p class="doc-hero__lede">Systems and production WHY for a subset of design docs. Story-bible and spoiler-heavy captures stay offline. The codex still owns player-facing truth.</p>
           <p class="banner banner--warn">Developer-facing notes. May describe unshipped systems or change without notice.</p>
         </header>
@@ -451,9 +451,13 @@ string RenderDesignIndex(List<Article> articles)
     return Shell("Design notes", "design", 1, body, "Curated Vindicator design documents.");
 }
 
+// A list card is the shared panel pair worn by a link: the anchor is the
+// chamfered rail frame (so hover lifts it via components.css), the div is
+// the flat panel face. Nothing here restates a fill or a corner.
 static string ListItems(List<Article> items) => string.Join("\n", items.Select(a =>
-    $"""        <li><a href="{a.Slug}.html"><span class="doc-list__title">{Esc(a.Title)}</span>"""
-    + $"""<span class="doc-list__summary">{Esc(a.Summary)}</span></a></li>"""));
+    $"""        <li><a class="vframe" href="{a.Slug}.html"><div class="vpanel">"""
+    + $"""<span class="doc-list__title">{Esc(a.Title)}</span>"""
+    + $"""<span class="doc-list__summary">{Esc(a.Summary)}</span></div></a></li>"""));
 
 string RenderArticle(Article article, List<Article> siblings)
 {
@@ -477,8 +481,8 @@ string RenderArticle(Article article, List<Article> siblings)
         <article class="doc-article">
           <header class="doc-article__head">
             <a class="doc-back" href="index.html">← {(isCodex ? "Codex" : "Design")}</a>
-            <span class="chip">{Esc(isCodex ? article.Category : "Design")}</span>
-            <h1>{Esc(article.Title)}</h1>
+            <span class="vchip">{Esc(isCodex ? article.Category : "Design")}</span>
+            <h1 class="vtitle-display">{Esc(article.Title)}</h1>
             {summary}
             {warn}
           </header>

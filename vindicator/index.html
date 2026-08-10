@@ -31,62 +31,72 @@
     <div class="hero__scrim"></div>
     <div class="hero__scanlines"></div>
 
-    <span class="chip">SYS // VINDICATOR</span>
-    <h1 class="hero__title">VINDICATOR</h1>
+    <span class="vchip">SYS // VINDICATOR</span>
+    <h1 class="hero__title vtitle-display">VINDICATOR</h1>
     <p class="hero__pitch">Wake up. The gates are dark. Fold anyway.</p>
     <div class="hero__actions">
       <!-- TODO: swap the primary for the real wishlist/store link once it exists -->
-      <a class="btn btn-primary chamfer-sm" href="#devlog">Follow development</a>
-      <a class="btn btn-glass chamfer-sm" href="codex/index.html">Codex</a>
-      <a class="btn btn-glass chamfer-sm" href="design/index.html">Design notes</a>
+      <a class="vbtn go" href="#devlog">Follow development</a>
+      <a class="vbtn" href="codex/index.html">Codex</a>
+      <a class="vbtn" href="design/index.html">Design notes</a>
     </div>
   </section>
 
   <section class="section" id="what-is-it">
-    <span class="chip">What is it</span>
+    <span class="vchip">What is it</span>
     <div class="panel-grid">
-      <article class="panel-grid__item">
-        <img src="images/panel-modules.png" alt="Modular skin and arena configuration" loading="lazy" />
-        <h3>Explore / Fold</h3>
-        <p>Jump gate to gate through a system that's collapsing behind you.</p>
+      <article class="panel-grid__item vframe">
+        <div class="vpanel wide">
+          <img src="images/panel-modules.png" alt="Modular skin and arena configuration" loading="lazy" />
+          <h3 class="vtitle">Explore / Fold</h3>
+          <p>Jump gate to gate through a system that's collapsing behind you.</p>
+        </div>
       </article>
-      <article class="panel-grid__item">
-        <img src="images/panel-weapons.png" alt="Weapon identity close-up" loading="lazy" />
-        <h3>Fight / Modules</h3>
-        <p>Build your ship module by module — every weapon has its own signature.</p>
+      <article class="panel-grid__item vframe">
+        <div class="vpanel wide">
+          <img src="images/panel-weapons.png" alt="Weapon identity close-up" loading="lazy" />
+          <h3 class="vtitle">Fight / Modules</h3>
+          <p>Build your ship module by module — every weapon has its own signature.</p>
+        </div>
       </article>
-      <article class="panel-grid__item">
-        <img src="images/panel-economy.png" alt="Economy tracker interface" loading="lazy" />
-        <h3>Economy</h3>
-        <p>Every fold has a price — track the cost live.</p>
+      <article class="panel-grid__item vframe">
+        <div class="vpanel wide">
+          <img src="images/panel-economy.png" alt="Economy tracker interface" loading="lazy" />
+          <h3 class="vtitle">Economy</h3>
+          <p>Every fold has a price — track the cost live.</p>
+        </div>
       </article>
     </div>
   </section>
 
   <section class="section" id="manual">
-    <span class="chip">Manual &amp; notes</span>
+    <span class="vchip">Manual &amp; notes</span>
     <div class="manual-split">
-      <article class="panel-grid__item manual-split__main">
-        <h3>Codex</h3>
-        <p>The player-facing in-game manual — what the systems are, written for the pilot in the seat. Articles unlock through discovery; the site mirror is always fully open.</p>
-        <p class="manual-split__action"><a class="btn btn-glass chamfer-sm" href="codex/index.html">Open codex</a></p>
+      <article class="panel-grid__item manual-split__main vframe">
+        <div class="vpanel wide">
+          <h3 class="vtitle">Codex</h3>
+          <p>The player-facing in-game manual — what the systems are, written for the pilot in the seat. Articles unlock through discovery; the site mirror is always fully open.</p>
+          <p class="manual-split__action"><a class="vbtn" href="codex/index.html">Open codex</a></p>
+        </div>
       </article>
-      <article class="panel-grid__item">
-        <h3>Design notes</h3>
-        <p>Curated systems design docs — the WHY behind economy, fleet, combat, and production art language. Story spoilers stay offline.</p>
-        <p class="manual-split__action"><a class="btn btn-glass chamfer-sm" href="design/index.html">Open design</a></p>
+      <article class="panel-grid__item vframe">
+        <div class="vpanel wide">
+          <h3 class="vtitle">Design notes</h3>
+          <p>Curated systems design docs — the WHY behind economy, fleet, combat, and production art language. Story spoilers stay offline.</p>
+          <p class="manual-split__action"><a class="vbtn" href="design/index.html">Open design</a></p>
+        </div>
       </article>
     </div>
     <p class="manual-note">Living sources — the codex ships in the game PCK; design notes are curated from the repo. Site pages regenerate when those files move.</p>
   </section>
 
   <section class="section" id="devlog">
-    <span class="chip">Devlog</span>
+    <span class="vchip">Devlog</span>
     <p class="devlog-intro">What landed <time datetime="2026-07-16">2026-07-16</time> → <time datetime="2026-07-25">2026-07-25</time>, by area.</p>
 
     <div class="devlog-group">
       <div class="devlog-group__head">
-        <h3>Art &amp; Worldbuilding</h3>
+        <h3 class="vtitle">Art &amp; Worldbuilding</h3>
         <span class="devlog-group__range">07-17 → 07-25</span>
       </div>
       <ul class="devlog-list">
@@ -141,7 +151,7 @@
 
     <div class="devlog-group">
       <div class="devlog-group__head">
-        <h3>Combat</h3>
+        <h3 class="vtitle">Combat</h3>
         <span class="devlog-group__range">07-19 → 07-22</span>
       </div>
       <ul class="devlog-list">
@@ -153,7 +163,7 @@
 
     <div class="devlog-group">
       <div class="devlog-group__head">
-        <h3>Economy &amp; Stations</h3>
+        <h3 class="vtitle">Economy &amp; Stations</h3>
         <span class="devlog-group__range">07-19 → 07-25</span>
       </div>
       <ul class="devlog-list">
@@ -165,7 +175,7 @@
 
     <div class="devlog-group">
       <div class="devlog-group__head">
-        <h3>Fleet &amp; Command</h3>
+        <h3 class="vtitle">Fleet &amp; Command</h3>
         <span class="devlog-group__range">07-19 → 07-25</span>
       </div>
       <ul class="devlog-list">
@@ -176,7 +186,7 @@
 
     <div class="devlog-group">
       <div class="devlog-group__head">
-        <h3>Universe &amp; Travel</h3>
+        <h3 class="vtitle">Universe &amp; Travel</h3>
         <span class="devlog-group__range">07-21 → 07-25</span>
       </div>
       <ul class="devlog-list">
@@ -187,7 +197,7 @@
 
     <div class="devlog-group">
       <div class="devlog-group__head">
-        <h3>Interface &amp; Sound</h3>
+        <h3 class="vtitle">Interface &amp; Sound</h3>
         <span class="devlog-group__range">07-16 → 07-22</span>
       </div>
       <ul class="devlog-list">

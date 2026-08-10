@@ -9,6 +9,13 @@
    type stack all live there — this file owns layout and page components
    only, plus the handful of site-scope tokens below.
 
+   CHROME IS THE COMPONENTS, not this file. Panels are `.vframe > .vpanel`,
+   buttons `.vbtn` / `.vbtn.go`, tags `.vchip`, headings `.vtitle` /
+   `.vtitle-display`. Rules here may SIZE and SPACE those classes; they must
+   never restate a fill, rail, glow or corner cut. A look the components
+   cannot give grows a knob in VindicatorWebStyle and re-vendors — the site
+   does not fork the recipe (the game's UI rule, applied to the web twin).
+
    Fonts are self-hosted from /vindicator/fonts/ (fonts.css); nothing on
    this site fetches a webfont host.
    ========================================================================== */
@@ -59,195 +66,19 @@ a {
 }
 
 /* --------------------------------------------------------------------
-   Chamfer utility — 45° cut corners via clip-path (octagon), no
-   border-radius. Mirrors ChamferStyleBox's ChamferPoints geometry.
+   Shared chrome, sized for marketing scale
+
+   The recipes themselves are in components.css. Only measurements here.
    -------------------------------------------------------------------- */
 
-.chamfer {
-  --c: var(--chamfer-panel);
-  clip-path: polygon(
-    var(--c) 0,
-    100% 0,
-    100% calc(100% - var(--c)),
-    calc(100% - var(--c)) 100%,
-    0 100%,
-    0 var(--c)
-  );
-}
-
-.chamfer-sm {
-  --c: var(--chamfer-button);
-}
-
-/* --------------------------------------------------------------------
-   Glass panel
-   -------------------------------------------------------------------- */
-
-.panel {
-  position: relative;
-  background: linear-gradient(
-    180deg,
-    rgba(14, 24, 38, 0.90) 0%,
-    rgba(7, 13, 20, 0.95) 100%
-  );
-  border: var(--rail-width) solid var(--rail);
-  padding: var(--space-4);
-  transition: border-color 0.2s ease;
-}
-
-.panel::before {
-  /* top highlight line */
-  content: "";
-  position: absolute;
-  top: 1px;
-  left: var(--space-3);
-  right: var(--space-3);
-  height: 1px;
-  background: rgba(214, 228, 238, 0.1);
-  pointer-events: none;
-}
-
-.panel::after {
-  /* static scanlines — the pre-quiet-pass ChamferStyleBox recipe; the game
-     has since flattened panels to one decorative system (rail + flat glass),
-     so whether the marketing page follows is a look decision, not a token */
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(131, 195, 255, 0.04) 0 1px,
-    transparent 1px 3px
-  );
-  pointer-events: none;
-}
-
-.panel:hover {
-  border-color: var(--signal);
-}
-
-/* --------------------------------------------------------------------
-   Chip — system-label style (SystemHeaderChip/CreditsChip)
-   -------------------------------------------------------------------- */
-
-.chip {
-  --c: var(--chamfer-button);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-1) var(--space-2);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--signal);
-  background: rgba(131, 195, 255, 0.06);
-  border: var(--rail-width) solid var(--rail);
-  clip-path: polygon(
-    var(--c) 0,
-    100% 0,
-    100% calc(100% - var(--c)),
-    calc(100% - var(--c)) 100%,
-    0 100%,
-    0 var(--c)
-  );
-}
-
-/* --------------------------------------------------------------------
-   Button
-   -------------------------------------------------------------------- */
-
-.btn {
-  --c: var(--chamfer-button);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+a.vbtn {
   text-decoration: none;
-  cursor: pointer;
-  border: none;
-  clip-path: polygon(
-    var(--c) 0,
-    100% 0,
-    100% calc(100% - var(--c)),
-    calc(100% - var(--c)) 100%,
-    0 100%,
-    0 var(--c)
-  );
-  transition: filter 0.15s ease, transform 0.15s ease;
 }
 
-.btn-primary {
-  background: var(--online);
-  color: var(--bg-deep);
-  font-weight: 600;
-}
-
-.btn-primary:hover {
-  filter: brightness(1.15);
-}
-
-.btn-primary:active {
-  transform: translateY(1px);
-}
-
-/* .btn-glass mirrors the game's OverlayButton 3-state model
-   (UiThemeTokens.StyleButton): rail + label + glass fill per state.
-   Fills are Mix(Background, railColor, w) with the top stop Lightened(0.06). */
-
-.btn-glass {
-  /* rest: SteelRail rail, fill w=0.10 @ 80%, NavInk label */
-  position: relative;
-  color: var(--nav-ink);
-  border: var(--rail-width) solid rgba(181, 203, 224, 0.9);
-  background: linear-gradient(
-    180deg,
-    rgba(38, 44, 52, 0.80) 0%,
-    rgba(24, 30, 39, 0.80) 100%
-  );
-  transition: border-color 0.15s ease, color 0.15s ease;
-}
-
-.btn-glass::after {
-  /* button scanlines — pre-quiet-pass recipe, same standing look decision */
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(131, 195, 255, 0.03) 0 1px,
-    transparent 1px 3px
-  );
-  pointer-events: none;
-}
-
-.btn-glass:hover,
-.btn-glass:focus-visible {
-  /* hover/focus: Signal rail + Signal label, fill w=0.18 @ 85% */
-  color: var(--signal);
-  border-color: rgba(131, 195, 255, 0.9);
-  background: linear-gradient(
-    180deg,
-    rgba(43, 57, 73, 0.85) 0%,
-    rgba(29, 44, 61, 0.85) 100%
-  );
-}
-
-.btn-glass:active {
-  /* pressed: Online rail, label back to NavInk, fill w=0.24 @ 92%.
-     Recomputed on the teal Online (#05C6C1) — the old literals were the
-     retired green and had no way to follow the token. */
-  color: var(--nav-ink);
-  border-color: rgba(5, 198, 193, 0.9);
-  background: linear-gradient(
-    180deg,
-    rgba(9, 62, 65, 0.92) 0%,
-    rgba(6, 56, 60, 0.92) 100%
-  );
+.hero__actions .vbtn,
+.manual-split__action .vbtn {
+  padding: var(--space-2) var(--space-4);
+  font-size: 13px;
 }
 
 /* --------------------------------------------------------------------
@@ -311,10 +142,9 @@ a {
 }
 
 .hero__title {
-  font-family: var(--font-display);
+  /* face from .vtitle-display; only the marketing size lives here */
   font-size: clamp(40px, 8vw, 96px);
   margin: 0 0 var(--space-2);
-  color: var(--nav-ink);
   letter-spacing: 1px;
 }
 
@@ -378,11 +208,6 @@ a {
 }
 
 .panel-grid__item h3 {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--signal);
   margin: 0 0 var(--space-2);
 }
 
@@ -390,6 +215,10 @@ a {
   margin: 0;
   color: var(--text-muted);
   font-size: 14px;
+}
+
+.panel-grid__item p + p {
+  margin-top: var(--space-3);
 }
 
 /* --------------------------------------------------------------------
@@ -449,11 +278,6 @@ a {
 }
 
 .devlog-group__head h3 {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--signal);
   margin: 0;
 }
 
@@ -606,7 +430,7 @@ a {
   pointer-events: none;
 }
 
-.hero > .chip,
+.hero > .vchip,
 .hero > .hero__title,
 .hero > .hero__pitch,
 .hero > .hero__actions {
@@ -614,24 +438,7 @@ a {
   z-index: 1;
 }
 
-/* Feature cards as glass panels */
-.panel-grid__item {
-  position: relative;
-  background: linear-gradient(
-    180deg,
-    rgba(14, 24, 38, 0.90) 0%,
-    rgba(7, 13, 20, 0.95) 100%
-  );
-  border: var(--rail-width) solid var(--rail);
-  padding: var(--space-3);
-  transition: border-color 0.2s ease;
-}
-
-.panel-grid__item:hover {
-  border-color: var(--signal);
-}
-
-.section > .chip {
+.section > .vchip {
   margin-bottom: var(--space-2);
 }
 
@@ -657,7 +464,6 @@ a {
 }
 
 .doc-hero h1 {
-  font-family: var(--font-display);
   font-size: clamp(28px, 5vw, 44px);
   margin: var(--space-3) 0 var(--space-2);
   letter-spacing: 1px;
@@ -674,11 +480,6 @@ a {
 }
 
 .doc-section__title {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--signal);
   margin: 0 0 var(--space-3);
   padding-bottom: var(--space-2);
   border-bottom: var(--rail-width) solid var(--rail);
@@ -695,20 +496,7 @@ a {
 }
 
 .doc-list a {
-  display: block;
   text-decoration: none;
-  padding: var(--space-3);
-  background: linear-gradient(
-    180deg,
-    rgba(14, 24, 38, 0.75) 0%,
-    rgba(7, 13, 20, 0.9) 100%
-  );
-  border: var(--rail-width) solid var(--rail);
-  transition: border-color 0.15s ease;
-}
-
-.doc-list a:hover {
-  border-color: var(--signal);
 }
 
 .doc-list__title {
@@ -760,7 +548,6 @@ a {
 }
 
 .doc-article__head h1 {
-  font-family: var(--font-display);
   font-size: clamp(28px, 4.5vw, 40px);
   margin: var(--space-3) 0 var(--space-2);
 }
@@ -910,10 +697,6 @@ a {
    -------------------------------------------------------------------- */
 
 @media (max-width: 900px) {
-  :root {
-    --chamfer-panel: 8px;
-  }
-
   .panel-grid,
   .manual-split {
     grid-template-columns: 1fr;

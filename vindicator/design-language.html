@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UI language — Vindicator</title>
-  <meta name="description" content="The Vindicator cognitive-overlay UI language, explained in CSS terms: tokens, typography, chamfer shape model, glass panels, and the 3-state button." />
+  <meta name="description" content="The Vindicator cognitive-overlay UI language, explained in CSS terms: tokens, typography, the chamfer shape model, and the shared panel, button and chip components." />
   <link rel="stylesheet" href="vindicator.css" />
   <style>
     /* Page-local demo widgets — everything else comes from vindicator.css. */
@@ -16,7 +16,7 @@
     }
     .swatch {
       border: var(--rail-width) solid var(--rail);
-      background: rgba(14, 24, 38, 0.6);
+      background: color-mix(in srgb, var(--panel-base) 60%, transparent);
     }
     .swatch__color {
       height: 56px;
@@ -71,7 +71,7 @@
       font-size: 10px;
       letter-spacing: 1px;
       color: var(--text-muted);
-      background: linear-gradient(180deg, rgba(14, 24, 38, 0.9), rgba(7, 13, 20, 0.95));
+      background: var(--panel-base);
       border: var(--rail-width) solid var(--rail);
       clip-path: polygon(
         var(--c) 0, 100% 0,
@@ -119,13 +119,13 @@
 
   <main class="doc-main">
     <header class="doc-hero">
-      <span class="chip">SYS // UI LANGUAGE</span>
-      <h1>The cognitive overlay, in CSS terms</h1>
-      <p class="doc-hero__lede">The game's interface is not a HUD skin — it is Vann's cognitive overlay, drawn as chamfered navy glass over a signal-blue grid. This page states the visual system as design tokens and CSS, exactly as it ships. This site's own stylesheet uses the same variables, so every demo below is rendered live.</p>
+      <span class="vchip">SYS // UI LANGUAGE</span>
+      <h1 class="vtitle-display">The cognitive overlay, in CSS terms</h1>
+      <p class="doc-hero__lede">The game's interface is not a HUD skin — it is Vann's cognitive overlay, drawn as chamfered navy panels over a signal-blue grid. This page states the visual system as design tokens and CSS, exactly as it ships. Both are vendored from the game itself — <a href="tokens.css">tokens.css</a> from <code>UiThemeTokens</code>, <a href="components.css">components.css</a> from <code>VindicatorWebStyle</code> — and every demo below is the shipped class, not a copy of it.</p>
     </header>
 
     <section class="doc-section">
-      <h2 class="doc-section__title">Color tokens</h2>
+      <h2 class="doc-section__title vtitle">Color tokens</h2>
       <div class="prose">
         <p>Six base tokens carry the whole interface. Everything else is derived by mixing or fading them.</p>
       </div>
@@ -174,7 +174,7 @@
     </section>
 
     <section class="doc-section">
-      <h2 class="doc-section__title">Color semantics — four voices</h2>
+      <h2 class="doc-section__title vtitle">Color semantics — four voices</h2>
       <div class="prose voice-list">
         <ul>
           <li><span style="color: var(--signal)">SIGNAL CYAN</span> — the overlay's own voice. Structure, rails, headers, anything active or hovered.</li>
@@ -187,13 +187,13 @@
     </section>
 
     <section class="doc-section">
-      <h2 class="doc-section__title">Typography</h2>
+      <h2 class="doc-section__title vtitle">Typography</h2>
       <div class="prose">
         <p>Three working faces plus one reserve, each with one job:</p>
       </div>
       <p class="type-sample"><small>Asimovian — display, titles only</small><span style="font-family: var(--font-display); font-size: 30px; color: var(--signal)">VINDICATOR // COGNITIVE OVERLAY</span></p>
-      <p class="type-sample"><small>Geist — body copy</small><span style="font-family: var(--font-body); font-size: 14px">The gates are dark. Fold anyway. Body text is the only lowercase voice in the interface.</span></p>
-      <p class="type-sample"><small>JetBrains Mono — data, headers, buttons (uppercase, letter-spaced)</small><span style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;">FOLD CHARGE 87% · HULL 100 · CREDITS 4,210</span></p>
+      <p class="type-sample"><small>Titillium Web — body and chrome copy</small><span style="font-family: var(--font-body); font-size: 14px">The gates are dark. Fold anyway. Body text is the only lowercase voice in the interface.</span></p>
+      <p class="type-sample"><small>Maple Mono NF — data and chips (uppercase, letter-spaced)</small><span style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;">FOLD CHARGE 87% · HULL 100 · CREDITS 4,210</span></p>
       <p class="type-sample"><small>Doto — reserved numeric face (in repo, unused by the HUD yet)</small><span style="font-family: var(--font-numeric); font-size: 20px; color: var(--online)">00:42:17</span></p>
       <div class="prose">
         <p>The in-game size ladder, in px — one source of truth, top to bottom:</p>
@@ -204,7 +204,7 @@
             <tr><td>dialog title</td><td>26</td><td>pause / codex / gallery dialogs</td></tr>
             <tr><td>panel title</td><td>22</td><td>large panel headings</td></tr>
             <tr><td>subheader</td><td>16</td><td>section headers</td></tr>
-            <tr><td>body</td><td>14</td><td>default text (Geist)</td></tr>
+            <tr><td>body</td><td>14</td><td>default text (Titillium Web)</td></tr>
             <tr><td>mono</td><td>13</td><td>mono body labels</td></tr>
             <tr><td>data</td><td>12</td><td>telemetry values, buttons, chips</td></tr>
             <tr><td>header</td><td>11</td><td>section kickers, CASSIUS comms</td></tr>
@@ -217,7 +217,7 @@
     </section>
 
     <section class="doc-section">
-      <h2 class="doc-section__title">Shape — chamfer, never radius</h2>
+      <h2 class="doc-section__title vtitle">Shape — chamfer, never radius</h2>
       <div class="prose">
         <p>Every surface cuts its corners at 45°. There is no <code>border-radius</code> anywhere in the language — on the web the cut is a <code>clip-path</code> octagon:</p>
 <pre><code>clip-path: polygon(
@@ -234,91 +234,81 @@
         <div class="chamfer-demo" style="--c: var(--chamfer-chip-sm)">CHIP 6px</div>
       </div>
       <div class="prose">
-        <p>Around every cut runs a 1px rail (<code>--rail</code>, signal @ 55%) — with one deliberate split: <strong>panels, tooltips and chips close the octagon</strong> (the rail follows the diagonals), while <strong>buttons leave the corners open</strong> (the rail skips the four 45° segments). In CSS that falls out of <code>border</code> + <code>clip-path</code> for free; in-game <code>ChamferStyleBox.OpenCorners</code> does the same. Below 900px viewport the panel chamfer drops to 8px.</p>
+        <p>Around every cut runs a 1px rail (<code>--rail</code>, signal @ 55%). In-game <code>ChamferStyleBox</code> strokes the whole octagon, diagonals included; on the web only nesting can do that, so the language splits by construction: <strong>panels close the octagon</strong> — a clipped <code>.vframe</code> whose 1px of padding lets its rail-colored background show around a clipped <code>.vpanel</code> child — while <strong>buttons and chips leave the corners open</strong>, since a single element's <code>border</code> is cut away by its own <code>clip-path</code> at the four 45° segments. At 6–8px cuts on a 1px rail the gap is invisible; at panel scale it is not, which is why panels pay for the extra element.</p>
       </div>
     </section>
 
     <section class="doc-section">
-      <h2 class="doc-section__title">Glass panel anatomy</h2>
-      <div class="panel chamfer" style="margin-bottom: var(--space-3)">
-        <span class="chip">SELECTION</span>
-        <div class="prose" style="margin-top: var(--space-2)">
-          <p style="margin: 0">This panel is the live recipe: navy gradient glass, a 1px highlight under the top edge, always-on scanlines, and a rail that shifts to signal on hover.</p>
+      <h2 class="doc-section__title vtitle">Panel anatomy</h2>
+      <div class="vframe" style="margin-bottom: var(--space-3)">
+        <div class="vpanel wide">
+          <span class="vchip">SELECTION</span>
+          <div class="prose" style="margin-top: var(--space-2)">
+            <p style="margin: 0">This panel is the live recipe, straight out of components.css: a rail frame around a flat panel-base face, with a static signal glow thrown outside the cut.</p>
+          </div>
         </div>
       </div>
       <div class="prose">
-        <p>Four layers, bottom to top:</p>
+        <p>Three layers, outside in:</p>
         <ol>
-          <li><strong>Fill</strong> — vertical 2-stop gradient of panel navy, top stop lightened: <code>linear-gradient(180deg, rgba(14,24,38,.90), rgba(7,13,20,.95))</code>.</li>
-          <li><strong>Highlight</strong> — one 1px line just under the top edge at <code>rgba(214,228,238,.10)</code>.</li>
-          <li><strong>Scanlines</strong> — <code>repeating-linear-gradient(0deg, rgba(131,195,255,.04) 0 1px, transparent 1px 3px)</code>. Always on, never animated. Chips skip them (noise at that size).</li>
-          <li><strong>Rail</strong> — 1px <code>--rail</code> border, <code>--signal</code> on hover.</li>
+          <li><strong>Glow</strong> — <code>drop-shadow(0 0 7px …)</code> at signal @ 40% on the frame, so the halo follows the chamfered silhouette instead of a rectangle. The game's breathing shader is the engine twin; on the web it holds still.</li>
+          <li><strong>Rail</strong> — the frame's own background, revealed as 1px by its padding: <code>--rail</code> by default, <code>--cassius</code> under <code>.vframe.cassius</code>, <code>--signal</code> when the frame is a link under the pointer.</li>
+          <li><strong>Fill</strong> — flat <code>--panel-base</code>. No gradient, no top highlight, no scanlines: the quiet pass retired all three in-game, and the site follows so one look ships everywhere.</li>
         </ol>
         <p>Panels sit on a signal-tinted grid substrate — 16px minor lines at 5%, every fourth line (64px) major at 11%:</p>
       </div>
       <div class="grid-demo" role="img" aria-label="Panel grid substrate: 16px minor and 64px major signal-tinted lines"></div>
       <div class="prose">
-        <p>One decorative motion is allowed: a slow additive signal-tinted shimmer band travelling top to bottom (~20s per pass, 10% alpha). It never strobes, and it opts in per surface.</p>
+        <p>One decorative motion is allowed: a slow additive signal-tinted shimmer band travelling top to bottom (~20s per pass, 10% alpha). It never strobes, it opts in per surface, and the landing hero is the only place this site takes it.</p>
       </div>
     </section>
 
     <section class="doc-section">
-      <h2 class="doc-section__title">Buttons — the 3-state model</h2>
+      <h2 class="doc-section__title vtitle">Buttons</h2>
       <div class="btn-demo-row">
-        <button class="btn btn-glass chamfer-sm" type="button">Autopilot</button>
-        <button class="btn btn-glass chamfer-sm" type="button">Fold</button>
-        <a class="btn btn-primary chamfer-sm" href="#" onclick="return false">Play / Wishlist</a>
+        <button class="vbtn" type="button">Autopilot</button>
+        <button class="vbtn" type="button">Fold</button>
+        <a class="vbtn go" href="#" onclick="return false">Play / Wishlist</a>
       </div>
       <div class="prose">
-        <p>The game button (glass variant above — hover and press it) is a semantic three-state machine, not a brightness tween. Each state changes rail, label, and fill together:</p>
+        <p>Two shapes, one pair of jobs. The secondary <code>.vbtn</code> (hover it) is a steel hairline over the grid tint; the primary <code>.vbtn.go</code> drops the rail entirely and floods the accent, so commitment reads as fill rather than as a louder outline:</p>
         <table>
-          <thead><tr><th>State</th><th>Rail (1px, @90%)</th><th>Fill = mix(bg-deep, rail color, w)</th><th>Label</th></tr></thead>
+          <thead><tr><th>State</th><th>Rail</th><th>Fill</th><th>Label</th></tr></thead>
           <tbody>
-            <tr><td>rest</td><td><code>--steel-rail</code></td><td>w=10%, alpha .80</td><td><code>--nav-ink</code></td></tr>
-            <tr><td>hover / focus</td><td><code>--signal</code></td><td>w=18%, alpha .85</td><td><code>--signal</code></td></tr>
-            <tr><td>pressed</td><td><code>--online</code></td><td>w=24%, alpha .92</td><td><code>--nav-ink</code></td></tr>
+            <tr><td><code>.vbtn</code> rest</td><td><code>--steel-rail</code></td><td><code>--grid-minor</code></td><td><code>--nav-ink</code></td></tr>
+            <tr><td><code>.vbtn</code> hover</td><td><code>--signal</code></td><td><code>--grid-major</code></td><td>white</td></tr>
+            <tr><td><code>.vbtn.go</code></td><td>none</td><td><code>--online</code></td><td><code>--bg-deep</code>, 600</td></tr>
           </tbody>
         </table>
-        <p>The resting rail is deliberately desaturated steel — <code>mix(nav-ink, signal 35%)</code> — so the cyan hover reads as a clear step up, and the green press reads as commitment. The fill keeps the glass gradient (top stop lightened 6%) and the 3px scanlines at 3% in every state. Text is JetBrains Mono, uppercase, letter-spaced; padding 14×9px around a 12px label in-game.</p>
-<pre><code>.btn-glass {                      /* rest */
+        <p>The resting rail is deliberately desaturated steel — <code>mix(nav-ink, signal 35%)</code> — so the cyan hover reads as a clear step up. Both wear a 7px cut with open corners, and both are sans: the quiet pass reserved mono for data, and a button label is chrome. Pages may set padding and font-size for their own scale (the landing hero does) and nothing else.</p>
+<pre><code>.vbtn {
+  border: 1px solid var(--steel-rail);
   color: var(--nav-ink);
-  border: 1px solid rgba(181, 203, 224, 0.9);   /* steel-rail @ 90% */
-  background: linear-gradient(180deg,
-    rgba(38, 44, 52, 0.80),      /* mix(bg, steel, 10%), lightened 6% */
-    rgba(24, 30, 39, 0.80));
+  background: var(--grid-minor);
+  clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px),
+                     calc(100% - 7px) 100%, 0 100%, 0 7px);
 }
-.btn-glass:hover, .btn-glass:focus-visible {
-  color: var(--signal);
-  border-color: rgba(131, 195, 255, 0.9);
-  background: linear-gradient(180deg,
-    rgba(43, 57, 73, 0.85), rgba(29, 44, 61, 0.85));
-}
-.btn-glass:active {
-  color: var(--nav-ink);
-  border-color: rgba(0, 230, 118, 0.9);
-  background: linear-gradient(180deg,
-    rgba(20, 75, 55, 0.92), rgba(5, 64, 42, 0.92));
-}</code></pre>
-        <p>The solid green <code>.btn-primary</code> is a site-only marketing CTA; in-game, green is a state, not a button style.</p>
+.vbtn:hover { border-color: var(--signal); color: #fff; background: var(--grid-major); }
+.vbtn.go    { border: none; background: var(--online); color: var(--bg-deep); font-weight: 600; }</code></pre>
       </div>
     </section>
 
     <section class="doc-section">
-      <h2 class="doc-section__title">Chips</h2>
+      <h2 class="doc-section__title vtitle">Chips</h2>
       <div class="btn-demo-row">
-        <span class="chip">SYS // VINDICATOR</span>
-        <span class="chip" style="color: var(--online); border-color: rgba(0,230,118,.55); background: rgba(0,230,118,.06)">CREDITS 4,210</span>
-        <span class="chip" style="color: var(--cassius); border-color: rgba(245,154,86,.55); background: rgba(245,154,86,.06)">CASSIUS // EXTERNAL</span>
+        <span class="vchip">SYS // VINDICATOR</span>
+        <span class="vchip online">CREDITS 4,210</span>
+        <span class="vchip cassius">CASSIUS // EXTERNAL</span>
       </div>
       <div class="prose">
-        <p>Chips are the smallest surface: 6–8px chamfer, mono caps at 11px with 2px letter-spacing, accent-tinted fill at ~6%, accent rail — and no scanlines. Accent color follows the voice rules above.</p>
+        <p>Chips are the smallest surface and the only chrome still written in mono — a chip is a piece of data wearing a box. One 6px cut (<code>--chamfer-chip-sm</code>), 12px caps at 2px letter-spacing, an accent rail at 90% and the same accent mixed 10% into panel navy for the fill. No scanlines: noise at that size. The accent is the chip's one decision, taken with the <code>.online</code> / <code>.cassius</code> modifiers and following the voice rules above — a chip never mints its own color.</p>
       </div>
     </section>
 
     <section class="doc-section">
-      <h2 class="doc-section__title">Provenance</h2>
+      <h2 class="doc-section__title vtitle">Provenance</h2>
       <div class="prose">
-        <p>Authoritative source is the game code: <code>common/UiThemeTokens.cs</code> (tokens, size ladder, state tables) and <code>common/ChamferStyleBox.cs</code> (the chamfered-glass draw model). The Godot theme resource <code>vindicator_theme.tres</code> is only an editor preview mirror — it is normalized from these tokens at startup. This site's <a href="vindicator.css">vindicator.css</a> mirrors the same values 1:1.</p>
+        <p>Authoritative source is the game code: <code>common/UiThemeTokens.cs</code> (tokens, size ladder, state tables) and <code>common/ChamferStyleBox.cs</code> (the chamfered draw model). The Godot theme resource <code>vindicator_theme.tres</code> is only an editor preview mirror — it is normalized from these tokens at startup. The two stylesheets this page loads are generated from that code and vendored here by <code>build_docs.cs</code>, byte-identical to what the in-game state server serves; <a href="vindicator.css">vindicator.css</a> adds layout and nothing else. A chrome look the components cannot give grows a knob in <code>VindicatorWebStyle</code> and re-vendors — the site cannot fork a recipe, which is what let this page drift a full design pass behind the game the last time it owned its own panels.</p>
       </div>
     </section>
   </main>

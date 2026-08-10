@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trading — Vindicator</title>
-  <meta name="description" content="Dock at a buyer to turn the commodities in your hold into credits." />
+  <meta name="description" content="Dock at a buyer to turn the commodities in your hold into credits, and pay the yard to put your hull back together." />
   <link rel="stylesheet" href="../vindicator.css" />
 </head>
 <body class="doc-body">
@@ -23,9 +23,9 @@
     <article class="doc-article">
       <header class="doc-article__head">
         <a class="doc-back" href="index.html">← Codex</a>
-        <span class="chip">Economy</span>
-        <h1>Trading</h1>
-        <p class="doc-article__summary">Dock at a buyer to turn the commodities in your hold into credits.</p>
+        <span class="vchip">Economy</span>
+        <h1 class="vtitle-display">Trading</h1>
+        <p class="doc-article__summary">Dock at a buyer to turn the commodities in your hold into credits, and pay the yard to put your hull back together.</p>
         
       </header>
       <div class="prose">
@@ -51,6 +51,27 @@ arriving with a load, and the way you feed a refinery its raw material. No
 credits change hands.</p>
 <p>A trade station is the one place that won&rsquo;t take it. It buys, it doesn&rsquo;t
 warehouse. See <em>Refining</em> for what the receiving station does with it after.</p>
+<h2 id="paying-to-get-patched-up">Paying to get patched up</h2>
+<p>The dock sells you something else, too. <strong>REPAIR</strong> puts hull and armor back,
+and it is priced by the point: one credit for every point of damage the yard
+has to undo. Nothing is missing, nothing is charged — the button tells you the
+bill before you press it, so a scratch costs a rounding error and a bad fight
+costs real money.</p>
+<p>Shields are not on the bill. They come back on their own wherever you are, and
+no yard is going to charge you for waiting.</p>
+<p>Where you dock changes the rate. A <strong>shipyard</strong> does it for nothing — the yards
+that build hulls do not nickel you for mending one. A <strong>defense platform</strong>
+charges double; the militia is doing you a favour between patrols and it prices
+like it. Everywhere else is the flat one-for-one.</p>
+<h3 id="when-you-cant-cover-it">When you can&rsquo;t cover it</h3>
+<p>You get what you can pay for. Hand over a purse that doesn&rsquo;t cover the whole
+job and the yard patches as far as your credits reach and stops — armor plate
+first, then the frame under it, same order a Repair Bot works in. You leave
+lighter and still dented, which beats leaving dented and broke.</p>
+<p>It is never free and it never runs you into debt. Whatever you spent, you
+bought that many points; the rest is still waiting for you when you can afford
+it. Limp to a shipyard instead if there&rsquo;s one in reach — that trip costs fuel
+and nothing else.</p>
 <h2 id="what-a-station-is-asking-for">What a station is asking for</h2>
 <p>Dock anywhere that&rsquo;s short of something and the panel shows <strong>WANTED HERE</strong>:
 what it needs, how much, and what it&rsquo;ll pay a unit. That&rsquo;s a standing order,
@@ -140,7 +161,7 @@ where you chose to sell it.</p>
     </article>
   </main>
   <footer class="footer">
-    <span>Built 2026-08-09 from game sources</span>
+    <span>Built 2026-08-10 from game sources</span>
     <span><a href="../index.html">Home</a> · <a href="mailto:contact@vincability.com">Contact</a></span>
     <span>© Vincability</span>
   </footer>
