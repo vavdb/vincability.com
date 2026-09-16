@@ -29,14 +29,6 @@
   --hex-stroke:        #C6D1C9;
   --hex-outline:       #9FB0A5;
 
-  /* Vindicator game palette — mirror of vindicator/vindicator.css,
-     used only by the nav pill + shuttle fly-in on index */
-  --vind-signal: #83C3FF;
-  --vind-online: #00E676;
-  --vind-cyan:   #2BD4FF;
-  --vind-ink:    #D0D0D0;
-  --vind-steel:  #B5CBE0;
-
   --font-display: 'Asimovian', 'JetBrains Mono', monospace;
   --font-body:    'Geist', sans-serif;
   --font-mono:    'JetBrains Mono', monospace;

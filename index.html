@@ -215,6 +215,45 @@ a{ color: inherit; }
   border-top: 1px solid var(--rule);
   padding-top: clamp(20px, 3.5vh, 36px);
 }
+.hero__profile{
+  display:grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 16px;
+  align-items:end;
+  justify-self:end;
+  max-width: 300px;
+  border-left: 2px solid var(--green);
+  padding-left: 18px;
+}
+.hero__profile img{
+  display:block;
+  width:88px;
+  height:88px;
+  object-fit:cover;
+  border:1px solid var(--line-soft);
+  filter:saturate(.85) contrast(1.04);
+}
+.hero__profile-label{
+  display:block;
+  margin-bottom: 5px;
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  letter-spacing:.12em;
+  color:var(--green-deep);
+}
+.hero__profile-name{
+  display:block;
+  font-family:var(--font-display);
+  font-size:20px;
+  line-height:1.05;
+  text-transform:uppercase;
+}
+.hero__profile-role{
+  margin-top:6px;
+  font-size:13px;
+  line-height:1.35;
+  color:var(--ink-2);
+}
 .hero__sub{
   max-width: var(--measure);
   font-size: clamp(16px, 1.4vw, 19px);
@@ -239,6 +278,7 @@ a{ color: inherit; }
 }
 @media (max-width: 900px){
   .hero__deck{ grid-template-columns: 1fr; }
+  .hero__profile{ justify-self:start; }
   .hero__scroll{ display:none; }
 }
 
@@ -703,95 +743,7 @@ a{ color: inherit; }
   body{ background: #fff; }
 }
 
-/* ============================================================
-   VINDICATOR — nav pill + shuttle fly-in (intro, once per load)
-   Redraw the flight in .vind-shuttle { --flight-path: path("…") }.
-   Coords: origin = top-right corner of a 1280px-wide lane, so the
-   END point stays glued to the pill on any desktop width.
-   ============================================================ */
 .nav__end{ display:flex; align-items:center; gap:14px; }
-
-/* Game OverlayButton (skin v2): chamfered dark glass, 3-state rail —
-   steel rest → signal hover → online pressed. Glass lives on ::before so
-   the gate ring (::after) can pulse outside the chamfer clip. */
-.nav__vind{
-  position: relative; isolation: isolate;
-  display:inline-flex; align-items:center; gap:8px;
-  font-family: var(--font-mono); font-size:12px; letter-spacing:1.5px;
-  text-transform:uppercase;
-  text-decoration:none; color:var(--vind-ink);
-  padding: 9px 14px;
-  transition: color .15s ease;
-}
-.nav__vind::before{
-  content:""; position:absolute; inset:0; z-index:-1;
-  border:1px solid color-mix(in srgb, var(--vind-steel) 90%, transparent);
-  background:
-    repeating-linear-gradient(0deg, color-mix(in srgb, var(--vind-signal) 3%, transparent) 0 1px, transparent 1px 3px),
-    linear-gradient(180deg, rgba(38,44,52,.92) 0%, rgba(24,30,39,.92) 100%);
-  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
-  transition: border-color .15s ease;
-}
-.nav__vind:hover, .nav__vind:focus-visible{ color:var(--vind-signal); }
-.nav__vind:hover::before, .nav__vind:focus-visible::before{
-  border-color: color-mix(in srgb, var(--vind-signal) 90%, transparent);
-  background:
-    repeating-linear-gradient(0deg, color-mix(in srgb, var(--vind-signal) 3%, transparent) 0 1px, transparent 1px 3px),
-    linear-gradient(180deg, rgba(43,57,73,.92) 0%, rgba(29,44,61,.92) 100%);
-}
-.nav__vind:active{ color:var(--vind-ink); }
-.nav__vind:active::before{
-  border-color: color-mix(in srgb, var(--vind-online) 90%, transparent);
-  background:
-    repeating-linear-gradient(0deg, color-mix(in srgb, var(--vind-signal) 3%, transparent) 0 1px, transparent 1px 3px),
-    linear-gradient(180deg, rgba(20,75,55,.92) 0%, rgba(5,64,42,.92) 100%);
-}
-.nav__vind-dot{ width:7px; height:7px; border-radius:50%; background:var(--vind-online); box-shadow:0 0 8px var(--vind-online); }
-/* gate ring that pulses as the shuttle folds in */
-.nav__vind::after{
-  content:""; position:absolute; inset:-5px;
-  border:2px solid var(--vind-signal); opacity:0; z-index:-1; pointer-events:none;
-  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-  animation: vindGate 2.8s ease-out .7s;
-}
-
-.vind-flight{
-  position: fixed; top:0; right:0;
-  width: 1280px; height: 780px;
-  z-index: 30;                 /* above hero(1) + grain(2), below nav(40) → tucks behind pill */
-  pointer-events:none; overflow:visible;
-}
-.vind-shuttle{
-  /* ↓↓↓ THE PATH — redraw this. Ends near the pill at ~x1000,y34. ↓↓↓ */
-  --flight-path: path("M 300 700 C 1080 640, 1150 430, 940 320 C 760 240, 785 120, 910 78 L 1011 54");
-  position:absolute; top:0; left:0;
-  width:52px; height:34px; margin:-17px 0 0 -26px;   /* center the ship on the path */
-  offset-path: var(--flight-path);
-  offset-rotate: auto;
-  offset-distance: 0%;
-  animation: vindFly 2.8s cubic-bezier(.55,.08,.42,.98) .7s forwards;
-}
-.vind-shuttle__ship{
-  width:100%; height:100%; display:block;
-  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--vind-cyan) 85%, transparent));
-  animation: vindFold 2.8s ease-in .7s forwards;
-}
-@keyframes vindFly{ from{ offset-distance:0%; } to{ offset-distance:100%; } }
-@keyframes vindFold{
-  0%,86%{ transform: scale(1); opacity:1; }
-  93%{ transform: scale(1.15); opacity:1; filter: drop-shadow(0 0 14px var(--vind-cyan)) brightness(1.6); }
-  100%{ transform: scale(0); opacity:0; }
-}
-@keyframes vindGate{
-  0%,88%{ opacity:0; transform: scale(.6); }
-  92%{ opacity:.9; transform: scale(.95); }
-  100%{ opacity:0; transform: scale(1.6); }
-}
-
-@media (prefers-reduced-motion: reduce){ .vind-flight{ display:none; } .nav__vind::after{ animation:none; } }
-@media (max-width: 1099px){ .vind-flight{ display:none; } .nav__vind::after{ animation:none; } }
-@media (max-width: 760px){ .nav__vind{ padding: 7px 10px; letter-spacing: 1px; } }
-/* below 520px the nav can't hold both; contact stays reachable via the burger menu */
 @media (max-width: 520px){ .nav__cta{ display:none; } }
 </style>
 </head>
@@ -800,18 +752,6 @@ a{ color: inherit; }
 <canvas id="flow" aria-hidden="true"></canvas>
 <div class="gridlines" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
-
-<!-- VINDICATOR fly-in: shuttle flies the path and folds into the nav pill. Edit the path in .vind-shuttle{--flight-path}. -->
-<div class="vind-flight" aria-hidden="true">
-  <div class="vind-shuttle">
-    <svg class="vind-shuttle__ship" viewBox="0 0 64 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M62 20 L24 7 L6 13 L20 20 L6 27 L24 33 Z" fill="#16323B" stroke="#2BD4FF" stroke-width="1.5" stroke-linejoin="round"/>
-      <path d="M24 7 L20 20 L24 33" stroke="#2BD4FF" stroke-width="1.2" opacity=".7"/>
-      <circle cx="44" cy="20" r="3" fill="#BDF3FF"/>
-      <path d="M10 20 L2 20" stroke="#2BD4FF" stroke-width="2.5" stroke-linecap="round" opacity=".9"/>
-    </svg>
-  </div>
-</div>
 
 <div class="page">
 
@@ -826,9 +766,6 @@ a{ color: inherit; }
     </ul>
     <button class="nav__burger" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Menu openen">MENU</button>
     <div class="nav__end">
-      <a class="nav__vind" href="vindicator/index.html" aria-label="Vindicator — het spel">
-        <span class="nav__vind-dot" aria-hidden="true"></span>Vindicator
-      </a>
       <a class="nav__cta" href="#contact">Neem contact op</a>
     </div>
   </nav>
@@ -864,6 +801,14 @@ a{ color: inherit; }
           <a class="btn btn--ghost" href="#aanpak">Hoe ik werk</a>
         </div>
       </div>
+      <aside class="hero__profile rv" aria-label="Over Vincability">
+        <img src="images/vincent-portrait.webp" alt="Vincent van den Braken" width="88" height="88" decoding="async">
+        <div>
+          <span class="hero__profile-label">// OVER VINCABILITY</span>
+          <strong class="hero__profile-name">Vincent van den Braken</strong>
+          <p class="hero__profile-role">Onafhankelijke technische consultant</p>
+        </div>
+      </aside>
     </div>
 
     <span class="hero__scroll" aria-hidden="true">SCROLL — §01</span>
